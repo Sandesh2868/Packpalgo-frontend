@@ -1,0 +1,31 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+[data-theme='dark'] {
+  --bg: #000;
+  --text: #fff;
+  --accent: #3b82f6;
+  --bg-image: url('/images/dark-bg.jpg');
+}
+
+[data-theme='beach'] {
+  --bg: #e0f7fa; /* light ocean blue */
+  --text: #1bbbbb; /* soft dark for readability */
+  --accent: #5a544a; /* warm yellow-orange like the sun */
+  --bg-image: url('/images/light-bg.jpg'); /* replace with a real image path */
+}
+
+[data-theme='sunset'] {
+  --bg: #ffedd5;
+  --text: #e0a989;
+  --accent: #542f14;
+  --bg-image: url('/images/sunset-bg.jpg');
+}
+
+[data-theme='jungle'] {
+  --bg: #032b1b;
+  --text: #d1fae5;
+  --accent: #10b981;
+  --bg-image: url('/images/jungle-bg.jpg');
+}
