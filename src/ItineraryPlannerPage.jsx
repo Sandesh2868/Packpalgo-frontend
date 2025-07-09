@@ -155,7 +155,7 @@ const ActivityCard = ({ activity, onEdit, onDelete, isDragging = false }) => {
 };
 
 // Day Column Component
-const DayColumn = ({ day, activities, onActivityDrop, onDeleteActivity, onEditActivity }) => {
+const DayColumn = ({ day, activities, onActivityDrop, onDeleteActivity, onEditActivity, selectedActivityForMobile, setSelectedActivityForMobile }) => {
   const [isOver, setIsOver] = useState(false);
 
   const handleDragOver = (e) => {
@@ -198,15 +198,32 @@ const DayColumn = ({ day, activities, onActivityDrop, onDeleteActivity, onEditAc
         <div
           className={`p-4 min-h-96 transition-all duration-200 ${
             isOver ? 'bg-blue-50 border-2 border-dashed border-blue-300' : ''
+          } ${
+            selectedActivityForMobile && window.innerWidth < 1024 
+              ? 'bg-blue-50 border-2 border-dashed border-blue-300 cursor-pointer' 
+              : ''
           }`}
           onDragOver={handleDragOver}
           onDragLeave={handleDragLeave}
           onDrop={handleDrop}
+          onClick={() => {
+            // Mobile: Add selected activity on day click
+            if (selectedActivityForMobile && window.innerWidth < 1024) {
+              onActivityDrop(day.id, selectedActivityForMobile);
+              setSelectedActivityForMobile(null);
+            }
+          }}
         >
           {activities.length === 0 ? (
             <div className="text-center py-12 text-gray-400">
               <div className="text-4xl mb-2">📅</div>
-              <p>Drag activities here to plan your day</p>
+              <p className="hidden sm:block">Drag activities here to plan your day</p>
+              <p className="sm:hidden">
+                {selectedActivityForMobile 
+                  ? "Tap here to add selected activity" 
+                  : "Select an activity from the sidebar first"
+                }
+              </p>
             </div>
           ) : (
             <Reorder.Group values={activities} onReorder={() => {}}>
@@ -319,6 +336,7 @@ export default function ItineraryPlannerPage() {
   const [availableActivities, setAvailableActivities] = useState([]);
   const [showTemplateModal, setShowTemplateModal] = useState(false);
   const [selectedDestination, setSelectedDestination] = useState("");
+  const [selectedActivityForMobile, setSelectedActivityForMobile] = useState(null);
 
   useEffect(() => {
     // Initialize with some sample activities
@@ -364,11 +382,23 @@ export default function ItineraryPlannerPage() {
   };
 
   const addNewDay = () => {
+    const dayNumber = days.length + 1;
+    const gradients = [
+      'from-blue-500 to-purple-600',
+      'from-purple-500 to-pink-600', 
+      'from-pink-500 to-red-600',
+      'from-red-500 to-orange-600',
+      'from-orange-500 to-yellow-600',
+      'from-yellow-500 to-green-600',
+      'from-green-500 to-teal-600',
+      'from-teal-500 to-blue-600'
+    ];
+    
     const newDay = {
       id: Date.now(),
-      name: `Day ${days.length + 1}`,
-      date: `Day ${days.length + 1}`,
-      gradient: `from-${['blue', 'purple', 'pink', 'red', 'orange', 'yellow', 'green', 'teal'][days.length % 8]}-500 to-${['purple', 'pink', 'red', 'orange', 'yellow', 'green', 'teal', 'blue'][days.length % 8]}-600`
+      name: `Day ${dayNumber}`,
+      date: `Day ${dayNumber}`,
+      gradient: gradients[(dayNumber - 1) % gradients.length]
     };
     setDays(prev => [...prev, newDay]);
     setDayActivities(prev => ({ ...prev, [newDay.id]: [] }));
@@ -400,7 +430,10 @@ export default function ItineraryPlannerPage() {
 
           <p className="text-gray-600 text-center text-lg mb-8 max-w-2xl mx-auto">
             Drag & drop activities to create the perfect day-by-day itinerary. 
-            Smart timing and route optimization included!
+            <span className="block sm:inline">Smart timing and route optimization included!</span>
+            <span className="block text-sm text-blue-600 mt-2 sm:hidden">
+              📱 On mobile: Tap activity → Tap day to add
+            </span>
           </p>
 
           {/* Controls */}
@@ -447,7 +480,7 @@ export default function ItineraryPlannerPage() {
                 Available Activities
               </h3>
               
-              <div className="space-y-3 max-h-96 overflow-y-auto">
+                             <div className="space-y-3 max-h-96 overflow-y-auto">
                 {availableActivities.map((activity) => (
                   <div
                     key={activity.id}
@@ -455,13 +488,30 @@ export default function ItineraryPlannerPage() {
                     onDragStart={(e) => {
                       e.dataTransfer.setData('application/json', JSON.stringify(activity));
                     }}
-                    className="cursor-grab active:cursor-grabbing"
+                    onClick={() => {
+                      // Mobile: Select activity on click
+                      if (window.innerWidth < 1024) {
+                        setSelectedActivityForMobile(
+                          selectedActivityForMobile?.id === activity.id ? null : activity
+                        );
+                      }
+                    }}
+                    className={`cursor-grab active:cursor-grabbing select-none transition-all duration-200 ${
+                      selectedActivityForMobile?.id === activity.id 
+                        ? 'ring-2 ring-blue-500 ring-offset-2' 
+                        : ''
+                    }`}
                   >
                     <ActivityCard
                       activity={activity}
                       onEdit={handleEditActivity}
                       onDelete={(id) => setAvailableActivities(prev => prev.filter(a => a.id !== id))}
                     />
+                    {selectedActivityForMobile?.id === activity.id && (
+                      <div className="lg:hidden text-center mt-2 text-sm text-blue-600 font-medium">
+                        👆 Now tap a day to add this activity
+                      </div>
+                    )}
                   </div>
                 ))}
               </div>
@@ -486,6 +536,8 @@ export default function ItineraryPlannerPage() {
                   onActivityDrop={handleActivityDrop}
                   onDeleteActivity={handleDeleteActivity}
                   onEditActivity={handleEditActivity}
+                  selectedActivityForMobile={selectedActivityForMobile}
+                  setSelectedActivityForMobile={setSelectedActivityForMobile}
                 />
               ))}
             </div>
