@@ -101,15 +101,21 @@ export default function App() {
         >
           <Button
             style={{ backgroundColor: "var(--accent)", color: "var(--text)" }}
+            onClick={() => navigate("/budget-calculator")}
+          >
+            💰 Budget Calculator
+          </Button>
+          <Button
+            style={{ backgroundColor: "var(--accent)", color: "var(--text)" }}
             onClick={() => navigate("/things-to-carry")}
           >
             📝 Pack list
           </Button>
           <Button
             style={{ backgroundColor: "var(--accent)", color: "var(--text)" }}
-            onClick={() => navigate("/budget-calculator")}
+            onClick={() => navigate("/itinerary-planner")}
           >
-            💰 Budget Calculator
+            �️ Itinerary Planner
           </Button>
         </motion.div>
         <Button

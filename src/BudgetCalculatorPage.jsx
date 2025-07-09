@@ -68,6 +68,12 @@ export default function BudgetCalculatorPage() {
               📝 Create Pack List
             </button>
             <button
+              onClick={() => navigate('/itinerary-planner')}
+              className="px-6 py-3 bg-purple-600 hover:bg-purple-700 text-white rounded-lg transition-colors"
+            >
+              🗓️ Plan Itinerary
+            </button>
+            <button
               onClick={() => navigate('/explore')}
               className="px-6 py-3 bg-green-600 hover:bg-green-700 text-white rounded-lg transition-colors"
             >
@@ -75,7 +81,7 @@ export default function BudgetCalculatorPage() {
             </button>
             <button
               onClick={() => navigate('/')}
-              className="px-6 py-3 bg-purple-600 hover:bg-purple-700 text-white rounded-lg transition-colors"
+              className="px-6 py-3 bg-orange-600 hover:bg-orange-700 text-white rounded-lg transition-colors"
             >
               🕹️ Play Travel Games
             </button>
