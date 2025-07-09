@@ -9,7 +9,7 @@ import GuessThePlaceGame from "./components/GuessThePlaceGame";
 import ComingSoonBanner from "./components/ComingSoonBanner";
 import AboutSection from "./components/AboutSection";
 import Footer from "./components/Footer";
-import BudgetCalculator from './components/BudgetCalculator';
+
 
 // 🟡 Sound files
 const bgMusic = new Audio("/sounds/background.mp3");
@@ -97,12 +97,19 @@ export default function App() {
           initial={{ scale: 0.9, opacity: 0 }}
           animate={{ scale: 1, opacity: 1 }}
           transition={{ delay: 1, duration: 0.5 }}
+          className="flex flex-col sm:flex-row gap-4 justify-center items-center"
         >
           <Button
             style={{ backgroundColor: "var(--accent)", color: "var(--text)" }}
             onClick={() => navigate("/things-to-carry")}
           >
-            Pack list
+            📝 Pack list
+          </Button>
+          <Button
+            style={{ backgroundColor: "var(--accent)", color: "var(--text)" }}
+            onClick={() => navigate("/budget-calculator")}
+          >
+            💰 Budget Calculator
           </Button>
         </motion.div>
         <Button
@@ -153,14 +160,7 @@ export default function App() {
 </section>
 
 
-      {/* Calculator Section */}
-<section className="py-32 bg-gray-900 text-white text-center">
-  <h2 className="text-4xl font-bold mb-6">📊 Smart Budget Planner</h2>
-  <p className="text-lg mb-10 max-w-2xl mx-auto">
-    Get AI-estimated budgets, customize your costs, and plan smartly!
-  </p>
-  <BudgetCalculator />
-</section>
+
 
 
 
