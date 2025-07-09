@@ -16,28 +16,62 @@ export default function BudgetCalculator() {
   const [budget, setBudget] = useState({ Travel: 0, Stay: 0, Food: 0, Misc: 0 });
   const [aiLoading, setAiLoading] = useState(false);
   const [aiError, setAiError] = useState("");
+  const [aiSuccess, setAiSuccess] = useState("");
 
   const data = categories.map((key) => ({ name: key, value: Number(budget[key]) }));
 
   const fetchAIResponse = async () => {
+    // Validate inputs
+    if (!destination.trim()) {
+      setAiError("Please enter a destination");
+      return;
+    }
+    if (people < 1) {
+      setAiError("Number of people must be at least 1");
+      return;
+    }
+    if (days < 1) {
+      setAiError("Number of days must be at least 1");
+      return;
+    }
+
     setAiLoading(true);
     setAiError("");
+    setAiSuccess("");
 
     try {
       const res = await fetch("https://packpalgo-backend.onrender.com/api/estimate-budget", {
-
         method: "POST",
-        headers: { "Content-Type": "application/json" },
+        headers: { 
+          "Content-Type": "application/json",
+          "Accept": "application/json"
+        },
         body: JSON.stringify({ destination, travelStyle, travelMode, people, days })
       });
+
+      if (!res.ok) {
+        throw new Error(`HTTP error! status: ${res.status}`);
+      }
+
       const result = await res.json();
+      console.log("Backend response:", result); // Debug log
+      
       if (result.budget) {
         setBudget(result.budget);
+        setAiError(""); // Clear any previous errors
+        setAiSuccess(`✅ Budget estimated for ${destination}! You can modify the values below.`);
       } else {
-        setAiError("Could not fetch estimate. Try again.");
+        setAiError("Could not fetch estimate. Please check your inputs and try again.");
       }
     } catch (err) {
-      setAiError("Server error. Try later.");
+      console.error("API Error:", err); // Debug log
+      if (err.name === 'TypeError' && err.message.includes('fetch')) {
+        setAiError("Network error. Please check your internet connection and try again.");
+      } else if (err.message.includes('HTTP error')) {
+        setAiError(`Server error (${err.message}). Please try again later.`);
+      } else {
+        setAiError(`Error: ${err.message}. Please try again.`);
+      }
     } finally {
       setAiLoading(false);
     }
@@ -91,6 +125,7 @@ export default function BudgetCalculator() {
             <label className="block mb-1 text-sm">No. of People</label>
             <input
               type="number"
+              min="1"
               value={people}
               onChange={(e) => setPeople(Number(e.target.value))}
               className="w-full p-2 rounded bg-gray-900 text-white border border-gray-700"
@@ -100,6 +135,7 @@ export default function BudgetCalculator() {
             <label className="block mb-1 text-sm">Days of Trip</label>
             <input
               type="number"
+              min="1"
               value={days}
               onChange={(e) => setDays(Number(e.target.value))}
               className="w-full p-2 rounded bg-gray-900 text-white border border-gray-700"
@@ -133,13 +169,18 @@ export default function BudgetCalculator() {
 
         <button
           onClick={fetchAIResponse}
-          className="bg-blue-600 hover:bg-blue-700 px-6 py-2 rounded mb-6"
-          disabled={aiLoading || !destination}
+          className={`px-6 py-2 rounded mb-6 transition-colors ${
+            aiLoading || !destination.trim() 
+              ? "bg-gray-600 cursor-not-allowed" 
+              : "bg-blue-600 hover:bg-blue-700"
+          }`}
+          disabled={aiLoading || !destination.trim()}
         >
-          {aiLoading ? "Estimating..." : "💡 Get AI Budget Estimate"}
+          {aiLoading ? "🔄 Estimating..." : "💡 Get AI Budget Estimate"}
         </button>
 
         {aiError && <p className="text-red-400 mb-4">{aiError}</p>}
+        {aiSuccess && <p className="text-green-400 mb-4">{aiSuccess}</p>}
 
         <div className="grid md:grid-cols-2 gap-10 items-start">
           <div>
