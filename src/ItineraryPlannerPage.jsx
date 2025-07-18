@@ -342,7 +342,7 @@ const DayColumn = ({ day, activities, onActivityDrop, onDeleteActivity, onEditAc
 };
 
 // Template Selection Modal
-const TemplateModal = ({ isOpen, onClose, onSelectTemplate }) => {
+const TemplateModal = ({ isOpen, onClose, onSelectTemplate, onCreateTemplate }) => {
   if (!isOpen) return null;
 
   return (
@@ -358,19 +358,16 @@ const TemplateModal = ({ isOpen, onClose, onSelectTemplate }) => {
         exit={{ scale: 0.9, opacity: 0 }}
         className="bg-white rounded-2xl max-w-4xl w-full max-h-[80vh] overflow-y-auto shadow-2xl"
       >
-        <div className="p-6 border-b border-gray-200">
-          <div className="flex items-center justify-between">
-            <h2 className="text-2xl font-bold text-gray-800">Choose Activity Template</h2>
-            <button
-              onClick={onClose}
-              className="text-gray-400 hover:text-gray-600 text-xl"
-            >
-              ✕
-            </button>
-          </div>
-          <p className="text-gray-600 mt-2">Quick start your itinerary with curated activity templates</p>
+        <div className="p-6 border-b border-gray-200 flex items-center justify-between">
+          <h2 className="text-2xl font-bold text-gray-800">Choose Activity Template</h2>
+          <button
+            onClick={onClose}
+            className="text-gray-400 hover:text-gray-600 text-xl"
+          >
+            ✕
+          </button>
         </div>
-
+        <p className="text-gray-600 mt-2 px-6">Quick start your itinerary with curated activity templates</p>
         <div className="p-6 grid md:grid-cols-2 lg:grid-cols-3 gap-4">
           {Object.entries(activityTemplates).map(([key, template]) => (
             <motion.div
@@ -396,6 +393,9 @@ const TemplateModal = ({ isOpen, onClose, onSelectTemplate }) => {
               </div>
             </motion.div>
           ))}
+        </div>
+        <div className="p-6 border-t border-gray-200 flex justify-end">
+          <button className="bg-blue-500 text-white px-4 py-2 rounded-lg" onClick={onCreateTemplate}>➕ Create New Template</button>
         </div>
       </motion.div>
     </motion.div>
@@ -528,6 +528,64 @@ function shareItinerary(days, dayActivities) {
   }
 }
 
+// Template creation modal
+function CreateTemplateModal({ isOpen, onClose, onSave }) {
+  const [name, setName] = useState('');
+  const [gradient, setGradient] = useState('from-blue-500 via-purple-600 to-indigo-700');
+  const [activities, setActivities] = useState([]);
+  const [activityForm, setActivityForm] = useState({ name: '', duration: 60, category: '', icon: '', location: '', timeOfDay: 'morning' });
+  const gradients = [
+    'from-blue-500 via-purple-600 to-indigo-700',
+    'from-orange-500 via-red-600 to-pink-700',
+    'from-green-500 via-emerald-600 to-teal-700',
+    'from-pink-400 via-rose-500 to-purple-600',
+    'from-yellow-400 via-orange-500 to-red-600',
+    'from-purple-600 via-pink-700 to-red-800',
+    'from-green-300 via-green-500 to-green-700',
+    'from-pink-300 via-pink-500 to-pink-700',
+    'from-indigo-300 via-indigo-500 to-indigo-700',
+    'from-yellow-300 via-yellow-500 to-yellow-700',
+    'from-gray-400 via-gray-600 to-gray-800',
+  ];
+  if (!isOpen) return null;
+  return (
+    <div className="fixed inset-0 bg-black/40 z-50 flex items-center justify-center">
+      <div className="bg-white rounded-xl p-6 w-full max-w-lg shadow-2xl">
+        <h2 className="text-xl font-bold mb-4">Create New Template</h2>
+        <input className="w-full border rounded p-2 mb-2" placeholder="Template Name" value={name} onChange={e => setName(e.target.value)} />
+        <div className="mb-2">
+          <label className="block mb-1 font-medium">Gradient</label>
+          <select className="w-full border rounded p-2" value={gradient} onChange={e => setGradient(e.target.value)}>
+            {gradients.map(g => <option key={g} value={g}>{g}</option>)}
+          </select>
+        </div>
+        <div className="mb-2">
+          <label className="block mb-1 font-medium">Add Activity</label>
+          <div className="flex flex-col gap-2">
+            <input className="border rounded p-2" placeholder="Name" value={activityForm.name} onChange={e => setActivityForm(f => ({...f, name: e.target.value}))} />
+            <input className="border rounded p-2" placeholder="Duration (min)" type="number" value={activityForm.duration} onChange={e => setActivityForm(f => ({...f, duration: Number(e.target.value)}))} />
+            <input className="border rounded p-2" placeholder="Category" value={activityForm.category} onChange={e => setActivityForm(f => ({...f, category: e.target.value}))} />
+            <input className="border rounded p-2" placeholder="Icon (emoji)" value={activityForm.icon} onChange={e => setActivityForm(f => ({...f, icon: e.target.value}))} />
+            <input className="border rounded p-2" placeholder="Location" value={activityForm.location} onChange={e => setActivityForm(f => ({...f, location: e.target.value}))} />
+            <TimeOfDaySelector value={activityForm.timeOfDay} onChange={v => setActivityForm(f => ({...f, timeOfDay: v}))} />
+            <button className="mt-2 px-3 py-1 rounded bg-blue-100 text-blue-800" onClick={() => { setActivities(a => [...a, activityForm]); setActivityForm({ name: '', duration: 60, category: '', icon: '', location: '', timeOfDay: 'morning' }); }}>Add Activity</button>
+          </div>
+        </div>
+        <div className="mb-2">
+          <label className="block mb-1 font-medium">Activities</label>
+          <ul className="mb-2">
+            {activities.map((a, i) => <li key={i} className="text-sm flex gap-2 items-center">{a.icon} {a.name} <span className="text-xs text-gray-400">({a.timeOfDay})</span></li>)}
+          </ul>
+        </div>
+        <div className="flex gap-2 mt-4 justify-end">
+          <button className="px-4 py-2 rounded bg-gray-200" onClick={onClose}>Cancel</button>
+          <button className="px-4 py-2 rounded bg-blue-600 text-white" onClick={() => { onSave({ key: `user_${Date.now()}`, name, gradient, activities }); onClose(); }}>Save Template</button>
+        </div>
+      </div>
+    </div>
+  );
+}
+
 export default function ItineraryPlannerPage() {
   const { theme } = useTheme();
   const navigate = useNavigate();
@@ -550,6 +608,8 @@ export default function ItineraryPlannerPage() {
   const [selectedActivityForMobile, setSelectedActivityForMobile] = useState(null);
   const [showAddActivityModal, setShowAddActivityModal] = useState(false);
   const [editActivity, setEditActivity] = useState(null);
+  const [userTemplates, setUserTemplates] = useState([]);
+  const [showCreateTemplateModal, setShowCreateTemplateModal] = useState(false);
 
   useEffect(() => {
     // Initialize with some sample activities
@@ -630,6 +690,8 @@ export default function ItineraryPlannerPage() {
   const handleAddActivity = (activity) => {
     setAvailableActivities(prev => [...prev, { ...activity, id: Date.now() + Math.random() }]);
   };
+
+  const allTemplates = { ...activityTemplates, ...Object.fromEntries(userTemplates.map(t => [t.key, t])) };
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-gray-50 via-white to-blue-50">
@@ -809,6 +871,7 @@ export default function ItineraryPlannerPage() {
             isOpen={showTemplateModal}
             onClose={() => setShowTemplateModal(false)}
             onSelectTemplate={handleSelectTemplate}
+            onCreateTemplate={() => setShowCreateTemplateModal(true)}
           />
         )}
       </AnimatePresence>
@@ -817,6 +880,9 @@ export default function ItineraryPlannerPage() {
       </AnimatePresence>
       <AnimatePresence>
         <ActivityEditModal activity={editActivity} isOpen={!!editActivity} onClose={() => setEditActivity(null)} onSave={handleSaveEditActivity} />
+      </AnimatePresence>
+      <AnimatePresence>
+        <CreateTemplateModal isOpen={showCreateTemplateModal} onClose={() => setShowCreateTemplateModal(false)} onSave={tpl => setUserTemplates(prev => [...prev, tpl])} />
       </AnimatePresence>
     </div>
   );
