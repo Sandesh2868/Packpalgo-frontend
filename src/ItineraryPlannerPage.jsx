@@ -402,6 +402,75 @@ const TemplateModal = ({ isOpen, onClose, onSelectTemplate }) => {
   );
 };
 
+// Time of day selector component
+function TimeOfDaySelector({ value, onChange }) {
+  return (
+    <div className="flex gap-2 mt-2">
+      {timeOfDaySlots.map(slot => (
+        <button
+          key={slot.key}
+          type="button"
+          className={`px-3 py-1 rounded-full border ${value === slot.key ? 'bg-blue-500 text-white' : 'bg-gray-100 text-gray-700'} transition`}
+          onClick={() => onChange(slot.key)}
+        >
+          {slot.icon} {slot.label}
+        </button>
+      ))}
+    </div>
+  );
+}
+
+// Activity Edit Modal
+function ActivityEditModal({ activity, isOpen, onClose, onSave }) {
+  const [form, setForm] = useState(activity || {});
+  useEffect(() => { setForm(activity || {}); }, [activity]);
+  if (!isOpen) return null;
+  return (
+    <div className="fixed inset-0 bg-black/40 z-50 flex items-center justify-center">
+      <div className="bg-white rounded-xl p-6 w-full max-w-md shadow-2xl">
+        <h2 className="text-xl font-bold mb-4">Edit Activity</h2>
+        <div className="space-y-3">
+          <input className="w-full border rounded p-2" placeholder="Name" value={form.name || ''} onChange={e => setForm(f => ({...f, name: e.target.value}))} />
+          <input className="w-full border rounded p-2" placeholder="Duration (min)" type="number" value={form.duration || ''} onChange={e => setForm(f => ({...f, duration: Number(e.target.value)}))} />
+          <input className="w-full border rounded p-2" placeholder="Category" value={form.category || ''} onChange={e => setForm(f => ({...f, category: e.target.value}))} />
+          <input className="w-full border rounded p-2" placeholder="Icon (emoji)" value={form.icon || ''} onChange={e => setForm(f => ({...f, icon: e.target.value}))} />
+          <input className="w-full border rounded p-2" placeholder="Location" value={form.location || ''} onChange={e => setForm(f => ({...f, location: e.target.value}))} />
+          <TimeOfDaySelector value={form.timeOfDay || 'morning'} onChange={v => setForm(f => ({...f, timeOfDay: v}))} />
+        </div>
+        <div className="flex gap-2 mt-6 justify-end">
+          <button className="px-4 py-2 rounded bg-gray-200" onClick={onClose}>Cancel</button>
+          <button className="px-4 py-2 rounded bg-blue-600 text-white" onClick={() => onSave(form)}>Save</button>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+// Add Activity Modal (for manual add with timeOfDay)
+function AddActivityModal({ isOpen, onClose, onAdd }) {
+  const [form, setForm] = useState({ name: '', duration: 60, category: '', icon: '', location: '', timeOfDay: 'morning' });
+  if (!isOpen) return null;
+  return (
+    <div className="fixed inset-0 bg-black/40 z-50 flex items-center justify-center">
+      <div className="bg-white rounded-xl p-6 w-full max-w-md shadow-2xl">
+        <h2 className="text-xl font-bold mb-4">Add Activity</h2>
+        <div className="space-y-3">
+          <input className="w-full border rounded p-2" placeholder="Name" value={form.name} onChange={e => setForm(f => ({...f, name: e.target.value}))} />
+          <input className="w-full border rounded p-2" placeholder="Duration (min)" type="number" value={form.duration} onChange={e => setForm(f => ({...f, duration: Number(e.target.value)}))} />
+          <input className="w-full border rounded p-2" placeholder="Category" value={form.category} onChange={e => setForm(f => ({...f, category: e.target.value}))} />
+          <input className="w-full border rounded p-2" placeholder="Icon (emoji)" value={form.icon} onChange={e => setForm(f => ({...f, icon: e.target.value}))} />
+          <input className="w-full border rounded p-2" placeholder="Location" value={form.location} onChange={e => setForm(f => ({...f, location: e.target.value}))} />
+          <TimeOfDaySelector value={form.timeOfDay} onChange={v => setForm(f => ({...f, timeOfDay: v}))} />
+        </div>
+        <div className="flex gap-2 mt-6 justify-end">
+          <button className="px-4 py-2 rounded bg-gray-200" onClick={onClose}>Cancel</button>
+          <button className="px-4 py-2 rounded bg-blue-600 text-white" onClick={() => { onAdd(form); onClose(); }}>Add</button>
+        </div>
+      </div>
+    </div>
+  );
+}
+
 // Helper to generate a simple text itinerary
 function generateItineraryText(days, dayActivities) {
   return days.map(day => {
@@ -479,6 +548,8 @@ export default function ItineraryPlannerPage() {
   const [showTemplateModal, setShowTemplateModal] = useState(false);
   const [selectedDestination, setSelectedDestination] = useState("");
   const [selectedActivityForMobile, setSelectedActivityForMobile] = useState(null);
+  const [showAddActivityModal, setShowAddActivityModal] = useState(false);
+  const [editActivity, setEditActivity] = useState(null);
 
   useEffect(() => {
     // Initialize with some sample activities
@@ -509,8 +580,12 @@ export default function ItineraryPlannerPage() {
   };
 
   const handleEditActivity = (activity) => {
-    // TODO: Implement activity editing
-    console.log('Edit activity:', activity);
+    setEditActivity(activity);
+  };
+
+  const handleSaveEditActivity = (updated) => {
+    setAvailableActivities(prev => prev.map(a => a.id === updated.id ? updated : a));
+    setEditActivity(null);
   };
 
   const handleSelectTemplate = (template) => {
@@ -550,6 +625,10 @@ export default function ItineraryPlannerPage() {
   const generateSmartSuggestions = () => {
     // TODO: Implement AI-powered suggestions
     alert('Smart suggestions coming soon! This will analyze your activities and suggest optimized routes and timings.');
+  };
+
+  const handleAddActivity = (activity) => {
+    setAvailableActivities(prev => [...prev, { ...activity, id: Date.now() + Math.random() }]);
   };
 
   return (
@@ -665,6 +744,7 @@ export default function ItineraryPlannerPage() {
                   <p className="text-sm">Add activity templates to get started!</p>
                 </div>
               )}
+              <button onClick={() => setShowAddActivityModal(true)} className="w-full mb-4 bg-blue-100 hover:bg-blue-200 text-blue-800 px-4 py-2 rounded-lg transition-colors">➕ Add Activity</button>
             </div>
           </div>
 
@@ -731,6 +811,12 @@ export default function ItineraryPlannerPage() {
             onSelectTemplate={handleSelectTemplate}
           />
         )}
+      </AnimatePresence>
+      <AnimatePresence>
+        <AddActivityModal isOpen={showAddActivityModal} onClose={() => setShowAddActivityModal(false)} onAdd={handleAddActivity} />
+      </AnimatePresence>
+      <AnimatePresence>
+        <ActivityEditModal activity={editActivity} isOpen={!!editActivity} onClose={() => setEditActivity(null)} onSave={handleSaveEditActivity} />
       </AnimatePresence>
     </div>
   );
