@@ -70,6 +70,61 @@ const activityTemplates = {
       { name: "Rooftop Bar", duration: 105, category: "nightlife", icon: "🏙️" },
       { name: "Dance Club", duration: 180, category: "nightlife", icon: "💃" }
     ]
+  },
+  nature: {
+    name: "🌲 Nature Walk",
+    gradient: "from-green-300 via-green-500 to-green-700",
+    activities: [
+      { name: "Botanical Garden Visit", duration: 90, category: "nature", icon: "🌺" },
+      { name: "Forest Trail Hike", duration: 120, category: "nature", icon: "🌳" },
+      { name: "Bird Watching", duration: 60, category: "nature", icon: "🦜" },
+      { name: "Picnic by the Lake", duration: 90, category: "nature", icon: "🏞️" },
+      { name: "Sunrise Walk", duration: 60, category: "nature", icon: "🌅" }
+    ]
+  },
+  shopping: {
+    name: "🛍️ Shopping Spree",
+    gradient: "from-pink-300 via-pink-500 to-pink-700",
+    activities: [
+      { name: "Mall Shopping", duration: 120, category: "shopping", icon: "🏬" },
+      { name: "Local Boutique Tour", duration: 90, category: "shopping", icon: "👗" },
+      { name: "Souvenir Hunt", duration: 60, category: "shopping", icon: "🎁" },
+      { name: "Coffee Break", duration: 45, category: "food", icon: "☕" },
+      { name: "Evening Market", duration: 90, category: "shopping", icon: "🛒" }
+    ]
+  },
+  art: {
+    name: "🎨 Art & Culture",
+    gradient: "from-indigo-300 via-indigo-500 to-indigo-700",
+    activities: [
+      { name: "Art Gallery Tour", duration: 90, category: "culture", icon: "🖼️" },
+      { name: "Sculpture Park", duration: 60, category: "culture", icon: "🗿" },
+      { name: "Theater Show", duration: 120, category: "culture", icon: "🎭" },
+      { name: "Bookstore Visit", duration: 45, category: "culture", icon: "📚" },
+      { name: "Poetry Reading", duration: 60, category: "culture", icon: "📝" }
+    ]
+  },
+  sports: {
+    name: "⚽ Sports Day",
+    gradient: "from-yellow-300 via-yellow-500 to-yellow-700",
+    activities: [
+      { name: "Morning Jog", duration: 45, category: "sports", icon: "🏃‍♂️" },
+      { name: "Tennis Match", duration: 90, category: "sports", icon: "🎾" },
+      { name: "Swimming", duration: 60, category: "sports", icon: "🏊‍♂️" },
+      { name: "Cycling Tour", duration: 120, category: "sports", icon: "🚴‍♀️" },
+      { name: "Evening Yoga", duration: 60, category: "wellness", icon: "🧘‍♂️" }
+    ]
+  },
+  tech: {
+    name: "💻 Tech Tour",
+    gradient: "from-gray-400 via-gray-600 to-gray-800",
+    activities: [
+      { name: "Science Museum", duration: 120, category: "tech", icon: "🔬" },
+      { name: "Tech Startup Visit", duration: 90, category: "tech", icon: "🏢" },
+      { name: "Gadget Shopping", duration: 60, category: "tech", icon: "📱" },
+      { name: "VR Experience", duration: 75, category: "tech", icon: "🕶️" },
+      { name: "Coding Workshop", duration: 120, category: "tech", icon: "💡" }
+    ]
   }
 };
 
@@ -86,6 +141,13 @@ const timeSlots = [
   { time: "22:00", label: "Late Night" }
 ];
 
+// Helper for time of day slots
+const timeOfDaySlots = [
+  { key: 'morning', label: 'Morning', icon: '🌅' },
+  { key: 'noon', label: 'Noon', icon: '🌞' },
+  { key: 'evening', label: 'Evening', icon: '🌇' }
+];
+
 // Activity Card Component
 const ActivityCard = ({ activity, onEdit, onDelete, isDragging = false }) => {
   const getCategoryColor = (category) => {
@@ -97,7 +159,10 @@ const ActivityCard = ({ activity, onEdit, onDelete, isDragging = false }) => {
       family: "bg-yellow-100 text-yellow-800",
       nightlife: "bg-purple-100 text-purple-800",
       photo: "bg-indigo-100 text-indigo-800",
-      shopping: "bg-red-100 text-red-800"
+      shopping: "bg-red-100 text-red-800",
+      nature: "bg-teal-100 text-teal-800",
+      sports: "bg-yellow-100 text-yellow-800",
+      tech: "bg-gray-100 text-gray-800"
     };
     return colors[category] || "bg-gray-100 text-gray-800";
   };
@@ -181,6 +246,12 @@ const DayColumn = ({ day, activities, onActivityDrop, onDeleteActivity, onEditAc
   const hours = Math.floor(totalDuration / 60);
   const minutes = totalDuration % 60;
 
+  // Group activities by time of day
+  const groupedActivities = timeOfDaySlots.reduce((acc, slot) => {
+    acc[slot.key] = activities.filter(a => (a.timeOfDay || 'morning') === slot.key);
+    return acc;
+  }, {});
+
   return (
     <div className="flex-1 min-w-80">
       <div className="bg-white rounded-xl shadow-sm border border-gray-200 h-full">
@@ -226,19 +297,33 @@ const DayColumn = ({ day, activities, onActivityDrop, onDeleteActivity, onEditAc
               </p>
             </div>
           ) : (
-            <Reorder.Group values={activities} onReorder={() => {}}>
-              <div className="space-y-3">
-                {activities.map((activity, index) => (
-                  <Reorder.Item key={activity.id} value={activity}>
-                    <ActivityCard
-                      activity={activity}
-                      onEdit={onEditActivity}
-                      onDelete={onDeleteActivity}
-                    />
-                  </Reorder.Item>
-                ))}
-              </div>
-            </Reorder.Group>
+            <div className="space-y-6">
+              {timeOfDaySlots.map(slot => (
+                <div key={slot.key}>
+                  <div className="flex items-center gap-2 mb-2">
+                    <span>{slot.icon}</span>
+                    <span className="font-semibold text-gray-700">{slot.label}</span>
+                  </div>
+                  {groupedActivities[slot.key].length === 0 ? (
+                    <div className="text-gray-300 text-sm mb-2">No activities planned</div>
+                  ) : (
+                    <Reorder.Group values={groupedActivities[slot.key]} onReorder={() => {}}>
+                      <div className="space-y-3">
+                        {groupedActivities[slot.key].map((activity, index) => (
+                          <Reorder.Item key={activity.id} value={activity}>
+                            <ActivityCard
+                              activity={activity}
+                              onEdit={onEditActivity}
+                              onDelete={onDeleteActivity}
+                            />
+                          </Reorder.Item>
+                        ))}
+                      </div>
+                    </Reorder.Group>
+                  )}
+                </div>
+              ))}
+            </div>
           )}
 
           {isOver && (
@@ -317,6 +402,63 @@ const TemplateModal = ({ isOpen, onClose, onSelectTemplate }) => {
   );
 };
 
+// Helper to generate a simple text itinerary
+function generateItineraryText(days, dayActivities) {
+  return days.map(day => {
+    const activities = dayActivities[day.id] || [];
+    if (activities.length === 0) return `${day.name} (${day.date}): No activities planned.`;
+    const grouped = { morning: [], noon: [], evening: [] };
+    activities.forEach(a => grouped[a.timeOfDay || 'morning'].push(a));
+    return `${day.name} (${day.date}):\n` +
+      ['morning', 'noon', 'evening'].map(slot => {
+        if (grouped[slot].length === 0) return `  ${slot[0].toUpperCase() + slot.slice(1)}: None`;
+        return `  ${slot[0].toUpperCase() + slot.slice(1)}:` + grouped[slot].map(a => `\n    - ${a.icon} ${a.name} (${a.duration} min)`).join('');
+      }).join('\n');
+  }).join('\n\n');
+}
+
+// Helper to trigger download
+function downloadFile(filename, content) {
+  const blob = new Blob([content], { type: 'text/plain' });
+  const link = document.createElement('a');
+  link.href = URL.createObjectURL(blob);
+  link.download = filename;
+  document.body.appendChild(link);
+  link.click();
+  document.body.removeChild(link);
+}
+
+// Helper to export to calendar (.ics)
+function exportToCalendar(days, dayActivities) {
+  let ics = 'BEGIN:VCALENDAR\nVERSION:2.0\n';
+  days.forEach(day => {
+    const activities = dayActivities[day.id] || [];
+    activities.forEach(a => {
+      ics += `BEGIN:VEVENT\nSUMMARY:${a.name}\nDESCRIPTION:${a.icon} ${a.name}\nDTSTART:20240101T090000Z\nDTEND:20240101T110000Z\nEND:VEVENT\n`;
+    });
+  });
+  ics += 'END:VCALENDAR';
+  downloadFile('itinerary.ics', ics);
+}
+
+// Helper to email itinerary
+function emailItinerary(days, dayActivities) {
+  const subject = encodeURIComponent('My Travel Itinerary');
+  const body = encodeURIComponent(generateItineraryText(days, dayActivities));
+  window.location.href = `mailto:?subject=${subject}&body=${body}`;
+}
+
+// Helper to share itinerary
+function shareItinerary(days, dayActivities) {
+  const text = generateItineraryText(days, dayActivities);
+  if (navigator.share) {
+    navigator.share({ title: 'My Itinerary', text });
+  } else {
+    navigator.clipboard.writeText(text);
+    alert('Itinerary copied to clipboard!');
+  }
+}
+
 export default function ItineraryPlannerPage() {
   const { theme } = useTheme();
   const navigate = useNavigate();
@@ -349,7 +491,7 @@ export default function ItineraryPlannerPage() {
   }, []);
 
   const handleActivityDrop = (dayId, activity) => {
-    const newActivity = { ...activity, id: Date.now() + Math.random() };
+    const newActivity = { ...activity, id: Date.now() + Math.random(), timeOfDay: activity.timeOfDay || 'morning' };
     setDayActivities(prev => ({
       ...prev,
       [dayId]: [...prev[dayId], newActivity]
@@ -375,7 +517,8 @@ export default function ItineraryPlannerPage() {
     const templateActivities = template.activities.map(activity => ({
       ...activity,
       id: Date.now() + Math.random(),
-      location: `${selectedDestination || 'Destination'}`
+      location: `${selectedDestination || 'Destination'}`,
+      timeOfDay: activity.timeOfDay || 'morning' // default to morning
     }));
     setAvailableActivities(prev => [...prev, ...templateActivities]);
     setShowTemplateModal(false);
@@ -561,16 +704,16 @@ export default function ItineraryPlannerPage() {
             <div className="mt-6 bg-white rounded-xl shadow-sm border border-gray-200 p-6">
               <h3 className="font-bold text-lg mb-4">Quick Actions</h3>
               <div className="flex flex-wrap gap-3">
-                <button className="bg-blue-100 hover:bg-blue-200 text-blue-800 px-4 py-2 rounded-lg transition-colors">
+                <button className="bg-blue-100 hover:bg-blue-200 text-blue-800 px-4 py-2 rounded-lg transition-colors" onClick={() => emailItinerary(days, dayActivities)}>
                   📧 Email Itinerary
                 </button>
-                <button className="bg-green-100 hover:bg-green-200 text-green-800 px-4 py-2 rounded-lg transition-colors">
+                <button className="bg-green-100 hover:bg-green-200 text-green-800 px-4 py-2 rounded-lg transition-colors" onClick={() => exportToCalendar(days, dayActivities)}>
                   📱 Export to Calendar
                 </button>
-                <button className="bg-purple-100 hover:bg-purple-200 text-purple-800 px-4 py-2 rounded-lg transition-colors">
+                <button className="bg-purple-100 hover:bg-purple-200 text-purple-800 px-4 py-2 rounded-lg transition-colors" onClick={() => downloadFile('itinerary.txt', generateItineraryText(days, dayActivities))}>
                   📄 Generate PDF
                 </button>
-                <button className="bg-orange-100 hover:bg-orange-200 text-orange-800 px-4 py-2 rounded-lg transition-colors">
+                <button className="bg-orange-100 hover:bg-orange-200 text-orange-800 px-4 py-2 rounded-lg transition-colors" onClick={() => shareItinerary(days, dayActivities)}>
                   🔗 Share with Friends
                 </button>
               </div>
