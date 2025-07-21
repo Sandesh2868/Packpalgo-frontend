@@ -388,7 +388,7 @@ const DayColumn = ({ day, activities, onActivityDrop, onDeleteActivity, onEditAc
 };
 
 // Template Selection Modal
-const TemplateModal = ({ isOpen, onClose, onSelectTemplate, onCreateTemplate }) => {
+const TemplateModal = ({ isOpen, onClose, onSelectTemplate, onCreateTemplate, allTemplates }) => {
   if (!isOpen) return null;
 
   return (
@@ -415,7 +415,7 @@ const TemplateModal = ({ isOpen, onClose, onSelectTemplate, onCreateTemplate }) 
         </div>
         <p className="text-gray-600 mt-2 px-6">Quick start your itinerary with curated activity templates</p>
         <div className="p-6 grid md:grid-cols-2 lg:grid-cols-3 gap-4">
-          {Object.entries(activityTemplates).map(([key, template]) => (
+          {Object.entries(allTemplates).map(([key, template]) => (
             <motion.div
               key={key}
               whileHover={{ scale: 1.02 }}
@@ -1006,6 +1006,7 @@ export default function ItineraryPlannerPage() {
             onClose={() => setShowTemplateModal(false)}
             onSelectTemplate={handleSelectTemplate}
             onCreateTemplate={() => setShowCreateTemplateModal(true)}
+            allTemplates={allTemplates}
           />
         )}
       </AnimatePresence>
