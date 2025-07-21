@@ -600,13 +600,13 @@ function CreateTemplateModal({ isOpen, onClose, onSave }) {
         <h2 className="text-xl font-bold mb-4">Create New Template</h2>
         <input className="w-full border rounded p-2 text-black mb-2" placeholder="Template Name" value={name} onChange={e => setName(e.target.value)} />
         <div className="mb-2">
-          <label className="block mb-1 font-medium">Gradient</label>
-          <select className="w-full border rounded p-2" value={gradient} onChange={e => setGradient(e.target.value)}>
-            {gradients.map(g => <option key={g} value={g}>{g}</option>)}
+          <label className="block mb-1 font-medium text-black">Gradient</label>
+          <select className="w-full border rounded p-2 text-black" value={gradient} onChange={e => setGradient(e.target.value)}>
+            {gradients.map(g => <option key={g} value={g} className="text-black">{g}</option>)}
           </select>
         </div>
         <div className="mb-2">
-          <label className="block mb-1 font-medium">Add Activity</label>
+          <label className="block mb-1 font-medium text-black">Add Activity</label>
           <div className="flex flex-col gap-2">
             <input className="border rounded p-2 text-black" placeholder="Name" value={activityForm.name} onChange={e => setActivityForm(f => ({...f, name: e.target.value}))} />
             <input className="border rounded p-2 text-black" placeholder="Duration (min)" type="number" value={activityForm.duration} onChange={e => setActivityForm(f => ({...f, duration: Number(e.target.value)}))} />
@@ -618,9 +618,9 @@ function CreateTemplateModal({ isOpen, onClose, onSave }) {
           </div>
         </div>
         <div className="mb-2">
-          <label className="block mb-1 font-medium">Activities</label>
+          <label className="block mb-1 font-medium text-black">Activities</label>
           <ul className="mb-2">
-            {activities.map((a, i) => <li key={i} className="text-sm flex gap-2 items-center">{a.icon} {a.name} <span className="text-xs text-gray-400">({a.timeOfDay})</span></li>)}
+            {activities.map((a, i) => <li key={i} className="text-sm flex gap-2 items-center text-black">{a.icon} {a.name} <span className="text-xs text-gray-400">({a.timeOfDay})</span></li>)}
           </ul>
         </div>
         <div className="flex gap-2 mt-4 justify-end">
