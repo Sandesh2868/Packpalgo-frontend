@@ -774,8 +774,9 @@ export default function ItineraryPlannerPage() {
   };
 
   const generateSmartSuggestions = () => {
-    // TODO: Implement AI-powered suggestions
-    alert('Smart suggestions coming soon! This will analyze your activities and suggest optimized routes and timings.');
+    // If destination is entered, just show the modal (it will auto-populate suggestions)
+    // If not, show the modal with a message to enter a destination
+    setShowSmartSuggestionsModal(true);
   };
 
   const handleAddActivity = (activity) => {
@@ -822,7 +823,7 @@ export default function ItineraryPlannerPage() {
             />
             {/* Smart Suggestions Modal Popup */}
             <AnimatePresence>
-              {showSmartSuggestionsModal && smartSuggestions.length > 0 && (
+              {showSmartSuggestionsModal && (
                 <motion.div
                   initial={{ opacity: 0, y: -10 }}
                   animate={{ opacity: 1, y: 0 }}
@@ -831,25 +832,33 @@ export default function ItineraryPlannerPage() {
                 >
                   <div className="bg-white border border-blue-200 rounded-xl shadow-xl p-4">
                     <div className="flex items-center justify-between mb-2">
-                      <h3 className="font-bold text-lg text-blue-700">Smart Suggestions for {selectedDestination}</h3>
+                      <h3 className="font-bold text-lg text-blue-700">Smart Suggestions{selectedDestination ? ` for ${selectedDestination}` : ''}</h3>
                       <button onClick={handleDismissSuggestions} className="text-gray-400 hover:text-gray-600 text-xl">✕</button>
                     </div>
-                    <ul className="divide-y divide-blue-100 max-h-64 overflow-y-auto mb-3">
-                      {smartSuggestions.map((s, idx) => (
-                        <li key={s.id} className="py-2 flex items-center gap-3">
-                          <span className="text-2xl">{s.icon}</span>
-                          <div className="flex-1">
-                            <div className="font-semibold text-gray-800">{s.name}</div>
-                            <div className="text-xs text-gray-500">{s.templateName || s.location} • {s.duration} min</div>
-                          </div>
-                          <button onClick={() => handleAcceptSingleSuggestion(s)} className="text-green-600 hover:underline text-sm">Add</button>
-                        </li>
-                      ))}
-                    </ul>
-                    <div className="flex gap-2 justify-end">
-                      <button onClick={handleAcceptAllSuggestions} className="bg-blue-500 text-white px-4 py-2 rounded-lg">Add All</button>
-                      <button onClick={handleDismissSuggestions} className="bg-gray-200 text-gray-700 px-4 py-2 rounded-lg">Dismiss</button>
-                    </div>
+                    {selectedDestination && smartSuggestions.length > 0 ? (
+                      <>
+                        <ul className="divide-y divide-blue-100 max-h-64 overflow-y-auto mb-3">
+                          {smartSuggestions.map((s, idx) => (
+                            <li key={s.id} className="py-2 flex items-center gap-3">
+                              <span className="text-2xl">{s.icon}</span>
+                              <div className="flex-1">
+                                <div className="font-semibold text-gray-800">{s.name}</div>
+                                <div className="text-xs text-gray-500">{s.templateName || s.location} • {s.duration} min</div>
+                              </div>
+                              <button onClick={() => handleAcceptSingleSuggestion(s)} className="text-green-600 hover:underline text-sm">Add</button>
+                            </li>
+                          ))}
+                        </ul>
+                        <div className="flex gap-2 justify-end">
+                          <button onClick={handleAcceptAllSuggestions} className="bg-blue-500 text-white px-4 py-2 rounded-lg">Add All</button>
+                          <button onClick={handleDismissSuggestions} className="bg-gray-200 text-gray-700 px-4 py-2 rounded-lg">Dismiss</button>
+                        </div>
+                      </>
+                    ) : (
+                      <div className="text-gray-500 text-center py-6">
+                        Please enter a destination to get smart suggestions!
+                      </div>
+                    )}
                   </div>
                 </motion.div>
               )}
