@@ -819,7 +819,7 @@ export default function ItineraryPlannerPage() {
               placeholder="Enter destination (e.g., Paris, Tokyo)..."
               value={selectedDestination}
               onChange={(e) => setSelectedDestination(e.target.value)}
-              className="w-full md:w-80 px-4 py-3 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500"
+              className="w-full md:w-80 px-4 py-3 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 text-black placeholder:text-gray-700"
             />
             {/* Smart Suggestions Modal Popup */}
             <AnimatePresence>
