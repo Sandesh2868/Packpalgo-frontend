@@ -610,6 +610,8 @@ export default function ItineraryPlannerPage() {
   const [editActivity, setEditActivity] = useState(null);
   const [userTemplates, setUserTemplates] = useState([]);
   const [showCreateTemplateModal, setShowCreateTemplateModal] = useState(false);
+  const [showSmartSuggestionsModal, setShowSmartSuggestionsModal] = useState(false);
+  const [smartSuggestions, setSmartSuggestions] = useState([]);
 
   useEffect(() => {
     // Initialize with some sample activities
@@ -620,6 +622,38 @@ export default function ItineraryPlannerPage() {
     ];
     setAvailableActivities(sampleActivities);
   }, []);
+
+  useEffect(() => {
+    if (selectedDestination && selectedDestination.trim().length > 1) {
+      // Generate suggestions based on templates, tailored to destination
+      const suggestions = Object.values(activityTemplates).flatMap(template =>
+        template.activities.slice(0, 2).map(activity => ({
+          ...activity,
+          id: Date.now() + Math.random(),
+          location: selectedDestination,
+          templateName: template.name
+        }))
+      );
+      setSmartSuggestions(suggestions);
+      setShowSmartSuggestionsModal(true);
+    } else {
+      setShowSmartSuggestionsModal(false);
+      setSmartSuggestions([]);
+    }
+  }, [selectedDestination]);
+
+  const handleAcceptAllSuggestions = () => {
+    setAvailableActivities(prev => [...prev, ...smartSuggestions]);
+    setShowSmartSuggestionsModal(false);
+  };
+  const handleAcceptSingleSuggestion = (suggestion) => {
+    setAvailableActivities(prev => [...prev, suggestion]);
+    setSmartSuggestions(smartSuggestions.filter(s => s.id !== suggestion.id));
+    if (smartSuggestions.length <= 1) setShowSmartSuggestionsModal(false);
+  };
+  const handleDismissSuggestions = () => {
+    setShowSmartSuggestionsModal(false);
+  };
 
   const handleActivityDrop = (dayId, activity) => {
     const newActivity = { ...activity, id: Date.now() + Math.random(), timeOfDay: activity.timeOfDay || 'morning' };
@@ -700,7 +734,7 @@ export default function ItineraryPlannerPage() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
           <div className="flex items-center justify-between mb-6">
             <button
-              onClick={() => navigate('/')}
+              onClick={() => navigate('/')} 
               className="flex items-center gap-2 text-gray-600 hover:text-gray-800 transition-colors"
             >
               ← Back to Home
@@ -721,7 +755,7 @@ export default function ItineraryPlannerPage() {
           </p>
 
           {/* Controls */}
-          <div className="flex flex-col md:flex-row gap-4 items-center justify-center mb-6">
+          <div className="flex flex-col md:flex-row gap-4 items-center justify-center mb-6 relative">
             <input
               type="text"
               placeholder="Enter destination (e.g., Paris, Tokyo)..."
@@ -729,6 +763,40 @@ export default function ItineraryPlannerPage() {
               onChange={(e) => setSelectedDestination(e.target.value)}
               className="w-full md:w-80 px-4 py-3 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500"
             />
+            {/* Smart Suggestions Modal Popup */}
+            <AnimatePresence>
+              {showSmartSuggestionsModal && smartSuggestions.length > 0 && (
+                <motion.div
+                  initial={{ opacity: 0, y: -10 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  exit={{ opacity: 0, y: -10 }}
+                  className="absolute left-0 top-full mt-2 w-full md:w-96 z-40"
+                >
+                  <div className="bg-white border border-blue-200 rounded-xl shadow-xl p-4">
+                    <div className="flex items-center justify-between mb-2">
+                      <h3 className="font-bold text-lg text-blue-700">Smart Suggestions for {selectedDestination}</h3>
+                      <button onClick={handleDismissSuggestions} className="text-gray-400 hover:text-gray-600 text-xl">✕</button>
+                    </div>
+                    <ul className="divide-y divide-blue-100 max-h-64 overflow-y-auto mb-3">
+                      {smartSuggestions.map((s, idx) => (
+                        <li key={s.id} className="py-2 flex items-center gap-3">
+                          <span className="text-2xl">{s.icon}</span>
+                          <div className="flex-1">
+                            <div className="font-semibold text-gray-800">{s.name}</div>
+                            <div className="text-xs text-gray-500">{s.templateName} • {s.duration} min • {s.location}</div>
+                          </div>
+                          <button onClick={() => handleAcceptSingleSuggestion(s)} className="text-green-600 hover:underline text-sm">Add</button>
+                        </li>
+                      ))}
+                    </ul>
+                    <div className="flex gap-2 justify-end">
+                      <button onClick={handleAcceptAllSuggestions} className="bg-blue-500 text-white px-4 py-2 rounded-lg">Add All</button>
+                      <button onClick={handleDismissSuggestions} className="bg-gray-200 text-gray-700 px-4 py-2 rounded-lg">Dismiss</button>
+                    </div>
+                  </div>
+                </motion.div>
+              )}
+            </AnimatePresence>
             <div className="flex gap-3">
               <button
                 onClick={() => setShowTemplateModal(true)}
