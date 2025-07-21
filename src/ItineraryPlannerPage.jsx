@@ -128,6 +128,52 @@ const activityTemplates = {
   }
 };
 
+// Add after activityTemplates
+const destinationActivities = {
+  paris: [
+    { name: "Eiffel Tower Visit", duration: 120, category: "culture", icon: "🗼", location: "Eiffel Tower" },
+    { name: "Louvre Museum Tour", duration: 180, category: "culture", icon: "🖼️", location: "Louvre Museum" },
+    { name: "Seine River Cruise", duration: 90, category: "outdoor", icon: "🚤", location: "Seine River" },
+    { name: "Montmartre Walk", duration: 60, category: "culture", icon: "🎨", location: "Montmartre" },
+    { name: "French Pastry Tasting", duration: 60, category: "food", icon: "🥐", location: "Bakery" }
+  ],
+  tokyo: [
+    { name: "Shibuya Crossing", duration: 30, category: "culture", icon: "🚦", location: "Shibuya" },
+    { name: "Senso-ji Temple", duration: 90, category: "culture", icon: "⛩️", location: "Asakusa" },
+    { name: "Sushi Making Class", duration: 120, category: "food", icon: "🍣", location: "Cooking Studio" },
+    { name: "Akihabara Anime Tour", duration: 120, category: "tech", icon: "🎮", location: "Akihabara" },
+    { name: "Cherry Blossom Viewing", duration: 60, category: "nature", icon: "🌸", location: "Ueno Park" }
+  ],
+  goa: [
+    { name: "Butterfly Beach", duration: 120, category: "nature", icon: "🏖️", location: "Butterfly Beach" },
+    { name: "Fort Aguada Visit", duration: 90, category: "culture", icon: "🏰", location: "Fort Aguada" },
+    { name: "Goan Seafood Lunch", duration: 75, category: "food", icon: "🦐", location: "Beach Shack" },
+    { name: "Dudhsagar Waterfall Trek", duration: 180, category: "outdoor", icon: "💦", location: "Dudhsagar Falls" },
+    { name: "Night Market Shopping", duration: 90, category: "shopping", icon: "🛍️", location: "Arpora Night Market" }
+  ],
+  "new york": [
+    { name: "Statue of Liberty Tour", duration: 120, category: "culture", icon: "🗽", location: "Liberty Island" },
+    { name: "Central Park Walk", duration: 90, category: "nature", icon: "🌳", location: "Central Park" },
+    { name: "Broadway Show", duration: 150, category: "culture", icon: "🎭", location: "Broadway" },
+    { name: "Times Square Nightlife", duration: 60, category: "nightlife", icon: "🌃", location: "Times Square" },
+    { name: "NYC Pizza Tasting", duration: 60, category: "food", icon: "🍕", location: "Pizzeria" }
+  ],
+  rome: [
+    { name: "Colosseum Tour", duration: 120, category: "culture", icon: "🏟️", location: "Colosseum" },
+    { name: "Vatican Museums", duration: 180, category: "culture", icon: "🖼️", location: "Vatican City" },
+    { name: "Trevi Fountain Visit", duration: 30, category: "culture", icon: "⛲", location: "Trevi Fountain" },
+    { name: "Gelato Tasting", duration: 45, category: "food", icon: "🍦", location: "Gelateria" },
+    { name: "Piazza Navona Stroll", duration: 60, category: "culture", icon: "🏛️", location: "Piazza Navona" }
+  ],
+  london: [
+    { name: "Buckingham Palace", duration: 90, category: "culture", icon: "🏰", location: "Buckingham Palace" },
+    { name: "British Museum", duration: 150, category: "culture", icon: "🏺", location: "British Museum" },
+    { name: "London Eye Ride", duration: 60, category: "outdoor", icon: "🎡", location: "London Eye" },
+    { name: "West End Theatre", duration: 120, category: "culture", icon: "🎭", location: "West End" },
+    { name: "Fish & Chips Lunch", duration: 60, category: "food", icon: "🍟", location: "Pub" }
+  ]
+};
+
 // Time slots for planning
 const timeSlots = [
   { time: "06:00", label: "Early Morning" },
@@ -625,17 +671,28 @@ export default function ItineraryPlannerPage() {
 
   useEffect(() => {
     if (selectedDestination && selectedDestination.trim().length > 1) {
-      // Generate suggestions based on templates, tailored to destination
-      const suggestions = Object.values(activityTemplates).flatMap(template =>
-        template.activities.slice(0, 2).map(activity => ({
+      // Check for real, destination-specific activities
+      const key = selectedDestination.trim().toLowerCase();
+      if (destinationActivities[key]) {
+        const suggestions = destinationActivities[key].map(activity => ({
           ...activity,
           id: Date.now() + Math.random(),
-          location: selectedDestination,
-          templateName: template.name
-        }))
-      );
-      setSmartSuggestions(suggestions);
-      setShowSmartSuggestionsModal(true);
+        }));
+        setSmartSuggestions(suggestions);
+        setShowSmartSuggestionsModal(true);
+      } else {
+        // Fallback: Generate suggestions based on templates, tailored to destination
+        const suggestions = Object.values(activityTemplates).flatMap(template =>
+          template.activities.slice(0, 2).map(activity => ({
+            ...activity,
+            id: Date.now() + Math.random(),
+            location: selectedDestination,
+            templateName: template.name
+          }))
+        );
+        setSmartSuggestions(suggestions);
+        setShowSmartSuggestionsModal(true);
+      }
     } else {
       setShowSmartSuggestionsModal(false);
       setSmartSuggestions([]);
@@ -783,7 +840,7 @@ export default function ItineraryPlannerPage() {
                           <span className="text-2xl">{s.icon}</span>
                           <div className="flex-1">
                             <div className="font-semibold text-gray-800">{s.name}</div>
-                            <div className="text-xs text-gray-500">{s.templateName} • {s.duration} min • {s.location}</div>
+                            <div className="text-xs text-gray-500">{s.templateName || s.location} • {s.duration} min</div>
                           </div>
                           <button onClick={() => handleAcceptSingleSuggestion(s)} className="text-green-600 hover:underline text-sm">Add</button>
                         </li>
