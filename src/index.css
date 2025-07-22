@@ -29,3 +29,9 @@
   --accent: #10b981;
   --bg-image: url('/images/jungle-bg.jpg');
 }
+
+.animate-bounce-slow { animation: bounce 1.5s infinite; }
+@keyframes bounce {
+  0%, 100% { transform: translateY(0); opacity: 0.7; }
+  50% { transform: translateY(16px); opacity: 1; }
+}
