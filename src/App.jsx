@@ -66,7 +66,6 @@ export default function App() {
         className="relative z-10 py-48 text-center bg-cover bg-center min-h-[70vh] flex flex-col justify-center items-center"
         style={{ backgroundImage: "var(--bg-image)" }}
       >
-        <div className="absolute inset-0 bg-white/60 backdrop-blur-sm z-0 pointer-events-none" />
         <div className="relative z-10 flex flex-col items-center justify-center w-full">
           <HeroBackground />
           <h1
