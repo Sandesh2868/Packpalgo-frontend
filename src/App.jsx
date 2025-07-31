@@ -63,76 +63,41 @@ export default function App() {
       </div>
 
       <section
-        className="relative z-10 py-40 text-center bg-cover bg-center"
+        className="relative z-10 py-48 text-center bg-cover bg-center min-h-[70vh] flex flex-col justify-center items-center"
         style={{ backgroundImage: "var(--bg-image)" }}
       >
-        <div className="absolute inset-0 bg-black/50 z-0 pointer-events-none" />
-        <div className="relative z-10">
+        <div className="absolute inset-0 bg-white/60 backdrop-blur-sm z-0 pointer-events-none" />
+        <div className="relative z-10 flex flex-col items-center justify-center w-full">
           <HeroBackground />
-          <motion.h1
-            className="text-5xl md:text-7xl font-extrabold mb-4 drop-shadow-lg"
-            initial={{ opacity: 0, y: 40 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 1 }}
+          <h1
+            className="text-5xl md:text-7xl font-extrabold mb-4 tracking-tight font-sans text-gray-900"
+            style={{ letterSpacing: "-0.03em" }}
           >
             The Pre-Trip Portal
-          </motion.h1>
-          <motion.p
-            className="text-xl md:text-2xl max-w-2xl mx-auto mb-8 drop-shadow"
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.5, duration: 1 }}
+            <span className="block w-16 h-1 bg-blue-300 mx-auto mt-3 rounded-full" />
+          </h1>
+          <p
+            className="text-lg md:text-2xl max-w-2xl mx-auto mb-10 text-gray-700"
           >
             Before you pack, let’s play and plan!
-          </motion.p>
-
-          {/* ✅ BUTTON GRID 2x2 (even on mobile) */}
-          <motion.div
-            initial={{ scale: 0.9, opacity: 0 }}
-            animate={{ scale: 1, opacity: 1 }}
-            transition={{ delay: 1, duration: 0.5 }}
-            className="grid grid-cols-2 gap-4 max-w-xs sm:max-w-md mx-auto justify-center"
+          </p>
+          <div
+            className="grid grid-cols-2 gap-4 max-w-xs sm:max-w-md mx-auto justify-center mb-6"
           >
-            <Button
-              style={{ backgroundColor: "var(--accent)", color: "var(--text)" }}
-              onClick={() => navigate("/budget-calculator")}
-            >
-              💰 Budget Calculator
-            </Button>
-            <Button
-              style={{ backgroundColor: "var(--accent)", color: "var(--text)" }}
-              onClick={() => navigate("/things-to-carry")}
-            >
-              📝 Pack list
-            </Button>
-            <Button
-              style={{ backgroundColor: "var(--accent)", color: "var(--text)" }}
-              onClick={() => navigate("/itinerary-planner")}
-            >
-              📅🧳 Itinerary Planner
-            </Button>
-            <Button
-              style={{ backgroundColor: "var(--accent)", color: "var(--text)" }}
-              onClick={() => navigate("/gosplit")}
-            >
-              🤝 GoSplit
-            </Button>
-          </motion.div>
-
+            <Button onClick={() => navigate("/budget-calculator")}>💰 Budget Calculator</Button>
+            <Button onClick={() => navigate("/things-to-carry")}>📝 Pack list</Button>
+            <Button onClick={() => navigate("/itinerary-planner")}>📅🧳 Itinerary Planner</Button>
+            <Button onClick={() => navigate("/gosplit")}>🤝 GoSplit</Button>
+          </div>
           <Button
-            className="mt-4 text-sm"
+            className="mt-2 text-sm"
             onClick={toggleMusic}
-            style={{
-              backgroundColor: "var(--accent)",
-              color: "var(--text)"
-            }}
           >
             {musicOn ? "🔇 Mute Music" : "🔊 Play Music"}
           </Button>
-
-          <div className="flex justify-center mt-6">
-            <span className="animate-bounce-slow text-4xl text-white/80 drop-shadow-lg cursor-pointer select-none">
-              <svg width="36" height="46" viewBox="0 0 26 26" fill="none" xmlns="http://www.w3.org/2000/svg" className="mx-auto">
+          <div className="flex justify-center mt-10">
+            <span className="animate-bounce-slow text-2xl text-gray-400 select-none">
+              <svg width="28" height="36" viewBox="0 0 26 26" fill="none" xmlns="http://www.w3.org/2000/svg" className="mx-auto">
                 <path d="M12 5v14m0 0l-7-7m7 7l7-7" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
               </svg>
             </span>
