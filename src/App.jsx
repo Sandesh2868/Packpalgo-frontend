@@ -19,7 +19,7 @@ const wrongSound = new Audio("/sounds/wrong.mp3");
 const Button = ({ children, onClick, className = "", style = {} }) => (
   <button
     onClick={onClick}
-    className={`px-4 py-2 rounded-lg transition ${className}`}
+    className={`px-4 py-2 rounded-lg transition min-w-32 max-w-[160px] mx-auto w-full ${className}`}
     style={style}
   >
     {children}
@@ -79,12 +79,12 @@ export default function App() {
             Before you pack, let’s play and plan!
           </motion.p>
 
-          {/* ✅ BUTTON GRID 2x2 */}
+          {/* ✅ BUTTON GRID 2x2 (even on mobile) */}
           <motion.div
             initial={{ scale: 0.9, opacity: 0 }}
             animate={{ scale: 1, opacity: 1 }}
             transition={{ delay: 1, duration: 0.5 }}
-            className="grid grid-cols-1 sm:grid-cols-2 gap-4 max-w-md mx-auto"
+            className="grid grid-cols-2 gap-4 max-w-xs sm:max-w-md mx-auto justify-center"
           >
             <Button
               style={{ backgroundColor: "var(--accent)", color: "var(--text)" }}
@@ -108,7 +108,7 @@ export default function App() {
               style={{ backgroundColor: "var(--accent)", color: "var(--text)" }}
               onClick={() => navigate("/gosplit")}
             >
-              🤝 GoSplit (Split Expenses)
+              🤝 GoSplit
             </Button>
           </motion.div>
 
