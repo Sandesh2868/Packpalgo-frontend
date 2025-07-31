@@ -62,7 +62,7 @@ export default function App() {
         </select>
       </div>
 
-     <section className="relative z-10 py-48 text-center bg-cover bg-center min-h-[70vh] flex flex-col justify-center items-center" style={{ backgroundImage: "var(--bg-image)" }}>
+     <section className="relative z-20 py-48 text-center bg-cover bg-center min-h-[70vh] flex flex-col justify-center items-center" style={{ backgroundImage: "var(--bg-image)" }}>
   <HeroBackground />
 
   {/* Overlay to make text readable */}
