@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { motion } from "framer-motion";
 import { useTheme } from './ThemeContext';
+import { useAuth } from './AuthContext';
 import HeroBackground from "./components/HeroBackground";
 import InteractiveGlobe from "./components/InteractiveGlobe";
 import TravelTriviaGame from "./components/TravelTriviaGame";
@@ -9,6 +10,7 @@ import GuessThePlaceGame from "./components/GuessThePlaceGame";
 import ComingSoonBanner from "./components/ComingSoonBanner";
 import AboutSection from "./components/AboutSection";
 import Footer from "./components/Footer";
+import AuthButton from "./components/AuthButton";
 
 const bgMusic = new Audio("/sounds/background.mp3");
 bgMusic.loop = true;
@@ -28,6 +30,7 @@ const Button = ({ children, onClick, className = "", style = {} }) => (
 
 export default function App() {
   const { theme, toggleTheme } = useTheme();
+  const { user } = useAuth();
   const themeOptions = ["dark", "beach", "sunset", "jungle"];
   const [musicOn, setMusicOn] = useState(false);
   const navigate = useNavigate();
@@ -43,17 +46,21 @@ export default function App() {
 
   return (
     <main className="relative min-h-screen overflow-x-hidden" style={{ color: "var(--text)" }}>
-      <select
-        value={theme}
-        onChange={(e) => toggleTheme(e.target.value)}
-        className="absolute top-6 right-6 bg-gray-800 text-white border border-gray-600 p-2 rounded z-50"
-      >
-        {themeOptions.map((option) => (
-          <option key={option} value={option}>
-            {option.charAt(0).toUpperCase() + option.slice(1)}
-          </option>
-        ))}
-      </select>
+      {/* Header Controls */}
+      <div className="absolute top-4 right-4 z-50 flex items-center space-x-4">
+        <AuthButton compact={true} showText={false} className="bg-white shadow-lg rounded-lg px-3 py-2" />
+        <select
+          value={theme}
+          onChange={(e) => toggleTheme(e.target.value)}
+          className="bg-gray-800 text-white border border-gray-600 p-2 rounded"
+        >
+          {themeOptions.map((option) => (
+            <option key={option} value={option}>
+              {option.charAt(0).toUpperCase() + option.slice(1)}
+            </option>
+          ))}
+        </select>
+      </div>
 
       <section
         className="relative z-10 py-40 text-center bg-cover bg-center"

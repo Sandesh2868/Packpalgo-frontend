@@ -1,18 +1,17 @@
 import React, { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
-import { db, auth } from '../../../firebase';
+import { db } from '../../../firebase';
 import { doc, onSnapshot, updateDoc, arrayUnion } from 'firebase/firestore';
-import { useAuthState } from 'react-firebase-hooks/auth';
+import { useAuth } from '../../AuthContext';
 import AddExpenseModal from './AddExpenseModal';
 import ExpenseList from './ExpenseList';
 import BalanceSummary from './BalanceSummary';
 import GroupInfo from './GroupInfo';
-import AuthWrapper from './AuthWrapper';
 
 export default function GroupDetails() {
   const { groupId } = useParams();
   const navigate = useNavigate();
-  const [user] = useAuthState(auth);
+  const { user } = useAuth();
   const [group, setGroup] = useState(null);
   const [loading, setLoading] = useState(true);
   const [showAddExpense, setShowAddExpense] = useState(false);
@@ -111,11 +110,10 @@ export default function GroupDetails() {
   }
 
   return (
-    <AuthWrapper>
-      <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100 p-4">
-        <div className="max-w-6xl mx-auto">
-          {/* Header */}
-          <div className="bg-white rounded-xl shadow-lg p-6 mb-6">
+    <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100 p-4">
+      <div className="max-w-6xl mx-auto">
+        {/* Header */}
+        <div className="bg-white rounded-xl shadow-lg p-6 mb-6">
           <div className="flex items-center justify-between mb-4">
             <div className="flex items-center space-x-4">
               <button
@@ -225,8 +223,7 @@ export default function GroupDetails() {
             members={group.members}
           />
         )}
-        </div>
       </div>
-    </AuthWrapper>
+    </div>
   );
 }

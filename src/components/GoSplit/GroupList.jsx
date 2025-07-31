@@ -1,18 +1,17 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { db, auth } from '../../../firebase';
-import { collection, query, where, onSnapshot, doc, getDoc } from 'firebase/firestore';
-import { useAuthState } from 'react-firebase-hooks/auth';
+import { db } from '../../../firebase';
+import { collection, query, where, onSnapshot } from 'firebase/firestore';
+import { useAuth } from '../../AuthContext';
 import CreateGroupModal from './CreateGroupModal';
 import JoinGroupModal from './JoinGroupModal';
-import AuthWrapper from './AuthWrapper';
 
 export default function GroupList() {
   const [groups, setGroups] = useState([]);
   const [showCreateModal, setShowCreateModal] = useState(false);
   const [showJoinModal, setShowJoinModal] = useState(false);
   const [loading, setLoading] = useState(true);
-  const [user] = useAuthState(auth);
+  const { user } = useAuth();
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -59,12 +58,28 @@ export default function GroupList() {
     );
   }
 
+  if (!user) {
+    return (
+      <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100 flex items-center justify-center p-4">
+        <div className="bg-white rounded-xl shadow-2xl p-8 w-full max-w-md text-center">
+          <div className="text-6xl mb-6">🤝</div>
+          <h1 className="text-3xl font-bold text-gray-800 mb-4">Welcome to GoSplit</h1>
+          <p className="text-gray-600 mb-8">
+            Split travel expenses with your friends and family. Sign in to get started.
+          </p>
+          <p className="text-sm text-gray-500">
+            Please sign in using the button in the top right corner of the page.
+          </p>
+        </div>
+      </div>
+    );
+  }
+
   return (
-    <AuthWrapper>
-      <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100 p-4">
-        <div className="max-w-4xl mx-auto">
-          {/* Header */}
-          <div className="bg-white rounded-xl shadow-lg p-6 mb-6">
+    <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100 p-4">
+      <div className="max-w-4xl mx-auto">
+        {/* Header */}
+        <div className="bg-white rounded-xl shadow-lg p-6 mb-6">
             <div className="flex justify-between items-center mb-4">
               <div>
                 <h1 className="text-3xl font-bold text-gray-800">GoSplit</h1>
@@ -165,8 +180,7 @@ export default function GroupList() {
             onClose={() => setShowJoinModal(false)}
           />
         )}
-        </div>
       </div>
-    </AuthWrapper>
+    </div>
   );
 }

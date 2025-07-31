@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
-import { db, auth } from '../../../firebase';
+import { db } from '../../../firebase';
 import { collection, addDoc, serverTimestamp } from 'firebase/firestore';
-import { useAuthState } from 'react-firebase-hooks/auth';
+import { useAuth } from '../../AuthContext';
 
 export default function CreateGroupModal({ isOpen, onClose }) {
   const [groupName, setGroupName] = useState('');
@@ -9,7 +9,7 @@ export default function CreateGroupModal({ isOpen, onClose }) {
   const [budget, setBudget] = useState('');
   const [emoji, setEmoji] = useState('🌟');
   const [loading, setLoading] = useState(false);
-  const [user] = useAuthState(auth);
+  const { user } = useAuth();
 
   const emojiOptions = ['🌟', '🏖️', '🗻', '🎒', '✈️', '🚗', '🏕️', '🌴', '🌊', '⛰️'];
 

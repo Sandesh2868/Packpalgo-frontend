@@ -1,12 +1,12 @@
 import React, { useState } from 'react';
-import { db, auth } from '../../../firebase';
+import { db } from '../../../firebase';
 import { collection, query, where, getDocs, updateDoc, doc, arrayUnion } from 'firebase/firestore';
-import { useAuthState } from 'react-firebase-hooks/auth';
+import { useAuth } from '../../AuthContext';
 
 export default function JoinGroupModal({ isOpen, onClose }) {
   const [inviteCode, setInviteCode] = useState('');
   const [loading, setLoading] = useState(false);
-  const [user] = useAuthState(auth);
+  const { user } = useAuth();
 
   const handleJoinGroup = async () => {
     if (!inviteCode.trim()) {
