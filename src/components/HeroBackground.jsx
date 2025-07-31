@@ -25,6 +25,6 @@ export default function HeroBackground() {
         <directionalLight position={[0, 5, 5]} intensity={0.5} />
         <SymbolSVG />
       </Canvas>
-     
+     </div>
   );
 }
