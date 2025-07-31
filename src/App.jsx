@@ -62,47 +62,42 @@ export default function App() {
         </select>
       </div>
 
-      <section
-        className="relative z-10 py-48 text-center bg-cover bg-center min-h-[70vh] flex flex-col justify-center items-center"
-        style={{ backgroundImage: "var(--bg-image)" }}
-      >
-        <div className="relative z-10 flex flex-col items-center justify-center w-full">
-          <HeroBackground />
-          <h1
-            className="text-5xl md:text-7xl font-extrabold mb-4 tracking-tight font-sans text-gray-900"
-            style={{ letterSpacing: "-0.03em" }}
-          >
-            The Pre-Trip Portal
-            <span className="block w-16 h-1 bg-blue-300 mx-auto mt-3 rounded-full" />
-          </h1>
-          <p
-            className="text-lg md:text-2xl max-w-2xl mx-auto mb-10 text-gray-700"
-          >
-            Before you pack, let’s play and plan!
-          </p>
-          <div
-            className="grid grid-cols-2 gap-4 max-w-xs sm:max-w-md mx-auto justify-center mb-6"
-          >
-            <Button onClick={() => navigate("/budget-calculator")}>💰 Budget Calculator</Button>
-            <Button onClick={() => navigate("/things-to-carry")}>📝 Pack list</Button>
-            <Button onClick={() => navigate("/itinerary-planner")}>📅🧳 Itinerary Planner</Button>
-            <Button onClick={() => navigate("/gosplit")}>🤝 GoSplit</Button>
-          </div>
-          <Button
-            className="mt-2 text-sm"
-            onClick={toggleMusic}
-          >
-            {musicOn ? "🔇 Mute Music" : "🔊 Play Music"}
-          </Button>
-          <div className="flex justify-center mt-10">
-            <span className="animate-bounce-slow text-2xl text-gray-400 select-none">
-              <svg width="28" height="36" viewBox="0 0 26 26" fill="none" xmlns="http://www.w3.org/2000/svg" className="mx-auto">
-                <path d="M12 5v14m0 0l-7-7m7 7l7-7" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
-              </svg>
-            </span>
-          </div>
-        </div>
-      </section>
+     <section className="relative z-10 py-48 text-center bg-cover bg-center min-h-[70vh] flex flex-col justify-center items-center" style={{ backgroundImage: "var(--bg-image)" }}>
+  <HeroBackground />
+
+  {/* Overlay to make text readable */}
+  <div className="absolute inset-0 bg-black/40 z-10"></div>
+
+  <div className="relative z-20 flex flex-col items-center justify-center w-full px-4">
+    <h1 className="text-5xl md:text-7xl font-extrabold mb-4 tracking-tight font-sans text-white" style={{ letterSpacing: "-0.03em" }}>
+      The Pre-Trip Portal
+      <span className="block w-16 h-1 bg-blue-300 mx-auto mt-3 rounded-full" />
+    </h1>
+    <p className="text-lg md:text-2xl max-w-2xl mx-auto mb-10 text-white">
+      Before you pack, let’s play and plan!
+    </p>
+
+    <div className="grid grid-cols-2 gap-4 max-w-xs sm:max-w-md mx-auto justify-center mb-6 z-20">
+      <Button onClick={() => navigate("/budget-calculator")} className="bg-blue-600 text-white hover:bg-blue-700">💰 Budget Calculator</Button>
+      <Button onClick={() => navigate("/things-to-carry")} className="bg-green-600 text-white hover:bg-green-700">📝 Pack list</Button>
+      <Button onClick={() => navigate("/itinerary-planner")} className="bg-purple-600 text-white hover:bg-purple-700">📅🧳 Itinerary Planner</Button>
+      <Button onClick={() => navigate("/gosplit")} className="bg-pink-600 text-white hover:bg-pink-700">🤝 GoSplit</Button>
+    </div>
+
+    <Button onClick={toggleMusic} className="mt-2 text-sm bg-black/60 text-white hover:bg-black">
+      {musicOn ? "🔇 Mute Music" : "🔊 Play Music"}
+    </Button>
+
+    <div className="flex justify-center mt-10 z-20">
+      <span className="animate-bounce-slow text-2xl text-gray-200 select-none">
+        <svg width="28" height="36" viewBox="0 0 26 26" fill="none" xmlns="http://www.w3.org/2000/svg" className="mx-auto">
+          <path d="M12 5v14m0 0l-7-7m7 7l7-7" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+        </svg>
+      </span>
+    </div>
+  </div>
+</section>
+
 
       <ComingSoonBanner />
 
