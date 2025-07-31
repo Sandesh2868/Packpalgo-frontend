@@ -10,7 +10,7 @@ function SymbolSVG() {
   );
 
   return (
-    <group scale={[0.018, -0.009, 0.018]} position={[-8, 0, -4]}>
+    <group scale={[0.018, -0.009, 0.018]} position={[-8, 5, -4]}>
       {shapes.map((shape, i) => (
         <mesh key={i}>
           <shapeGeometry args={[shape]} />
