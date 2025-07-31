@@ -110,7 +110,7 @@ export default function App() {
         className="relative z-10 py-10 text-center bg-cover bg-center"
         style={{ backgroundImage: "var(--bg-image)" }}
       >
-        <div className="absolute inset-0 backdrop-blur-sm bg-black/50 z-0 pointer-events-none" />
+        <div className="absolute inset-0 z-0 pointer-events-none" />
         <div className="relative z-10">
           <motion.h2
             className="text-4xl font-bold mb-6"
