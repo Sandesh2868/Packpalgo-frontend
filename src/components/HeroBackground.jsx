@@ -25,7 +25,7 @@ export default function HeroBackground() {
         <directionalLight position={[0, 5, 5]} intensity={0.5} />
         <SymbolSVG />
       </Canvas>
-      <div className="absolute inset-0 bg-gradient-to-b from-white/60 via-transparent to-white/80 backdrop-blur-sm pointer-events-none" />
+      <div className="absolute inset-0 bg-gradient-to-b from-white/0 via-transparent to-white/80 backdrop-blur-sm pointer-events-none" />
     </div>
   );
 }
