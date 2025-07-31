@@ -21,8 +21,12 @@ const wrongSound = new Audio("/sounds/wrong.mp3");
 const Button = ({ children, onClick, className = "", style = {} }) => (
   <button
     onClick={onClick}
-    className={`px-4 py-2 rounded-lg transition min-w-32 max-w-[160px] mx-auto w-full ${className}`}
-    style={style}
+    className={`px-4 py-2 rounded-lg transition min-w-32 max-w-[160px] mx-auto w-full font-semibold shadow-lg hover:shadow-xl transform hover:scale-105 ${className}`}
+    style={{
+      backgroundColor: "var(--accent)",
+      color: "var(--bg)",
+      ...style
+    }}
   >
     {children}
   </button>
@@ -69,16 +73,17 @@ export default function App() {
         <div className="relative z-10 flex flex-col items-center justify-center w-full">
           <HeroBackground />
           <h1
-            className="text-5xl md:text-7xl font-extrabold mb-4 tracking-tight font-sans text-gray-900"
-            style={{ letterSpacing: "-0.03em" }}
+            className="text-5xl md:text-7xl font-extrabold mb-4 tracking-tight font-sans"
+            style={{ letterSpacing: "-0.03em", color: "var(--text)" }}
           >
             The Pre-Trip Portal
             <span className="block w-16 h-1 bg-blue-300 mx-auto mt-3 rounded-full" />
           </h1>
           <p
-            className="text-lg md:text-2xl max-w-2xl mx-auto mb-10 text-gray-700"
+            className="text-lg md:text-2xl max-w-2xl mx-auto mb-10"
+            style={{ color: "var(--text)" }}
           >
-            Before you pack, let’s play and plan!
+            Before you pack, let's play and plan!
           </p>
           <div
             className="grid grid-cols-2 gap-4 max-w-xs sm:max-w-md mx-auto justify-center mb-6"
@@ -95,7 +100,7 @@ export default function App() {
             {musicOn ? "🔇 Mute Music" : "🔊 Play Music"}
           </Button>
           <div className="flex justify-center mt-10">
-            <span className="animate-bounce-slow text-2xl text-gray-400 select-none">
+            <span className="animate-bounce-slow text-2xl select-none" style={{ color: "var(--text)" }}>
               <svg width="28" height="36" viewBox="0 0 26 26" fill="none" xmlns="http://www.w3.org/2000/svg" className="mx-auto">
                 <path d="M12 5v14m0 0l-7-7m7 7l7-7" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
               </svg>
