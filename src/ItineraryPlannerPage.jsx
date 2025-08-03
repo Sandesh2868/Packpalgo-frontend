@@ -476,11 +476,11 @@ function ActivityEditModal({ activity, isOpen, onClose, onSave }) {
       <div className="bg-white rounded-xl p-6 w-full max-w-md shadow-2xl">
         <h2 className="text-xl font-bold mb-4">Edit Activity</h2>
         <div className="space-y-3">
-          <input className="w-full border rounded p-2 text-black" placeholder="Name" value={form.name || ''} onChange={e => setForm(f => ({...f, name: e.target.value}))} />
-          <input className="w-full border rounded p-2 text-black" placeholder="Duration (min)" type="number" value={form.duration || ''} onChange={e => setForm(f => ({...f, duration: Number(e.target.value)}))} />
-          <input className="w-full border rounded p-2 text-black" placeholder="Category" value={form.category || ''} onChange={e => setForm(f => ({...f, category: e.target.value}))} />
-          <input className="w-full border rounded p-2 text-black" placeholder="Icon (emoji)" value={form.icon || ''} onChange={e => setForm(f => ({...f, icon: e.target.value}))} />
-          <input className="w-full border rounded p-2 text-black" placeholder="Location" value={form.location || ''} onChange={e => setForm(f => ({...f, location: e.target.value}))} />
+                      <input className="w-full border rounded p-2" placeholder="Name" value={form.name || ''} onChange={e => setForm(f => ({...f, name: e.target.value}))} />
+            <input className="w-full border rounded p-2" placeholder="Duration (min)" type="number" value={form.duration || ''} onChange={e => setForm(f => ({...f, duration: Number(e.target.value)}))} />
+            <input className="w-full border rounded p-2" placeholder="Category" value={form.category || ''} onChange={e => setForm(f => ({...f, category: e.target.value}))} />
+            <input className="w-full border rounded p-2" placeholder="Icon (emoji)" value={form.icon || ''} onChange={e => setForm(f => ({...f, icon: e.target.value}))} />
+            <input className="w-full border rounded p-2" placeholder="Location" value={form.location || ''} onChange={e => setForm(f => ({...f, location: e.target.value}))} />
           <TimeOfDaySelector value={form.timeOfDay || 'morning'} onChange={v => setForm(f => ({...f, timeOfDay: v}))} />
         </div>
         <div className="flex gap-2 mt-6 justify-end">
@@ -501,11 +501,11 @@ function AddActivityModal({ isOpen, onClose, onAdd }) {
       <div className="bg-white rounded-xl p-6 w-full max-w-md shadow-2xl">
         <h2 className="text-xl font-bold mb-4">Add Activity</h2>
         <div className="space-y-3">
-          <input className="w-full border rounded p-2 text-black" placeholder="Name" value={form.name} onChange={e => setForm(f => ({...f, name: e.target.value}))} />
-          <input className="w-full border rounded p-2 text-black" placeholder="Duration (min)" type="number" value={form.duration} onChange={e => setForm(f => ({...f, duration: Number(e.target.value)}))} />
-          <input className="w-full border rounded p-2 text-black" placeholder="Category" value={form.category} onChange={e => setForm(f => ({...f, category: e.target.value}))} />
-          <input className="w-full border rounded p-2 text-black" placeholder="Icon (emoji)" value={form.icon} onChange={e => setForm(f => ({...f, icon: e.target.value}))} />
-          <input className="w-full border rounded p-2 text-black" placeholder="Location" value={form.location} onChange={e => setForm(f => ({...f, location: e.target.value}))} />
+                      <input className="w-full border rounded p-2" placeholder="Name" value={form.name} onChange={e => setForm(f => ({...f, name: e.target.value}))} />
+            <input className="w-full border rounded p-2" placeholder="Duration (min)" type="number" value={form.duration} onChange={e => setForm(f => ({...f, duration: Number(e.target.value)}))} />
+            <input className="w-full border rounded p-2" placeholder="Category" value={form.category} onChange={e => setForm(f => ({...f, category: e.target.value}))} />
+            <input className="w-full border rounded p-2" placeholder="Icon (emoji)" value={form.icon} onChange={e => setForm(f => ({...f, icon: e.target.value}))} />
+            <input className="w-full border rounded p-2" placeholder="Location" value={form.location} onChange={e => setForm(f => ({...f, location: e.target.value}))} />
           <TimeOfDaySelector value={form.timeOfDay} onChange={v => setForm(f => ({...f, timeOfDay: v}))} />
         </div>
         <div className="flex gap-2 mt-6 justify-end">
@@ -598,29 +598,29 @@ function CreateTemplateModal({ isOpen, onClose, onSave }) {
     <div className="fixed inset-0 bg-black/40 z-50 flex items-center justify-center">
       <div className="bg-white rounded-xl p-6 w-full max-w-lg shadow-2xl">
         <h2 className="text-xl font-bold mb-4">Create New Template</h2>
-        <input className="w-full border rounded p-2 text-black mb-2" placeholder="Template Name" value={name} onChange={e => setName(e.target.value)} />
+        <input className="w-full border rounded p-2 mb-2" placeholder="Template Name" value={name} onChange={e => setName(e.target.value)} />
         <div className="mb-2">
-          <label className="block mb-1 font-medium text-black">Gradient</label>
-          <select className="w-full border rounded p-2 text-black" value={gradient} onChange={e => setGradient(e.target.value)}>
-            {gradients.map(g => <option key={g} value={g} className="text-black">{g}</option>)}
+          <label className="block mb-1 font-medium">Gradient</label>
+          <select className="w-full border rounded p-2" value={gradient} onChange={e => setGradient(e.target.value)}>
+            {gradients.map(g => <option key={g} value={g}>{g}</option>)}
           </select>
         </div>
         <div className="mb-2">
-          <label className="block mb-1 font-medium text-black">Add Activity</label>
+          <label className="block mb-1 font-medium">Add Activity</label>
           <div className="flex flex-col gap-2">
-            <input className="border rounded p-2 text-black" placeholder="Name" value={activityForm.name} onChange={e => setActivityForm(f => ({...f, name: e.target.value}))} />
-            <input className="border rounded p-2 text-black" placeholder="Duration (min)" type="number" value={activityForm.duration} onChange={e => setActivityForm(f => ({...f, duration: Number(e.target.value)}))} />
-            <input className="border rounded p-2 text-black" placeholder="Category" value={activityForm.category} onChange={e => setActivityForm(f => ({...f, category: e.target.value}))} />
-            <input className="border rounded p-2 text-black" placeholder="Icon (emoji)" value={activityForm.icon} onChange={e => setActivityForm(f => ({...f, icon: e.target.value}))} />
-            <input className="border rounded p-2 text-black" placeholder="Location" value={activityForm.location} onChange={e => setActivityForm(f => ({...f, location: e.target.value}))} />
+            <input className="border rounded p-2" placeholder="Name" value={activityForm.name} onChange={e => setActivityForm(f => ({...f, name: e.target.value}))} />
+            <input className="border rounded p-2" placeholder="Duration (min)" type="number" value={activityForm.duration} onChange={e => setActivityForm(f => ({...f, duration: Number(e.target.value)}))} />
+            <input className="border rounded p-2" placeholder="Category" value={activityForm.category} onChange={e => setActivityForm(f => ({...f, category: e.target.value}))} />
+            <input className="border rounded p-2" placeholder="Icon (emoji)" value={activityForm.icon} onChange={e => setActivityForm(f => ({...f, icon: e.target.value}))} />
+            <input className="border rounded p-2" placeholder="Location" value={activityForm.location} onChange={e => setActivityForm(f => ({...f, location: e.target.value}))} />
             <TimeOfDaySelector value={activityForm.timeOfDay} onChange={v => setActivityForm(f => ({...f, timeOfDay: v}))} />
             <button className="mt-2 px-3 py-1 rounded bg-blue-100 text-blue-800" onClick={() => { setActivities(a => [...a, activityForm]); setActivityForm({ name: '', duration: 60, category: '', icon: '', location: '', timeOfDay: 'morning' }); }}>Add Activity</button>
           </div>
         </div>
         <div className="mb-2">
-          <label className="block mb-1 font-medium text-black">Activities</label>
+          <label className="block mb-1 font-medium">Activities</label>
           <ul className="mb-2">
-            {activities.map((a, i) => <li key={i} className="text-sm flex gap-2 items-center text-black">{a.icon} {a.name} <span className="text-xs text-gray-400">({a.timeOfDay})</span></li>)}
+            {activities.map((a, i) => <li key={i} className="text-sm flex gap-2 items-center">{a.icon} {a.name} <span className="text-xs text-gray-400">({a.timeOfDay})</span></li>)}
           </ul>
         </div>
         <div className="flex gap-2 mt-4 justify-end">
@@ -819,7 +819,7 @@ export default function ItineraryPlannerPage() {
               placeholder="Enter destination (e.g., Paris, Tokyo)..."
               value={selectedDestination}
               onChange={(e) => setSelectedDestination(e.target.value)}
-              className="w-full md:w-80 px-4 py-3 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 text-black placeholder:text-gray-700"
+              className="w-full md:w-80 px-4 py-3 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 placeholder:text-gray-700"
             />
             {/* Smart Suggestions Modal Popup */}
             <AnimatePresence>

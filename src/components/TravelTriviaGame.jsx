@@ -106,7 +106,7 @@ export default function TravelTriviaGame({ clickSound, correctSound, wrongSound 
           </CardContent>
         </Card>
       ) : (
-        <Card className="bg-green-100 text-black">
+                        <Card className="bg-green-100">
           <CardContent className="p-6 text-center">
             <h3 className="text-xl font-semibold mb-2">🎉 Your Score: {score}/{triviaQuestions.length}</h3>
             <Button onClick={reset} style={buttonStyle}>
