@@ -11,8 +11,14 @@ export default function GroupList() {
   const [showCreateModal, setShowCreateModal] = useState(false);
   const [showJoinModal, setShowJoinModal] = useState(false);
   const [loading, setLoading] = useState(true);
+  const [refreshKey, setRefreshKey] = useState(0);
   const { user } = useAuth();
   const navigate = useNavigate();
+
+  // Function to refresh groups
+  const refreshGroups = () => {
+    setRefreshKey(prev => prev + 1);
+  };
 
   useEffect(() => {
     if (!user) {
@@ -35,6 +41,7 @@ export default function GroupList() {
         id: doc.id,
         ...doc.data()
       }));
+      console.log('Fetched groups:', groupsData); // Debug log
       setGroups(groupsData);
       setLoading(false);
     }, (error) => {
@@ -44,7 +51,7 @@ export default function GroupList() {
     });
 
     return () => unsubscribe();
-  }, [user]);
+  }, [user, refreshKey]);
 
   const handleGroupClick = (groupId) => {
     navigate(`/gosplit/group/${groupId}`);
@@ -93,6 +100,13 @@ export default function GroupList() {
                 <p style={{color: 'var(--text)'}}>Split expenses with your travel groups</p>
               </div>
               <div className="flex space-x-3">
+                <button
+                  onClick={refreshGroups}
+                  className="bg-gray-500 hover:bg-gray-600 text-white px-4 py-2 rounded-lg transition duration-200 flex items-center space-x-2"
+                >
+                  <span>🔄</span>
+                  <span>Refresh</span>
+                </button>
                 <button
                   onClick={() => setShowJoinModal(true)}
                   className="bg-green-500 hover:bg-green-600 text-white px-4 py-2 rounded-lg transition duration-200 flex items-center space-x-2"
@@ -178,7 +192,11 @@ export default function GroupList() {
         {showCreateModal && (
           <CreateGroupModal
             isOpen={showCreateModal}
-            onClose={() => setShowCreateModal(false)}
+            onClose={() => {
+              setShowCreateModal(false);
+              // Refresh groups after modal closes
+              setTimeout(() => refreshGroups(), 500);
+            }}
           />
         )}
 

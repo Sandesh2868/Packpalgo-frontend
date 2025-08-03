@@ -86,12 +86,29 @@ export default function CreateGroupModal({ isOpen, onClose }) {
       
       // Show success message with invite code
       setTimeout(() => {
-        alert(`Group "${groupName}" created successfully!\n\nInvite Code: ${inviteCode}\n\nShare this code with others to let them join your group.`);
+        const successMessage = `Group "${groupName}" created successfully!
+
+Invite Code: ${inviteCode}
+
+Share this code with others to let them join your group.
+
+The group will appear in your groups list once the data syncs.`;
+        alert(successMessage);
       }, 100);
       
     } catch (error) {
       console.error('Error creating group:', error);
-      alert(`Error creating group: ${error.message}. Please try again.`);
+      let errorMessage = 'Error creating group. Please try again.';
+      
+      if (error.code === 'permission-denied') {
+        errorMessage = 'Permission denied. Please check your authentication.';
+      } else if (error.code === 'unavailable') {
+        errorMessage = 'Network error. Please check your internet connection.';
+      } else if (error.message) {
+        errorMessage = `Error: ${error.message}`;
+      }
+      
+      alert(errorMessage);
     } finally {
       setLoading(false);
     }
