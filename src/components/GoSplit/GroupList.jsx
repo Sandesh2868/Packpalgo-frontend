@@ -47,7 +47,7 @@ export default function GroupList() {
   }, [user, refreshKey]);
 
   const handleGroupClick = (groupId) => {
-    navigate(/gosplit/group/${groupId});
+    navigate(`/gosplit/group/${groupId}`); // ✅ fixed template literal
   };
 
   if (!user) {
@@ -118,11 +118,11 @@ export default function GroupList() {
             {groups.map(group => (
               <div key={group.id} onClick={() => handleGroupClick(group.id)} className="bg-white rounded-xl shadow-lg p-6 cursor-pointer hover:shadow-xl transition duration-200 transform hover:-translate-y-1" style={{ backgroundColor: 'var(--bg)', color: 'var(--text)' }}>
                 <div className="flex items-center justify-between mb-4">
-                  <h3 className="text-xl font-semibold truncate">{group.name || 'Unnamed Group'}</h3>
+                  <h3 className="text-xl font-semibold truncate">{group.groupName || 'Unnamed Group'}</h3>
                   <span className="text-2xl">{group.emoji || '🌍'}</span>
                 </div>
                 <div className="space-y-2 mb-4 text-sm">
-                  <div className="flex items-center"><span className="mr-2">👥</span>{group.members?.length || 0} members</div>
+                  <div className="flex items-center"><span className="mr-2">👥</span>{group.memberEmails?.length || 0} members</div>
                   <div className="flex items-center"><span className="mr-2">💰</span>{group.totalExpenses || 0} expenses</div>
                   {group.budget && (
                     <div className="flex items-center"><span className="mr-2">🎯</span>Budget: ₹{group.budget}</div>
