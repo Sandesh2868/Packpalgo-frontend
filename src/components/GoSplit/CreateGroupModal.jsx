@@ -79,6 +79,7 @@ export default function CreateGroupModal({ isOpen, onClose }) {
       setMembers(['']);
       setBudget('');
       setEmoji('🌟');
+      setLoading(false);
       
       // Close modal before showing alert to prevent UI issues
       onClose();
@@ -100,14 +101,15 @@ export default function CreateGroupModal({ isOpen, onClose }) {
 
   return (
     <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
-      <div className="bg-white rounded-xl shadow-2xl w-full max-w-md max-h-[90vh] overflow-y-auto">
+      <div className="bg-white rounded-xl shadow-2xl w-full max-w-md max-h-[90vh] overflow-y-auto" style={{backgroundColor: 'var(--bg)', color: 'var(--text)'}}>
         <div className="p-6">
           {/* Header */}
           <div className="flex justify-between items-center mb-6">
-            <h2 className="text-2xl font-bold text-gray-800">Create New Group</h2>
+            <h2 className="text-2xl font-bold" style={{color: 'black'}}>Create New Group</h2>
             <button
               onClick={onClose}
-              className="text-gray-500 hover:text-gray-700 text-2xl"
+              className="hover:opacity-70 text-2xl"
+              style={{color: 'black'}}
             >
               ×
             </button>
@@ -115,7 +117,7 @@ export default function CreateGroupModal({ isOpen, onClose }) {
 
           {/* Group Name */}
           <div className="mb-4">
-            <label className="block text-sm font-medium text-gray-700 mb-2">
+            <label className="block text-sm font-medium mb-2" style={{color: 'black'}}>
               Group Name *
             </label>
             <input
@@ -124,13 +126,14 @@ export default function CreateGroupModal({ isOpen, onClose }) {
               onChange={(e) => setGroupName(e.target.value)}
               placeholder="e.g., Goa Trip 2024"
               className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
+              style={{color: 'black', backgroundColor: 'white'}}
               maxLength={50}
             />
           </div>
 
           {/* Emoji Selection */}
           <div className="mb-4">
-            <label className="block text-sm font-medium text-gray-700 mb-2">
+            <label className="block text-sm font-medium mb-2" style={{color: 'black'}}>
               Group Icon
             </label>
             <div className="flex flex-wrap gap-2">
@@ -152,28 +155,29 @@ export default function CreateGroupModal({ isOpen, onClose }) {
 
           {/* Budget (Optional) */}
           <div className="mb-4">
-            <label className="block text-sm font-medium text-gray-700 mb-2">
+            <label className="block text-sm font-medium mb-2" style={{color: 'black'}}>
               Budget (Optional)
             </label>
             <div className="relative">
-              <span className="absolute left-3 top-3 text-gray-500">₹</span>
+              <span className="absolute left-3 top-3" style={{color: 'black'}}>₹</span>
               <input
                 type="number"
                 value={budget}
                 onChange={(e) => setBudget(e.target.value)}
                 placeholder="10000"
                 className="w-full pl-8 pr-3 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
+                style={{color: 'black', backgroundColor: 'white'}}
               />
             </div>
-            <p className="text-xs text-gray-500 mt-1">Set a budget cap to track spending</p>
+            <p className="text-xs mt-1" style={{color: 'black'}}>Set a budget cap to track spending</p>
           </div>
 
           {/* Members */}
           <div className="mb-6">
-            <label className="block text-sm font-medium text-gray-700 mb-2">
+            <label className="block text-sm font-medium mb-2" style={{color: 'black'}}>
               Add Members (Optional)
             </label>
-            <p className="text-xs text-gray-500 mb-3">
+            <p className="text-xs mb-3" style={{color: 'black'}}>
               Add member emails or names. You can also invite them later using the invite code.
             </p>
             
@@ -185,6 +189,7 @@ export default function CreateGroupModal({ isOpen, onClose }) {
                   onChange={(e) => handleMemberChange(index, e.target.value)}
                   placeholder="Email or name"
                   className="flex-1 p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
+                  style={{color: 'black', backgroundColor: 'white'}}
                 />
                 {members.length > 1 && (
                   <button
@@ -209,7 +214,8 @@ export default function CreateGroupModal({ isOpen, onClose }) {
           <div className="flex space-x-3">
             <button
               onClick={onClose}
-              className="flex-1 py-3 px-4 border border-gray-300 text-gray-700 rounded-lg hover:bg-gray-50 transition duration-200"
+              className="flex-1 py-3 px-4 border border-gray-300 rounded-lg hover:bg-gray-50 transition duration-200"
+              style={{color: 'black', backgroundColor: 'white'}}
             >
               Cancel
             </button>

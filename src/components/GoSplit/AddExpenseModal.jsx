@@ -181,6 +181,7 @@ export default function AddExpenseModal({ isOpen, onClose, groupId, members }) {
       setSplitType('equal');
       setCustomSplits({});
       setSharesSplits({});
+      setLoading(false);
       
       // Close modal before showing alert to prevent UI issues
       onClose();
@@ -205,14 +206,15 @@ export default function AddExpenseModal({ isOpen, onClose, groupId, members }) {
 
   return (
     <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
-      <div className="bg-white rounded-xl shadow-2xl w-full max-w-2xl max-h-[90vh] overflow-y-auto">
+      <div className="bg-white rounded-xl shadow-2xl w-full max-w-2xl max-h-[90vh] overflow-y-auto" style={{backgroundColor: 'var(--bg)', color: 'var(--text)'}}>
         <div className="p-6">
           {/* Header */}
           <div className="flex justify-between items-center mb-6">
-            <h2 className="text-2xl font-bold text-gray-800">Add New Expense</h2>
+            <h2 className="text-2xl font-bold" style={{color: 'black'}}>Add New Expense</h2>
             <button
               onClick={onClose}
-              className="text-gray-500 hover:text-gray-700 text-2xl"
+              className="hover:opacity-70 text-2xl"
+              style={{color: 'black'}}
             >
               ×
             </button>
@@ -221,7 +223,7 @@ export default function AddExpenseModal({ isOpen, onClose, groupId, members }) {
           {/* Basic Details */}
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
             <div className="md:col-span-2">
-              <label className="block text-sm font-medium text-gray-700 mb-2">
+              <label className="block text-sm font-medium mb-2" style={{color: 'black'}}>
                 Description *
               </label>
               <input
@@ -230,11 +232,12 @@ export default function AddExpenseModal({ isOpen, onClose, groupId, members }) {
                 onChange={(e) => handleInputChange('description', e.target.value)}
                 placeholder="e.g., Dinner at beach restaurant"
                 className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
+                style={{color: 'black', backgroundColor: 'white'}}
               />
             </div>
 
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">
+              <label className="block text-sm font-medium mb-2" style={{color: 'black'}}>
                 Amount (₹) *
               </label>
               <input
@@ -244,17 +247,19 @@ export default function AddExpenseModal({ isOpen, onClose, groupId, members }) {
                 onChange={(e) => handleInputChange('amount', e.target.value)}
                 placeholder="0.00"
                 className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
+                style={{color: 'black', backgroundColor: 'white'}}
               />
             </div>
 
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">
+              <label className="block text-sm font-medium mb-2" style={{color: 'black'}}>
                 Paid by *
               </label>
               <select
                 value={formData.payer}
                 onChange={(e) => handleInputChange('payer', e.target.value)}
                 className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
+                style={{color: 'black', backgroundColor: 'white'}}
               >
                 <option value="">Select payer</option>
                 {members.map((member, index) => (
@@ -264,7 +269,7 @@ export default function AddExpenseModal({ isOpen, onClose, groupId, members }) {
             </div>
 
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">
+              <label className="block text-sm font-medium mb-2" style={{color: 'black'}}>
                 Category
               </label>
               <div className="grid grid-cols-4 gap-2">
@@ -277,6 +282,7 @@ export default function AddExpenseModal({ isOpen, onClose, groupId, members }) {
                         ? 'border-indigo-500 bg-indigo-50'
                         : 'border-gray-200 hover:border-gray-300'
                     }`}
+                    style={{color: 'black'}}
                   >
                     <div className="text-lg mb-1">{category.emoji}</div>
                     <div>{category.value}</div>
@@ -286,7 +292,7 @@ export default function AddExpenseModal({ isOpen, onClose, groupId, members }) {
             </div>
 
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">
+              <label className="block text-sm font-medium mb-2" style={{color: 'black'}}>
                 Date
               </label>
               <input
@@ -294,13 +300,14 @@ export default function AddExpenseModal({ isOpen, onClose, groupId, members }) {
                 value={formData.date}
                 onChange={(e) => handleInputChange('date', e.target.value)}
                 className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
+                style={{color: 'black', backgroundColor: 'white'}}
               />
             </div>
           </div>
 
           {/* Split Options */}
           <div className="mb-6">
-            <label className="block text-sm font-medium text-gray-700 mb-3">
+            <label className="block text-sm font-medium mb-3" style={{color: 'black'}}>
               How to split?
             </label>
             
@@ -318,6 +325,7 @@ export default function AddExpenseModal({ isOpen, onClose, groupId, members }) {
                       ? 'border-indigo-500 bg-indigo-50 text-indigo-700'
                       : 'border-gray-200 hover:border-gray-300'
                   }`}
+                  style={{color: splitType === option.key ? '#4338ca' : 'black'}}
                 >
                   <div className="text-lg mb-1">{option.icon}</div>
                   <div className="text-sm">{option.label}</div>
@@ -327,15 +335,15 @@ export default function AddExpenseModal({ isOpen, onClose, groupId, members }) {
 
             {/* Split Details */}
             {formData.amount && parseFloat(formData.amount) > 0 && (
-              <div className="bg-gray-50 rounded-lg p-4">
-                <h4 className="font-medium text-gray-800 mb-3">Split breakdown:</h4>
+              <div className="bg-gray-50 rounded-lg p-4" style={{backgroundColor: '#f9fafb'}}>
+                <h4 className="font-medium mb-3" style={{color: 'black'}}>Split breakdown:</h4>
                 
                 {splitType === 'equal' && (
                   <div className="space-y-2">
                     {members.map((member) => (
                       <div key={member} className="flex justify-between items-center">
-                        <span className="text-gray-700">{member}</span>
-                        <span className="font-medium">₹{(parseFloat(formData.amount) / members.length).toFixed(2)}</span>
+                        <span style={{color: 'black'}}>{member}</span>
+                        <span className="font-medium" style={{color: 'black'}}>₹{(parseFloat(formData.amount) / members.length).toFixed(2)}</span>
                       </div>
                     ))}
                   </div>
@@ -345,7 +353,7 @@ export default function AddExpenseModal({ isOpen, onClose, groupId, members }) {
                   <div className="space-y-3">
                     {members.map((member) => (
                       <div key={member} className="flex items-center justify-between">
-                        <span className="text-gray-700 flex-1">{member}</span>
+                        <span className="flex-1" style={{color: 'black'}}>{member}</span>
                         <div className="flex items-center space-x-2">
                           <input
                             type="number"
@@ -354,10 +362,11 @@ export default function AddExpenseModal({ isOpen, onClose, groupId, members }) {
                             value={sharesSplits[member] || ''}
                             onChange={(e) => handleSharesSplitChange(member, e.target.value)}
                             className="w-20 p-2 border border-gray-300 rounded text-center"
+                            style={{color: 'black', backgroundColor: 'white'}}
                             placeholder="1"
                           />
-                          <span className="text-gray-500">shares</span>
-                          <span className="font-medium w-20 text-right">
+                          <span style={{color: 'black'}}>shares</span>
+                          <span className="font-medium w-20 text-right" style={{color: 'black'}}>
                             ₹{splits[member] ? splits[member].toFixed(2) : '0.00'}
                           </span>
                         </div>
@@ -370,9 +379,9 @@ export default function AddExpenseModal({ isOpen, onClose, groupId, members }) {
                   <div className="space-y-3">
                     {members.map((member) => (
                       <div key={member} className="flex items-center justify-between">
-                        <span className="text-gray-700 flex-1">{member}</span>
+                        <span className="flex-1" style={{color: 'black'}}>{member}</span>
                         <div className="flex items-center space-x-2">
-                          <span className="text-gray-500">₹</span>
+                          <span style={{color: 'black'}}>₹</span>
                           <input
                             type="number"
                             min="0"
@@ -380,6 +389,7 @@ export default function AddExpenseModal({ isOpen, onClose, groupId, members }) {
                             value={customSplits[member] || ''}
                             onChange={(e) => handleCustomSplitChange(member, e.target.value)}
                             className="w-24 p-2 border border-gray-300 rounded text-right"
+                            style={{color: 'black', backgroundColor: 'white'}}
                             placeholder="0.00"
                           />
                         </div>
@@ -387,8 +397,8 @@ export default function AddExpenseModal({ isOpen, onClose, groupId, members }) {
                     ))}
                     <div className="border-t pt-2 mt-2">
                       <div className="flex justify-between items-center">
-                        <span className="font-medium">Total:</span>
-                        <span className={`font-medium ${splitError ? 'text-red-600' : 'text-green-600'}`}>
+                        <span className="font-medium" style={{color: 'black'}}>Total:</span>
+                        <span className={`font-medium ${splitError ? 'text-red-600' : 'text-green-600'}`} style={{color: splitError ? '#dc2626' : '#059669'}}>
                           ₹{Object.values(splits).reduce((sum, split) => sum + split, 0).toFixed(2)}
                         </span>
                       </div>
@@ -398,7 +408,7 @@ export default function AddExpenseModal({ isOpen, onClose, groupId, members }) {
 
                 {splitError && (
                   <div className="mt-3 p-3 bg-red-50 border border-red-200 rounded-lg">
-                    <p className="text-red-700 text-sm">{splitError}</p>
+                    <p className="text-red-700 text-sm" style={{color: '#dc2626'}}>{splitError}</p>
                   </div>
                 )}
               </div>
@@ -407,7 +417,7 @@ export default function AddExpenseModal({ isOpen, onClose, groupId, members }) {
 
           {/* Notes */}
           <div className="mb-6">
-            <label className="block text-sm font-medium text-gray-700 mb-2">
+            <label className="block text-sm font-medium mb-2" style={{color: 'black'}}>
               Notes (Optional)
             </label>
             <textarea
@@ -416,6 +426,7 @@ export default function AddExpenseModal({ isOpen, onClose, groupId, members }) {
               placeholder="Additional details..."
               rows={3}
               className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
+              style={{color: 'black', backgroundColor: 'white'}}
             />
           </div>
 
@@ -423,7 +434,8 @@ export default function AddExpenseModal({ isOpen, onClose, groupId, members }) {
           <div className="flex space-x-3">
             <button
               onClick={onClose}
-              className="flex-1 py-3 px-4 border border-gray-300 text-gray-700 rounded-lg hover:bg-gray-50 transition duration-200"
+              className="flex-1 py-3 px-4 border border-gray-300 rounded-lg hover:bg-gray-50 transition duration-200"
+              style={{color: 'black', backgroundColor: 'white'}}
             >
               Cancel
             </button>
