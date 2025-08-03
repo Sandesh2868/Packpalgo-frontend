@@ -19,6 +19,14 @@ export default function GroupDetails() {
 
   useEffect(() => {
     if (!groupId) return;
+    
+    // If user is not authenticated, redirect to groups list
+    if (!user) {
+      navigate('/gosplit');
+      return;
+    }
+
+    setLoading(true);
 
     const unsubscribe = onSnapshot(doc(db, 'groups', groupId), (doc) => {
       if (doc.exists()) {
@@ -28,10 +36,14 @@ export default function GroupDetails() {
         navigate('/gosplit');
       }
       setLoading(false);
+    }, (error) => {
+      console.error('Error fetching group:', error);
+      setLoading(false);
+      navigate('/gosplit');
     });
 
     return () => unsubscribe();
-  }, [groupId, navigate]);
+  }, [groupId, navigate, user]);
 
   const handleInviteMember = async () => {
     if (!group || !user) return;

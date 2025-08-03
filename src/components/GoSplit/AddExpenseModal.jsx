@@ -158,15 +158,18 @@ export default function AddExpenseModal({ isOpen, onClose, groupId, members }) {
       };
 
       // Add expense to Firestore
-      await addDoc(collection(db, 'groups', groupId, 'expenses'), expenseData);
+      console.log('Adding expense with data:', expenseData);
+      const expenseRef = await addDoc(collection(db, 'groups', groupId, 'expenses'), expenseData);
+      console.log('Expense added successfully with ID:', expenseRef.id);
 
       // Update group totals
       await updateDoc(doc(db, 'groups', groupId), {
         totalExpenses: increment(1),
         totalAmount: increment(amount)
       });
+      console.log('Group totals updated successfully');
 
-      // Reset form and close modal
+      // Reset form first
       setFormData({
         description: '',
         amount: '',
@@ -178,12 +181,18 @@ export default function AddExpenseModal({ isOpen, onClose, groupId, members }) {
       setSplitType('equal');
       setCustomSplits({});
       setSharesSplits({});
+      
+      // Close modal before showing alert to prevent UI issues
       onClose();
 
-      alert('Expense added successfully! 💰');
+      // Show success message
+      setTimeout(() => {
+        alert('Expense added successfully! 💰');
+      }, 100);
+      
     } catch (error) {
       console.error('Error adding expense:', error);
-      alert('Error adding expense. Please try again.');
+      alert(`Error adding expense: ${error.message}. Please try again.`);
     } finally {
       setLoading(false);
     }
@@ -424,7 +433,10 @@ export default function AddExpenseModal({ isOpen, onClose, groupId, members }) {
               className="flex-1 py-3 px-4 bg-indigo-500 text-white rounded-lg hover:bg-indigo-600 disabled:bg-gray-400 transition duration-200 flex items-center justify-center"
             >
               {loading ? (
-                <div className="animate-spin rounded-full h-5 w-5 border-b-2 border-white"></div>
+                <>
+                  <div className="animate-spin rounded-full h-5 w-5 border-b-2 border-white mr-2"></div>
+                  Adding...
+                </>
               ) : (
                 'Add Expense'
               )}
