@@ -2,51 +2,30 @@
 @tailwind components;
 @tailwind utilities;
 
-/* Base text color override for better visibility */
-* {
-  color: black !important;
-}
-
-/* Input fields should have black text */
-input, textarea, select {
-  color: black !important;
-  background-color: white !important;
-}
-
-/* Button text should be visible */
-button {
-  color: black !important;
-}
-
-/* Allow specific color overrides for branded buttons */
-.btn-primary, .bg-indigo-500, .bg-green-500, .bg-red-500 {
-  color: white !important;
-}
-
 [data-theme='dark'] {
   --bg: #000;
-  --text: #000; /* Changed to black for visibility */
+  --text: #fff;
   --accent: #3b82f6;
   --bg-image: url('/images/dark-bg.jpg');
 }
 
 [data-theme='beach'] {
   --bg: #e0f7fa; /* light ocean blue */
-  --text: #000; /* Changed to black for readability */
+  --text: #000;
   --accent: #5a544a; /* warm yellow-orange like the sun */
   --bg-image: url('/images/light-bg.jpg'); /* replace with a real image path */
 }
 
 [data-theme='sunset'] {
   --bg: #ffedd5;
-  --text: #000; /* Changed to black for readability */
+  --text: #000;
   --accent: #542f14;
   --bg-image: url('/images/sunset-bg.jpg');
 }
 
 [data-theme='jungle'] {
   --bg: #032b1b;
-  --text: #000; /* Changed to black for readability */
+  --text: #fff;
   --accent: #10b981;
   --bg-image: url('/images/jungle-bg.jpg');
 }
