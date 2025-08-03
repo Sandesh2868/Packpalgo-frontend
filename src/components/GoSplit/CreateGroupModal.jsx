@@ -105,11 +105,11 @@ export default function CreateGroupModal({ isOpen, onClose }) {
         <div className="p-6">
           {/* Header */}
           <div className="flex justify-between items-center mb-6">
-            <h2 className="text-2xl font-bold" style={{color: 'black'}}>Create New Group</h2>
+            <h2 className="text-2xl font-bold" style={{color: 'var(--text)'}}>Create New Group</h2>
             <button
               onClick={onClose}
               className="hover:opacity-70 text-2xl"
-              style={{color: 'black'}}
+              style={{color: 'var(--text)'}}
             >
               ×
             </button>
@@ -117,7 +117,7 @@ export default function CreateGroupModal({ isOpen, onClose }) {
 
           {/* Group Name */}
           <div className="mb-4">
-            <label className="block text-sm font-medium mb-2" style={{color: 'black'}}>
+            <label className="block text-sm font-medium mb-2" style={{color: 'var(--text)'}}>
               Group Name *
             </label>
             <input
@@ -133,7 +133,7 @@ export default function CreateGroupModal({ isOpen, onClose }) {
 
           {/* Emoji Selection */}
           <div className="mb-4">
-            <label className="block text-sm font-medium mb-2" style={{color: 'black'}}>
+            <label className="block text-sm font-medium mb-2" style={{color: 'var(--text)'}}>
               Group Icon
             </label>
             <div className="flex flex-wrap gap-2">
@@ -155,11 +155,11 @@ export default function CreateGroupModal({ isOpen, onClose }) {
 
           {/* Budget (Optional) */}
           <div className="mb-4">
-            <label className="block text-sm font-medium mb-2" style={{color: 'black'}}>
+            <label className="block text-sm font-medium mb-2" style={{color: 'var(--text)'}}>
               Budget (Optional)
             </label>
             <div className="relative">
-              <span className="absolute left-3 top-3" style={{color: 'black'}}>₹</span>
+              <span className="absolute left-3 top-3" style={{color: 'gray'}}>₹</span>
               <input
                 type="number"
                 value={budget}
@@ -169,15 +169,15 @@ export default function CreateGroupModal({ isOpen, onClose }) {
                 style={{color: 'black', backgroundColor: 'white'}}
               />
             </div>
-            <p className="text-xs mt-1" style={{color: 'black'}}>Set a budget cap to track spending</p>
+            <p className="text-xs mt-1" style={{color: 'var(--text)'}}>Set a budget cap to track spending</p>
           </div>
 
           {/* Members */}
           <div className="mb-6">
-            <label className="block text-sm font-medium mb-2" style={{color: 'black'}}>
+            <label className="block text-sm font-medium mb-2" style={{color: 'var(--text)'}}>
               Add Members (Optional)
             </label>
-            <p className="text-xs mb-3" style={{color: 'black'}}>
+            <p className="text-xs mb-3" style={{color: 'var(--text)'}}>
               Add member emails or names. You can also invite them later using the invite code.
             </p>
             
@@ -215,7 +215,7 @@ export default function CreateGroupModal({ isOpen, onClose }) {
             <button
               onClick={onClose}
               className="flex-1 py-3 px-4 border border-gray-300 rounded-lg hover:bg-gray-50 transition duration-200"
-              style={{color: 'black', backgroundColor: 'white'}}
+              style={{color: 'var(--text)', backgroundColor: 'var(--bg)'}}
             >
               Cancel
             </button>
