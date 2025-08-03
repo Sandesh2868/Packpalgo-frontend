@@ -117,15 +117,15 @@ The group will appear in your groups list once the data syncs.`;
   if (!isOpen) return null;
 
   return (
-    <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
-      <div className="bg-white rounded-xl shadow-2xl w-full max-w-md max-h-[90vh] overflow-y-auto" style={{backgroundColor: 'var(--bg)', color: 'var(--text)'}}>
-        <div className="p-6">
+    <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-2 sm:p-4">
+      <div className="bg-white rounded-xl shadow-2xl w-full max-w-md max-h-[95vh] sm:max-h-[90vh] overflow-y-auto" style={{backgroundColor: 'var(--bg)', color: 'var(--text)'}}>
+        <div className="p-4 sm:p-6">
           {/* Header */}
-          <div className="flex justify-between items-center mb-6">
-            <h2 className="text-2xl font-bold" style={{color: 'var(--text)'}}>Create New Group</h2>
+          <div className="flex justify-between items-center mb-4 sm:mb-6">
+            <h2 className="text-xl sm:text-2xl font-bold" style={{color: 'var(--text)'}}>Create New Group</h2>
             <button
               onClick={onClose}
-              className="hover:opacity-70 text-2xl"
+              className="hover:opacity-70 text-xl sm:text-2xl p-1"
               style={{color: 'var(--text)'}}
             >
               ×
@@ -142,7 +142,7 @@ The group will appear in your groups list once the data syncs.`;
               value={groupName}
               onChange={(e) => setGroupName(e.target.value)}
               placeholder="e.g., Goa Trip 2024"
-              className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
+              className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-transparent text-base"
               style={{color: 'black', backgroundColor: 'white'}}
               maxLength={50}
             />
@@ -153,12 +153,12 @@ The group will appear in your groups list once the data syncs.`;
             <label className="block text-sm font-medium mb-2" style={{color: 'var(--text)'}}>
               Group Icon
             </label>
-            <div className="flex flex-wrap gap-2">
+            <div className="flex flex-wrap gap-1 sm:gap-2">
               {emojiOptions.map((emojiOption) => (
                 <button
                   key={emojiOption}
                   onClick={() => setEmoji(emojiOption)}
-                  className={`text-2xl p-2 rounded-lg border-2 transition duration-200 ${
+                  className={`text-xl sm:text-2xl p-1 sm:p-2 rounded-lg border-2 transition duration-200 ${
                     emoji === emojiOption
                       ? 'border-indigo-500 bg-indigo-50'
                       : 'border-gray-200 hover:border-gray-300'
@@ -182,7 +182,7 @@ The group will appear in your groups list once the data syncs.`;
                 value={budget}
                 onChange={(e) => setBudget(e.target.value)}
                 placeholder="10000"
-                className="w-full pl-8 pr-3 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
+                className="w-full pl-8 pr-3 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-transparent text-base"
                 style={{color: 'black', backgroundColor: 'white'}}
               />
             </div>
@@ -205,7 +205,7 @@ The group will appear in your groups list once the data syncs.`;
                   value={member}
                   onChange={(e) => handleMemberChange(index, e.target.value)}
                   placeholder="Email or name"
-                  className="flex-1 p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
+                  className="flex-1 p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-transparent text-base"
                   style={{color: 'black', backgroundColor: 'white'}}
                 />
                 {members.length > 1 && (
@@ -228,10 +228,10 @@ The group will appear in your groups list once the data syncs.`;
           </div>
 
           {/* Action Buttons */}
-          <div className="flex space-x-3">
+          <div className="flex flex-col sm:flex-row space-y-3 sm:space-y-0 sm:space-x-3">
             <button
               onClick={onClose}
-              className="flex-1 py-3 px-4 border border-gray-300 rounded-lg hover:bg-gray-50 transition duration-200"
+              className="flex-1 py-3 px-4 border border-gray-300 rounded-lg hover:bg-gray-50 transition duration-200 text-sm sm:text-base"
               style={{color: 'var(--text)', backgroundColor: 'var(--bg)'}}
             >
               Cancel
@@ -239,7 +239,7 @@ The group will appear in your groups list once the data syncs.`;
             <button
               onClick={handleCreateGroup}
               disabled={loading || !groupName.trim()}
-              className="flex-1 py-3 px-4 bg-indigo-500 text-white rounded-lg hover:bg-indigo-600 disabled:bg-gray-400 transition duration-200 flex items-center justify-center"
+              className="flex-1 py-3 px-4 bg-indigo-500 text-white rounded-lg hover:bg-indigo-600 disabled:bg-gray-400 transition duration-200 flex items-center justify-center text-sm sm:text-base"
             >
               {loading ? (
                 <>

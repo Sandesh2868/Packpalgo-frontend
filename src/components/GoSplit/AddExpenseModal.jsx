@@ -205,15 +205,15 @@ export default function AddExpenseModal({ isOpen, onClose, groupId, members }) {
   const splitError = validateSplits();
 
   return (
-    <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
-      <div className="bg-white rounded-xl shadow-2xl w-full max-w-2xl max-h-[90vh] overflow-y-auto" style={{backgroundColor: 'var(--bg)', color: 'var(--text)'}}>
-        <div className="p-6">
+    <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-2 sm:p-4">
+      <div className="bg-white rounded-xl shadow-2xl w-full max-w-2xl max-h-[95vh] sm:max-h-[90vh] overflow-y-auto" style={{backgroundColor: 'var(--bg)', color: 'var(--text)'}}>
+        <div className="p-4 sm:p-6">
           {/* Header */}
-          <div className="flex justify-between items-center mb-6">
-            <h2 className="text-2xl font-bold" style={{color: 'var(--text)'}}>Add New Expense</h2>
+          <div className="flex justify-between items-center mb-4 sm:mb-6">
+            <h2 className="text-xl sm:text-2xl font-bold" style={{color: 'var(--text)'}}>Add New Expense</h2>
             <button
               onClick={onClose}
-              className="hover:opacity-70 text-2xl"
+              className="hover:opacity-70 text-xl sm:text-2xl p-1"
               style={{color: 'var(--text)'}}
             >
               ×
@@ -221,8 +221,8 @@ export default function AddExpenseModal({ isOpen, onClose, groupId, members }) {
           </div>
 
           {/* Basic Details */}
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
-            <div className="md:col-span-2">
+          <div className="grid grid-cols-1 gap-4 mb-4 sm:mb-6">
+            <div>
               <label className="block text-sm font-medium mb-2" style={{color: 'var(--text)'}}>
                 Description *
               </label>
@@ -231,48 +231,50 @@ export default function AddExpenseModal({ isOpen, onClose, groupId, members }) {
                 value={formData.description}
                 onChange={(e) => handleInputChange('description', e.target.value)}
                 placeholder="e.g., Dinner at beach restaurant"
-                className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
+                className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-transparent text-base"
                 style={{color: 'black', backgroundColor: 'white'}}
               />
             </div>
 
-            <div>
-              <label className="block text-sm font-medium mb-2" style={{color: 'var(--text)'}}>
-                Amount (₹) *
-              </label>
-              <input
-                type="number"
-                step="0.01"
-                value={formData.amount}
-                onChange={(e) => handleInputChange('amount', e.target.value)}
-                placeholder="0.00"
-                className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
-                style={{color: 'black', backgroundColor: 'white'}}
-              />
-            </div>
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+              <div>
+                <label className="block text-sm font-medium mb-2" style={{color: 'var(--text)'}}>
+                  Amount (₹) *
+                </label>
+                <input
+                  type="number"
+                  step="0.01"
+                  value={formData.amount}
+                  onChange={(e) => handleInputChange('amount', e.target.value)}
+                  placeholder="0.00"
+                  className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-transparent text-base"
+                  style={{color: 'black', backgroundColor: 'white'}}
+                />
+              </div>
 
-            <div>
-              <label className="block text-sm font-medium mb-2" style={{color: 'var(--text)'}}>
-                Paid by *
-              </label>
-              <select
-                value={formData.payer}
-                onChange={(e) => handleInputChange('payer', e.target.value)}
-                className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
-                style={{color: 'black', backgroundColor: 'white'}}
-              >
-                <option value="">Select payer</option>
-                {members.map((member, index) => (
-                  <option key={index} value={member}>{member}</option>
-                ))}
-              </select>
+              <div>
+                <label className="block text-sm font-medium mb-2" style={{color: 'var(--text)'}}>
+                  Paid by *
+                </label>
+                <select
+                  value={formData.payer}
+                  onChange={(e) => handleInputChange('payer', e.target.value)}
+                  className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-transparent text-base"
+                  style={{color: 'black', backgroundColor: 'white'}}
+                >
+                  <option value="">Select payer</option>
+                  {members.map((member, index) => (
+                    <option key={index} value={member}>{member}</option>
+                  ))}
+                </select>
+              </div>
             </div>
 
             <div>
               <label className="block text-sm font-medium mb-2" style={{color: 'var(--text)'}}>
                 Category
               </label>
-              <div className="grid grid-cols-4 gap-2">
+              <div className="grid grid-cols-2 sm:grid-cols-4 gap-2">
                 {categories.map((category) => (
                   <button
                     key={category.value}
@@ -284,8 +286,8 @@ export default function AddExpenseModal({ isOpen, onClose, groupId, members }) {
                     }`}
                     style={{color: 'black'}}
                   >
-                    <div className="text-lg mb-1">{category.emoji}</div>
-                    <div>{category.value}</div>
+                    <div className="text-base sm:text-lg mb-1">{category.emoji}</div>
+                    <div className="text-xs sm:text-sm">{category.value}</div>
                   </button>
                 ))}
               </div>
@@ -299,19 +301,19 @@ export default function AddExpenseModal({ isOpen, onClose, groupId, members }) {
                 type="date"
                 value={formData.date}
                 onChange={(e) => handleInputChange('date', e.target.value)}
-                className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
+                className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-transparent text-base"
                 style={{color: 'black', backgroundColor: 'white'}}
               />
             </div>
           </div>
 
           {/* Split Options */}
-          <div className="mb-6">
+          <div className="mb-4 sm:mb-6">
             <label className="block text-sm font-medium mb-3" style={{color: 'var(--text)'}}>
               How to split?
             </label>
             
-            <div className="flex space-x-3 mb-4">
+            <div className="flex flex-col sm:flex-row space-y-2 sm:space-y-0 sm:space-x-3 mb-4">
               {[
                 { key: 'equal', label: 'Split Equally', icon: '⚖️' },
                 { key: 'shares', label: 'By Shares', icon: '📊' },
@@ -327,8 +329,8 @@ export default function AddExpenseModal({ isOpen, onClose, groupId, members }) {
                   }`}
                   style={{color: splitType === option.key ? '#4338ca' : 'black'}}
                 >
-                  <div className="text-lg mb-1">{option.icon}</div>
-                  <div className="text-sm">{option.label}</div>
+                  <div className="text-base sm:text-lg mb-1">{option.icon}</div>
+                  <div className="text-xs sm:text-sm">{option.label}</div>
                 </button>
               ))}
             </div>
@@ -431,10 +433,10 @@ export default function AddExpenseModal({ isOpen, onClose, groupId, members }) {
           </div>
 
           {/* Action Buttons */}
-          <div className="flex space-x-3">
+          <div className="flex flex-col sm:flex-row space-y-3 sm:space-y-0 sm:space-x-3">
             <button
               onClick={onClose}
-              className="flex-1 py-3 px-4 border border-gray-300 rounded-lg hover:bg-gray-50 transition duration-200"
+              className="flex-1 py-3 px-4 border border-gray-300 rounded-lg hover:bg-gray-50 transition duration-200 text-sm sm:text-base"
               style={{color: 'black', backgroundColor: 'white'}}
             >
               Cancel
@@ -442,7 +444,7 @@ export default function AddExpenseModal({ isOpen, onClose, groupId, members }) {
             <button
               onClick={handleAddExpense}
               disabled={loading || splitError || !formData.description.trim() || !formData.amount || !formData.payer}
-              className="flex-1 py-3 px-4 bg-indigo-500 text-white rounded-lg hover:bg-indigo-600 disabled:bg-gray-400 transition duration-200 flex items-center justify-center"
+              className="flex-1 py-3 px-4 bg-indigo-500 text-white rounded-lg hover:bg-indigo-600 disabled:bg-gray-400 transition duration-200 flex items-center justify-center text-sm sm:text-base"
             >
               {loading ? (
                 <>

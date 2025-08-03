@@ -122,64 +122,64 @@ export default function GroupDetails() {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100 p-4">
+    <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100 p-2 sm:p-4">
       <div className="max-w-6xl mx-auto">
         {/* Header */}
-        <div className="bg-white rounded-xl shadow-lg p-6 mb-6">
-          <div className="flex items-center justify-between mb-4">
-            <div className="flex items-center space-x-4">
+        <div className="bg-white rounded-xl shadow-lg p-4 sm:p-6 mb-4 sm:mb-6">
+          <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between mb-4 space-y-4 sm:space-y-0">
+            <div className="flex items-center space-x-3 sm:space-x-4">
               <button
                 onClick={() => navigate('/gosplit')}
-                className="text-gray-500 hover:text-gray-700 text-2xl"
+                className="text-gray-500 hover:text-gray-700 text-xl sm:text-2xl"
               >
                 ←
               </button>
-              <div className="flex items-center space-x-3">
-                <span className="text-3xl">{group.emoji}</span>
+              <div className="flex items-center space-x-2 sm:space-x-3">
+                <span className="text-2xl sm:text-3xl">{group.emoji}</span>
                 <div>
-                  <h1 className="text-2xl font-bold text-gray-800">{group.name}</h1>
-                  <p className="text-gray-600">{group.members.length} members</p>
+                  <h1 className="text-lg sm:text-2xl font-bold text-gray-800">{group.name}</h1>
+                  <p className="text-sm sm:text-base text-gray-600">{group.members.length} members</p>
                 </div>
               </div>
             </div>
             
-            <div className="flex space-x-3">
+            <div className="flex flex-wrap gap-2 sm:gap-3">
               <button
                 onClick={copyInviteCode}
-                className="bg-gray-100 hover:bg-gray-200 text-gray-700 px-4 py-2 rounded-lg transition duration-200 flex items-center space-x-2"
+                className="bg-gray-100 hover:bg-gray-200 text-gray-700 px-3 py-2 rounded-lg transition duration-200 flex items-center space-x-1 sm:space-x-2 text-sm"
               >
                 <span>📋</span>
-                <span>Copy Code</span>
+                <span className="hidden sm:inline">Copy Code</span>
               </button>
               <button
                 onClick={handleInviteMember}
-                className="bg-green-500 hover:bg-green-600 text-white px-4 py-2 rounded-lg transition duration-200 flex items-center space-x-2"
+                className="bg-green-500 hover:bg-green-600 text-white px-3 py-2 rounded-lg transition duration-200 flex items-center space-x-1 sm:space-x-2 text-sm"
               >
                 <span>➕</span>
-                <span>Invite</span>
+                <span className="hidden sm:inline">Invite</span>
               </button>
               <button
                 onClick={() => setShowAddExpense(true)}
-                className="bg-indigo-500 hover:bg-indigo-600 text-white px-4 py-2 rounded-lg transition duration-200 flex items-center space-x-2"
+                className="bg-indigo-500 hover:bg-indigo-600 text-white px-3 py-2 rounded-lg transition duration-200 flex items-center space-x-1 sm:space-x-2 text-sm"
               >
                 <span>💰</span>
-                <span>Add Expense</span>
+                <span className="hidden sm:inline">Add Expense</span>
               </button>
             </div>
           </div>
 
           {/* Budget Progress (if budget is set) */}
           {group.budget && (
-            <div className="bg-gray-50 rounded-lg p-4">
+            <div className="bg-gray-50 rounded-lg p-3 sm:p-4">
               <div className="flex justify-between items-center mb-2">
-                <span className="text-sm font-medium text-gray-700">Budget Usage</span>
-                <span className="text-sm text-gray-600">
+                <span className="text-xs sm:text-sm font-medium text-gray-700">Budget Usage</span>
+                <span className="text-xs sm:text-sm text-gray-600">
                   ₹{group.totalAmount || 0} / ₹{group.budget}
                 </span>
               </div>
-              <div className="w-full bg-gray-200 rounded-full h-3">
+              <div className="w-full bg-gray-200 rounded-full h-2 sm:h-3">
                 <div
-                  className={`h-3 rounded-full transition-all duration-300 ${
+                  className={`h-2 sm:h-3 rounded-full transition-all duration-300 ${
                     ((group.totalAmount || 0) / group.budget) > 0.9
                       ? 'bg-red-500'
                       : ((group.totalAmount || 0) / group.budget) > 0.7
@@ -197,7 +197,7 @@ export default function GroupDetails() {
         </div>
 
         {/* Tabs */}
-        <div className="bg-white rounded-xl shadow-lg mb-6">
+        <div className="bg-white rounded-xl shadow-lg mb-4 sm:mb-6">
           <div className="flex border-b">
             {[
               { key: 'expenses', label: 'Expenses', icon: '💰' },
@@ -207,19 +207,20 @@ export default function GroupDetails() {
               <button
                 key={tab.key}
                 onClick={() => setActiveTab(tab.key)}
-                className={`flex-1 py-4 px-6 text-center transition duration-200 ${
+                className={`flex-1 py-3 sm:py-4 px-3 sm:px-6 text-center transition duration-200 text-sm sm:text-base ${
                   activeTab === tab.key
                     ? 'bg-indigo-50 text-indigo-600 border-b-2 border-indigo-500'
                     : 'text-gray-600 hover:text-gray-800 hover:bg-gray-50'
                 }`}
               >
-                <span className="mr-2">{tab.icon}</span>
-                {tab.label}
+                <span className="mr-1 sm:mr-2">{tab.icon}</span>
+                <span className="hidden sm:inline">{tab.label}</span>
+                <span className="sm:hidden">{tab.label.split(' ')[0]}</span>
               </button>
             ))}
           </div>
 
-          <div className="p-6">
+          <div className="p-4 sm:p-6">
             {activeTab === 'expenses' && <ExpenseList groupId={groupId} />}
             {activeTab === 'balances' && <BalanceSummary groupId={groupId} group={group} />}
             {activeTab === 'info' && <GroupInfo group={group} />}
