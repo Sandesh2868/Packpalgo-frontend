@@ -70,20 +70,27 @@ export default function CreateGroupModal({ isOpen, onClose }) {
         totalAmount: 0
       };
 
+      console.log('Creating group with data:', groupData);
       const docRef = await addDoc(collection(db, 'groups'), groupData);
+      console.log('Group created successfully with ID:', docRef.id);
       
-      // Show success message with invite code
-      alert(`Group "${groupName}" created successfully!\n\nInvite Code: ${inviteCode}\n\nShare this code with others to let them join your group.`);
-      
-      // Reset form and close modal
+      // Reset form first
       setGroupName('');
       setMembers(['']);
       setBudget('');
       setEmoji('🌟');
+      
+      // Close modal before showing alert to prevent UI issues
       onClose();
+      
+      // Show success message with invite code
+      setTimeout(() => {
+        alert(`Group "${groupName}" created successfully!\n\nInvite Code: ${inviteCode}\n\nShare this code with others to let them join your group.`);
+      }, 100);
+      
     } catch (error) {
       console.error('Error creating group:', error);
-      alert('Error creating group. Please try again.');
+      alert(`Error creating group: ${error.message}. Please try again.`);
     } finally {
       setLoading(false);
     }
@@ -212,7 +219,10 @@ export default function CreateGroupModal({ isOpen, onClose }) {
               className="flex-1 py-3 px-4 bg-indigo-500 text-white rounded-lg hover:bg-indigo-600 disabled:bg-gray-400 transition duration-200 flex items-center justify-center"
             >
               {loading ? (
-                <div className="animate-spin rounded-full h-5 w-5 border-b-2 border-white"></div>
+                <>
+                  <div className="animate-spin rounded-full h-5 w-5 border-b-2 border-white mr-2"></div>
+                  Creating...
+                </>
               ) : (
                 'Create Group'
               )}

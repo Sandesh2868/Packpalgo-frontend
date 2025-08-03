@@ -15,7 +15,14 @@ export default function GroupList() {
   const navigate = useNavigate();
 
   useEffect(() => {
-    if (!user) return;
+    if (!user) {
+      // Clear groups when user signs out
+      setGroups([]);
+      setLoading(false);
+      return;
+    }
+
+    setLoading(true);
 
     // Listen to groups where user is a member
     const q = query(
@@ -30,6 +37,10 @@ export default function GroupList() {
       }));
       setGroups(groupsData);
       setLoading(false);
+    }, (error) => {
+      console.error('Error fetching groups:', error);
+      setGroups([]);
+      setLoading(false);
     });
 
     return () => unsubscribe();
@@ -41,10 +52,23 @@ export default function GroupList() {
 
   if (!user) {
     return (
-      <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100 flex items-center justify-center">
-        <div className="bg-white p-8 rounded-xl shadow-lg text-center">
-          <h2 className="text-2xl font-bold text-gray-800 mb-4">Please Sign In</h2>
-          <p className="text-gray-600">You need to sign in to access GoSplit</p>
+      <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100 flex items-center justify-center p-4">
+        <div className="bg-white rounded-xl shadow-2xl p-8 w-full max-w-md text-center">
+          <div className="text-6xl mb-6">🤝</div>
+          <h1 className="text-3xl font-bold text-gray-800 mb-4">Welcome to GoSplit</h1>
+          <p className="text-gray-600 mb-6">
+            Split travel expenses with your friends and family. Sign in to get started.
+          </p>
+          <div className="bg-blue-50 p-4 rounded-lg mb-6">
+            <p className="text-sm text-blue-800">
+              <strong>📱 Your Data is Safe:</strong><br/>
+              All your groups and expenses are stored securely in the cloud. 
+              When you sign in, you'll see all your data exactly as you left it.
+            </p>
+          </div>
+          <p className="text-sm text-gray-500">
+            Please sign in using the button in the top right corner of the page.
+          </p>
         </div>
       </div>
     );
@@ -54,23 +78,6 @@ export default function GroupList() {
     return (
       <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100 flex items-center justify-center">
         <div className="animate-spin rounded-full h-32 w-32 border-b-2 border-indigo-500"></div>
-      </div>
-    );
-  }
-
-  if (!user) {
-    return (
-      <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100 flex items-center justify-center p-4">
-        <div className="bg-white rounded-xl shadow-2xl p-8 w-full max-w-md text-center">
-          <div className="text-6xl mb-6">🤝</div>
-          <h1 className="text-3xl font-bold text-gray-800 mb-4">Welcome to GoSplit</h1>
-          <p className="text-gray-600 mb-8">
-            Split travel expenses with your friends and family. Sign in to get started.
-          </p>
-          <p className="text-sm text-gray-500">
-            Please sign in using the button in the top right corner of the page.
-          </p>
-        </div>
       </div>
     );
   }
