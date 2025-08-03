@@ -210,11 +210,11 @@ export default function AddExpenseModal({ isOpen, onClose, groupId, members }) {
         <div className="p-6">
           {/* Header */}
           <div className="flex justify-between items-center mb-6">
-            <h2 className="text-2xl font-bold" style={{color: 'black'}}>Add New Expense</h2>
+            <h2 className="text-2xl font-bold" style={{color: 'var(--text)'}}>Add New Expense</h2>
             <button
               onClick={onClose}
               className="hover:opacity-70 text-2xl"
-              style={{color: 'black'}}
+              style={{color: 'var(--text)'}}
             >
               ×
             </button>
@@ -223,7 +223,7 @@ export default function AddExpenseModal({ isOpen, onClose, groupId, members }) {
           {/* Basic Details */}
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
             <div className="md:col-span-2">
-              <label className="block text-sm font-medium mb-2" style={{color: 'black'}}>
+              <label className="block text-sm font-medium mb-2" style={{color: 'var(--text)'}}>
                 Description *
               </label>
               <input
@@ -237,7 +237,7 @@ export default function AddExpenseModal({ isOpen, onClose, groupId, members }) {
             </div>
 
             <div>
-              <label className="block text-sm font-medium mb-2" style={{color: 'black'}}>
+              <label className="block text-sm font-medium mb-2" style={{color: 'var(--text)'}}>
                 Amount (₹) *
               </label>
               <input
@@ -252,7 +252,7 @@ export default function AddExpenseModal({ isOpen, onClose, groupId, members }) {
             </div>
 
             <div>
-              <label className="block text-sm font-medium mb-2" style={{color: 'black'}}>
+              <label className="block text-sm font-medium mb-2" style={{color: 'var(--text)'}}>
                 Paid by *
               </label>
               <select
@@ -269,7 +269,7 @@ export default function AddExpenseModal({ isOpen, onClose, groupId, members }) {
             </div>
 
             <div>
-              <label className="block text-sm font-medium mb-2" style={{color: 'black'}}>
+              <label className="block text-sm font-medium mb-2" style={{color: 'var(--text)'}}>
                 Category
               </label>
               <div className="grid grid-cols-4 gap-2">
@@ -292,7 +292,7 @@ export default function AddExpenseModal({ isOpen, onClose, groupId, members }) {
             </div>
 
             <div>
-              <label className="block text-sm font-medium mb-2" style={{color: 'black'}}>
+              <label className="block text-sm font-medium mb-2" style={{color: 'var(--text)'}}>
                 Date
               </label>
               <input
@@ -307,7 +307,7 @@ export default function AddExpenseModal({ isOpen, onClose, groupId, members }) {
 
           {/* Split Options */}
           <div className="mb-6">
-            <label className="block text-sm font-medium mb-3" style={{color: 'black'}}>
+            <label className="block text-sm font-medium mb-3" style={{color: 'var(--text)'}}>
               How to split?
             </label>
             
@@ -336,14 +336,14 @@ export default function AddExpenseModal({ isOpen, onClose, groupId, members }) {
             {/* Split Details */}
             {formData.amount && parseFloat(formData.amount) > 0 && (
               <div className="bg-gray-50 rounded-lg p-4" style={{backgroundColor: '#f9fafb'}}>
-                <h4 className="font-medium mb-3" style={{color: 'black'}}>Split breakdown:</h4>
+                <h4 className="font-medium mb-3" style={{color: 'var(--text)'}}>Split breakdown:</h4>
                 
                 {splitType === 'equal' && (
                   <div className="space-y-2">
                     {members.map((member) => (
                       <div key={member} className="flex justify-between items-center">
-                        <span style={{color: 'black'}}>{member}</span>
-                        <span className="font-medium" style={{color: 'black'}}>₹{(parseFloat(formData.amount) / members.length).toFixed(2)}</span>
+                                            <span style={{color: 'var(--text)'}}>{member}</span>
+                    <span className="font-medium" style={{color: 'var(--text)'}}>₹{(parseFloat(formData.amount) / members.length).toFixed(2)}</span>
                       </div>
                     ))}
                   </div>
