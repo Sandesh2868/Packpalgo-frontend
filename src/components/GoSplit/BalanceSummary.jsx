@@ -6,6 +6,54 @@ export default function BalanceSummary({ groupId, group }) {
   const [expenses, setExpenses] = useState([]);
   const [loading, setLoading] = useState(true);
 
+  // Payment handling function
+  const handlePayment = (paymentMethod, settlement) => {
+    const { from, to, amount } = settlement;
+    const formattedAmount = formatCurrency(amount);
+    
+    // Generate UPI payment link
+    const generateUPILink = (amount) => {
+      // This is a sample UPI link format
+      // In a real app, you would integrate with actual payment gateways
+      const upiId = 'sample@upi'; // This should be the actual UPI ID
+      return `upi://pay?pa=${upiId}&pn=${from}&am=${amount}&tn=GoSplit Settlement`;
+    };
+
+    const paymentLinks = {
+      'UPI': generateUPILink(amount),
+      'Paytm': `https://paytm.com/pay?amount=${amount}&to=${to}`,
+      'GPay': `https://pay.google.com/pay?amount=${amount}&to=${to}`
+    };
+
+    const link = paymentLinks[paymentMethod];
+    
+    if (link) {
+      // Show payment details modal
+      const paymentDetails = `
+Payment Details:
+From: ${from}
+To: ${to}
+Amount: ${formattedAmount}
+Method: ${paymentMethod}
+
+${paymentMethod === 'UPI' ? 
+  `UPI ID: sample@upi\nUPI Link: ${link}` : 
+  `Payment Link: ${link}`
+}
+
+Note: This is a demo. In a real app, this would integrate with actual payment gateways.
+      `;
+      
+      alert(paymentDetails);
+      
+      // In a real implementation, you would:
+      // 1. Open the payment app/website
+      // 2. Track payment status
+      // 3. Update the settlement status in the database
+      // 4. Send notifications to both parties
+    }
+  };
+
   useEffect(() => {
     if (!groupId) return;
 
@@ -176,13 +224,22 @@ export default function BalanceSummary({ groupId, group }) {
                       {formatCurrency(settlement.amount)}
                     </div>
                     <div className="flex space-x-2 mt-2">
-                      <button className="px-3 py-1 bg-green-100 text-green-700 rounded text-sm hover:bg-green-200 transition duration-200">
+                      <button 
+                        onClick={() => handlePayment('UPI', settlement)}
+                        className="px-3 py-1 bg-green-100 text-green-700 rounded text-sm hover:bg-green-200 transition duration-200"
+                      >
                         UPI
                       </button>
-                      <button className="px-3 py-1 bg-blue-100 text-blue-700 rounded text-sm hover:bg-blue-200 transition duration-200">
+                      <button 
+                        onClick={() => handlePayment('Paytm', settlement)}
+                        className="px-3 py-1 bg-blue-100 text-blue-700 rounded text-sm hover:bg-blue-200 transition duration-200"
+                      >
                         Paytm
                       </button>
-                      <button className="px-3 py-1 bg-purple-100 text-purple-700 rounded text-sm hover:bg-purple-200 transition duration-200">
+                      <button 
+                        onClick={() => handlePayment('GPay', settlement)}
+                        className="px-3 py-1 bg-purple-100 text-purple-700 rounded text-sm hover:bg-purple-200 transition duration-200"
+                      >
                         GPay
                       </button>
                     </div>

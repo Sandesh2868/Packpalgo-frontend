@@ -57,6 +57,11 @@ export default function JoinGroupModal({ isOpen, onClose }) {
       // Reset form and close modal
       setInviteCode('');
       onClose();
+      
+      // Trigger a page refresh to show the new group
+      setTimeout(() => {
+        window.location.reload();
+      }, 1000);
     } catch (error) {
       console.error('Error joining group:', error);
       alert('Error joining group. Please try again.');
