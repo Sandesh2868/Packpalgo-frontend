@@ -86,10 +86,10 @@ export default function GroupDetails() {
 
   if (!group) {
     return (
-      <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100 flex items-center justify-center">
+      <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100 flex items-center justify-center gosplit-container">
         <div className="bg-white p-8 rounded-xl shadow-lg text-center">
-          <h2 className="text-2xl font-bold text-gray-800 mb-4">Group Not Found</h2>
-          <p className="text-gray-600 mb-4">The group you're looking for doesn't exist.</p>
+          <h2 className="text-2xl font-bold mb-4">Group Not Found</h2>
+          <p className="mb-4">The group you're looking for doesn't exist.</p>
           <button
             onClick={() => navigate('/gosplit')}
             className="bg-indigo-500 hover:bg-indigo-600 text-white px-6 py-2 rounded-lg"
@@ -106,10 +106,10 @@ export default function GroupDetails() {
   
   if (!isMember) {
     return (
-      <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100 flex items-center justify-center">
+      <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100 flex items-center justify-center gosplit-container">
         <div className="bg-white p-8 rounded-xl shadow-lg text-center">
-          <h2 className="text-2xl font-bold text-gray-800 mb-4">Access Denied</h2>
-          <p className="text-gray-600 mb-4">You are not a member of this group.</p>
+          <h2 className="text-2xl font-bold mb-4">Access Denied</h2>
+          <p className="mb-4">You are not a member of this group.</p>
           <button
             onClick={() => navigate('/gosplit')}
             className="bg-indigo-500 hover:bg-indigo-600 text-white px-6 py-2 rounded-lg"
@@ -122,7 +122,7 @@ export default function GroupDetails() {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100 p-4">
+    <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100 p-4 gosplit-container">
       <div className="max-w-6xl mx-auto">
         {/* Header */}
         <div className="bg-white rounded-xl shadow-lg p-6 mb-6">

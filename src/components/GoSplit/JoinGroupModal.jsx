@@ -69,15 +69,15 @@ export default function JoinGroupModal({ isOpen, onClose }) {
 
   return (
     <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
-      <div className="bg-white rounded-xl shadow-2xl w-full max-w-md" style={{backgroundColor: 'var(--bg)', color: 'var(--text)'}}>
+      <div className="bg-white rounded-xl shadow-2xl w-full max-w-md gosplit-container" style={{backgroundColor: 'var(--bg)'}}>
         <div className="p-6">
           {/* Header */}
           <div className="flex justify-between items-center mb-6">
-            <h2 className="text-2xl font-bold" style={{color: 'black'}}>Join Group</h2>
+            <h2 className="text-2xl font-bold">Join Group</h2>
             <button
               onClick={onClose}
               className="hover:opacity-70 text-2xl"
-              style={{color: 'black'}}
+             
             >
               ×
             </button>
@@ -86,14 +86,14 @@ export default function JoinGroupModal({ isOpen, onClose }) {
           {/* Illustration */}
           <div className="text-center mb-6">
             <div className="text-6xl mb-4">📨</div>
-            <p style={{color: 'black'}}>
+            <p>
               Enter the invite code shared by your group organizer to join their travel group.
             </p>
           </div>
 
           {/* Invite Code Input */}
           <div className="mb-6">
-            <label className="block text-sm font-medium mb-2" style={{color: 'black'}}>
+            <label className="block text-sm font-medium mb-2">
               Invite Code
             </label>
             <input
@@ -103,9 +103,9 @@ export default function JoinGroupModal({ isOpen, onClose }) {
               placeholder="Enter 6-character code"
               className="w-full p-4 text-center text-xl font-mono border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-transparent tracking-widest"
               maxLength={6}
-              style={{ letterSpacing: '0.3em', color: 'black', backgroundColor: 'white' }}
+              style={{ letterSpacing: '0.3em' }}
             />
-            <p className="text-xs mt-2 text-center" style={{color: 'black'}}>
+            <p className="text-xs mt-2 text-center">
               Code format: ABC123 (6 characters)
             </p>
           </div>
@@ -115,7 +115,7 @@ export default function JoinGroupModal({ isOpen, onClose }) {
             <button
               onClick={onClose}
               className="flex-1 py-3 px-4 border border-gray-300 rounded-lg hover:bg-gray-50 transition duration-200"
-              style={{color: 'black', backgroundColor: 'white'}}
+             
             >
               Cancel
             </button>
@@ -134,7 +134,7 @@ export default function JoinGroupModal({ isOpen, onClose }) {
 
           {/* Help Text */}
           <div className="mt-4 p-4 bg-blue-50 rounded-lg">
-            <p className="text-sm" style={{color: 'black'}}>
+            <p className="text-sm">
               <strong>Don't have an invite code?</strong><br/>
               Ask the group creator to share their 6-character invite code with you, 
               or create your own group instead.

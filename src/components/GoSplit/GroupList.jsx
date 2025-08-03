@@ -52,21 +52,21 @@ export default function GroupList() {
 
   if (!user) {
     return (
-      <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100 flex items-center justify-center p-4">
-        <div className="bg-white rounded-xl shadow-2xl p-8 w-full max-w-md text-center" style={{backgroundColor: 'var(--bg)', color: 'var(--text)'}}>
+      <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100 flex items-center justify-center p-4 gosplit-container">
+        <div className="bg-white rounded-xl shadow-2xl p-8 w-full max-w-md text-center" style={{backgroundColor: 'var(--bg)'}}>
           <div className="text-6xl mb-6">🤝</div>
-          <h1 className="text-3xl font-bold mb-4" style={{color: 'black'}}>Welcome to GoSplit</h1>
-          <p className="mb-6" style={{color: 'black'}}>
+          <h1 className="text-3xl font-bold mb-4">Welcome to GoSplit</h1>
+          <p className="mb-6">
             Split travel expenses with your friends and family. Sign in to get started.
           </p>
           <div className="bg-blue-50 p-4 rounded-lg mb-6">
-            <p className="text-sm" style={{color: 'black'}}>
+            <p className="text-sm">
               <strong>📱 Your Data is Safe:</strong><br/>
               All your groups and expenses are stored securely in the cloud. 
               When you sign in, you'll see all your data exactly as you left it.
             </p>
           </div>
-          <p className="text-sm" style={{color: 'black'}}>
+          <p className="text-sm">
             Please sign in using the button in the top right corner of the page.
           </p>
         </div>
@@ -83,14 +83,14 @@ export default function GroupList() {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100 p-4">
+    <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100 p-4 gosplit-container">
       <div className="max-w-4xl mx-auto">
         {/* Header */}
-        <div className="bg-white rounded-xl shadow-lg p-6 mb-6" style={{backgroundColor: 'var(--bg)', color: 'var(--text)'}}>
+        <div className="bg-white rounded-xl shadow-lg p-6 mb-6" style={{backgroundColor: 'var(--bg)'}}>
             <div className="flex justify-between items-center mb-4">
               <div>
-                <h1 className="text-3xl font-bold" style={{color: 'black'}}>GoSplit</h1>
-                <p style={{color: 'black'}}>Split expenses with your travel groups</p>
+                <h1 className="text-3xl font-bold">GoSplit</h1>
+                <p>Split expenses with your travel groups</p>
               </div>
               <div className="flex space-x-3">
                 <button
@@ -113,10 +113,10 @@ export default function GroupList() {
 
         {/* Groups Grid */}
         {groups.length === 0 ? (
-          <div className="bg-white rounded-xl shadow-lg p-8 text-center" style={{backgroundColor: 'var(--bg)', color: 'var(--text)'}}>
+          <div className="bg-white rounded-xl shadow-lg p-8 text-center" style={{backgroundColor: 'var(--bg)'}}>
             <div className="text-6xl mb-4">🏖️</div>
-            <h3 className="text-xl font-semibold mb-2" style={{color: 'black'}}>No Groups Yet</h3>
-            <p className="mb-6" style={{color: 'black'}}>Create your first travel group or join an existing one to start splitting expenses!</p>
+            <h3 className="text-xl font-semibold mb-2">No Groups Yet</h3>
+            <p className="mb-6">Create your first travel group or join an existing one to start splitting expenses!</p>
             <div className="flex justify-center space-x-4">
               <button
                 onClick={() => setShowCreateModal(true)}
@@ -139,24 +139,24 @@ export default function GroupList() {
                 key={group.id}
                 onClick={() => handleGroupClick(group.id)}
                 className="bg-white rounded-xl shadow-lg p-6 cursor-pointer hover:shadow-xl transition duration-200 transform hover:-translate-y-1"
-                style={{backgroundColor: 'var(--bg)', color: 'var(--text)'}}
+                style={{backgroundColor: 'var(--bg)'}}
               >
                 <div className="flex items-center justify-between mb-4">
-                  <h3 className="text-xl font-semibold truncate" style={{color: 'black'}}>{group.name}</h3>
+                  <h3 className="text-xl font-semibold truncate">{group.name}</h3>
                   <span className="text-2xl">{group.emoji || '🌟'}</span>
                 </div>
                 
                 <div className="space-y-2 mb-4">
-                  <div className="flex items-center text-sm" style={{color: 'black'}}>
+                  <div className="flex items-center text-sm">
                     <span className="mr-2">👥</span>
                     <span>{group.members?.length || 0} members</span>
                   </div>
-                  <div className="flex items-center text-sm" style={{color: 'black'}}>
+                  <div className="flex items-center text-sm">
                     <span className="mr-2">💰</span>
                     <span>{group.totalExpenses || 0} expenses</span>
                   </div>
                   {group.budget && (
-                    <div className="flex items-center text-sm" style={{color: 'black'}}>
+                    <div className="flex items-center text-sm">
                       <span className="mr-2">🎯</span>
                       <span>Budget: ₹{group.budget}</span>
                     </div>
@@ -164,7 +164,7 @@ export default function GroupList() {
                 </div>
 
                 <div className="flex items-center justify-between">
-                  <div className="text-xs" style={{color: 'black'}}>
+                  <div className="text-xs">
                     Created {group.createdAt?.toDate?.()?.toLocaleDateString() || 'Recently'}
                   </div>
                   <div className="text-indigo-500 font-medium">View Details →</div>
