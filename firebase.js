@@ -7,12 +7,13 @@ import { getStorage } from 'firebase/storage';
 // Firebase configuration object
 // Note: Replace with your actual Firebase config when deploying
 const firebaseConfig = {
-  apiKey: "demo-api-key",
-  authDomain: "packpalgo-demo.firebaseapp.com",
-  projectId: "packpalgo-demo",
-  storageBucket: "packpalgo-demo.appspot.com",
-  messagingSenderId: "123456789",
-  appId: "1:123456789:web:demo123456789"
+  apiKey: "AIzaSyDY0qB0-QYVvLkCpJM3wvMmXZPmiaDrwhI",
+  authDomain: "packpalgo-d522b.firebaseapp.com",
+  projectId: "packpalgo-d522b",
+  storageBucket: "packpalgo-d522b.firebasestorage.app",
+  messagingSenderId: "205227784028",
+  appId: "1:205227784028:web:1ac405aee52c3ae859f399",
+  measurementId: "G-G8QJ0KKPG2"
 };
 
 // Initialize Firebase
