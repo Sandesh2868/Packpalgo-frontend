@@ -231,7 +231,7 @@ The group will appear in your groups list once the data syncs.`;
           <div className="flex flex-col sm:flex-row space-y-2 sm:space-y-0 sm:space-x-3">
             <button
               onClick={onClose}
-              className="flex-1 py-3 px-4 border border-gray-300 rounded-lg hover:bg-gray-50 transition duration-200 text-sm sm:text-base"
+              className="flex-1 py-3 px-4 border border-gray-300 rounded-lg hover:bg-gray-50 transition duration-200 text-xs sm:text-sm whitespace-nowrap"
               style={{color: 'var(--text)', backgroundColor: 'var(--bg)'}}
             >
               Cancel
@@ -239,7 +239,7 @@ The group will appear in your groups list once the data syncs.`;
             <button
               onClick={handleCreateGroup}
               disabled={loading || !groupName.trim()}
-              className="flex-1 py-3 px-4 bg-indigo-500 text-white rounded-lg hover:bg-indigo-600 disabled:bg-gray-400 transition duration-200 flex items-center justify-center text-sm sm:text-base"
+              className="flex-1 py-3 px-4 bg-indigo-500 text-white rounded-lg hover:bg-indigo-600 disabled:bg-gray-400 transition duration-200 flex items-center justify-center text-xs sm:text-sm whitespace-nowrap"
             >
               {loading ? (
                 <>

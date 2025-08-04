@@ -118,13 +118,13 @@ export default function GroupInfo({ group }) {
             <div className="flex flex-col sm:flex-row space-y-2 sm:space-y-0 sm:space-x-3">
               <button
                 onClick={updateBudget}
-                className="bg-indigo-500 hover:bg-indigo-600 text-white px-4 py-2 rounded-lg transition duration-200 text-sm sm:text-base"
+                className="bg-indigo-500 hover:bg-indigo-600 text-white px-3 sm:px-4 py-2 rounded-lg transition duration-200 text-xs sm:text-sm whitespace-nowrap"
               >
                 Save Budget
               </button>
               <button
                 onClick={() => setEditingBudget(false)}
-                className="bg-gray-300 hover:bg-gray-400 text-gray-700 px-4 py-2 rounded-lg transition duration-200 text-sm sm:text-base"
+                className="bg-gray-300 hover:bg-gray-400 text-gray-700 px-3 sm:px-4 py-2 rounded-lg transition duration-200 text-xs sm:text-sm whitespace-nowrap"
               >
                 Cancel
               </button>
@@ -229,17 +229,17 @@ export default function GroupInfo({ group }) {
           <div className="flex flex-col sm:flex-row space-y-2 sm:space-y-0 sm:space-x-3">
             <button
               onClick={shareGroup}
-              className="flex-1 bg-green-500 hover:bg-green-600 text-white px-4 py-3 rounded-lg transition duration-200 flex items-center justify-center space-x-2 text-sm sm:text-base"
+              className="flex-1 bg-green-500 hover:bg-green-600 text-white px-3 sm:px-4 py-3 rounded-lg transition duration-200 flex items-center justify-center space-x-2 text-xs sm:text-sm whitespace-nowrap"
             >
               <span>📤</span>
-              <span>Share Group</span>
+              <span>Share</span>
             </button>
             <button
               onClick={copyInviteCode}
-              className="flex-1 bg-blue-500 hover:bg-blue-600 text-white px-4 py-3 rounded-lg transition duration-200 flex items-center justify-center space-x-2 text-sm sm:text-base"
+              className="flex-1 bg-blue-500 hover:bg-blue-600 text-white px-3 sm:px-4 py-3 rounded-lg transition duration-200 flex items-center justify-center space-x-2 text-xs sm:text-sm whitespace-nowrap"
             >
               <span>📋</span>
-              <span>Copy Code</span>
+              <span>Copy</span>
             </button>
           </div>
         </div>

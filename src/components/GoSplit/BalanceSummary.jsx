@@ -226,19 +226,19 @@ Note: This is a demo. In a real app, this would integrate with actual payment ga
                     <div className="flex flex-wrap justify-end space-x-1 sm:space-x-2 mt-2">
                       <button 
                         onClick={() => handlePayment('UPI', settlement)}
-                        className="px-2 sm:px-3 py-1 bg-green-100 text-green-700 rounded text-xs sm:text-sm hover:bg-green-200 transition duration-200"
+                        className="px-1 sm:px-2 py-1 bg-green-100 text-green-700 rounded text-xs hover:bg-green-200 transition duration-200 whitespace-nowrap"
                       >
                         UPI
                       </button>
                       <button 
                         onClick={() => handlePayment('Paytm', settlement)}
-                        className="px-2 sm:px-3 py-1 bg-blue-100 text-blue-700 rounded text-xs sm:text-sm hover:bg-blue-200 transition duration-200"
+                        className="px-1 sm:px-2 py-1 bg-blue-100 text-blue-700 rounded text-xs hover:bg-blue-200 transition duration-200 whitespace-nowrap"
                       >
                         Paytm
                       </button>
                       <button 
                         onClick={() => handlePayment('GPay', settlement)}
-                        className="px-2 sm:px-3 py-1 bg-purple-100 text-purple-700 rounded text-xs sm:text-sm hover:bg-purple-200 transition duration-200"
+                        className="px-1 sm:px-2 py-1 bg-purple-100 text-purple-700 rounded text-xs hover:bg-purple-200 transition duration-200 whitespace-nowrap"
                       >
                         GPay
                       </button>

@@ -146,24 +146,24 @@ export default function GroupDetails() {
             <div className="flex flex-col sm:flex-row space-y-2 sm:space-y-0 sm:space-x-3">
               <button
                 onClick={copyInviteCode}
-                className="bg-gray-100 hover:bg-gray-200 text-gray-700 px-3 sm:px-4 py-2 rounded-lg transition duration-200 flex items-center justify-center space-x-2 text-sm sm:text-base"
+                className="bg-gray-100 hover:bg-gray-200 text-gray-700 px-2 sm:px-3 py-2 rounded-lg transition duration-200 flex items-center justify-center space-x-1 sm:space-x-2 text-xs sm:text-sm whitespace-nowrap"
               >
                 <span>📋</span>
-                <span>Copy Code</span>
+                <span>Copy</span>
               </button>
               <button
                 onClick={handleInviteMember}
-                className="bg-green-500 hover:bg-green-600 text-white px-3 sm:px-4 py-2 rounded-lg transition duration-200 flex items-center justify-center space-x-2 text-sm sm:text-base"
+                className="bg-green-500 hover:bg-green-600 text-white px-2 sm:px-3 py-2 rounded-lg transition duration-200 flex items-center justify-center space-x-1 sm:space-x-2 text-xs sm:text-sm whitespace-nowrap"
               >
                 <span>➕</span>
                 <span>Invite</span>
               </button>
               <button
                 onClick={() => setShowAddExpense(true)}
-                className="bg-indigo-500 hover:bg-indigo-600 text-white px-3 sm:px-4 py-2 rounded-lg transition duration-200 flex items-center justify-center space-x-2 text-sm sm:text-base"
+                className="bg-indigo-500 hover:bg-indigo-600 text-white px-2 sm:px-3 py-2 rounded-lg transition duration-200 flex items-center justify-center space-x-1 sm:space-x-2 text-xs sm:text-sm whitespace-nowrap"
               >
                 <span>💰</span>
-                <span>Add Expense</span>
+                <span>Add</span>
               </button>
             </div>
           </div>

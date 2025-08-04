@@ -89,14 +89,14 @@ export default function GroupList() {
               <p className="text-sm sm:text-base">Split expenses with your travel groups</p>
             </div>
             <div className="flex flex-col sm:flex-row space-y-2 sm:space-y-0 sm:space-x-3">
-              <button onClick={refreshGroups} className="bg-gray-500 hover:bg-gray-600 text-white px-3 sm:px-4 py-2 rounded-lg flex items-center justify-center space-x-2 text-sm sm:text-base">
+              <button onClick={refreshGroups} className="bg-gray-500 hover:bg-gray-600 text-white px-2 sm:px-3 py-2 rounded-lg flex items-center justify-center space-x-1 sm:space-x-2 text-xs sm:text-sm whitespace-nowrap">
                 <span>🔄</span><span>Refresh</span>
               </button>
-              <button onClick={() => setShowJoinModal(true)} className="bg-green-500 hover:bg-green-600 text-white px-3 sm:px-4 py-2 rounded-lg flex items-center justify-center space-x-2 text-sm sm:text-base">
-                <span>📨</span><span>Join Group</span>
+              <button onClick={() => setShowJoinModal(true)} className="bg-green-500 hover:bg-green-600 text-white px-2 sm:px-3 py-2 rounded-lg flex items-center justify-center space-x-1 sm:space-x-2 text-xs sm:text-sm whitespace-nowrap">
+                <span>📨</span><span>Join</span>
               </button>
-              <button onClick={() => setShowCreateModal(true)} className="bg-indigo-500 hover:bg-indigo-600 text-white px-3 sm:px-4 py-2 rounded-lg flex items-center justify-center space-x-2 text-sm sm:text-base">
-                <span>➕</span><span>Create Group</span>
+              <button onClick={() => setShowCreateModal(true)} className="bg-indigo-500 hover:bg-indigo-600 text-white px-2 sm:px-3 py-2 rounded-lg flex items-center justify-center space-x-1 sm:space-x-2 text-xs sm:text-sm whitespace-nowrap">
+                <span>➕</span><span>Create</span>
               </button>
             </div>
           </div>
@@ -109,8 +109,8 @@ export default function GroupList() {
             <h3 className="text-lg sm:text-xl font-semibold mb-2">No Groups Yet</h3>
             <p className="mb-6 text-sm sm:text-base">Create your first travel group or join an existing one to start splitting expenses!</p>
             <div className="flex flex-col sm:flex-row justify-center space-y-2 sm:space-y-0 sm:space-x-4">
-              <button onClick={() => setShowCreateModal(true)} className="bg-indigo-500 hover:bg-indigo-600 text-white px-4 sm:px-6 py-2 sm:py-3 rounded-lg text-sm sm:text-base">Create First Group</button>
-              <button onClick={() => setShowJoinModal(true)} className="bg-green-500 hover:bg-green-600 text-white px-4 sm:px-6 py-2 sm:py-3 rounded-lg text-sm sm:text-base">Join a Group</button>
+              <button onClick={() => setShowCreateModal(true)} className="bg-indigo-500 hover:bg-indigo-600 text-white px-3 sm:px-6 py-2 sm:py-3 rounded-lg text-xs sm:text-base whitespace-nowrap">Create Group</button>
+              <button onClick={() => setShowJoinModal(true)} className="bg-green-500 hover:bg-green-600 text-white px-3 sm:px-6 py-2 sm:py-3 rounded-lg text-xs sm:text-base whitespace-nowrap">Join Group</button>
             </div>
           </div>
         ) : (

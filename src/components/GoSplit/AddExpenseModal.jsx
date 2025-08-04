@@ -274,20 +274,20 @@ export default function AddExpenseModal({ isOpen, onClose, groupId, members }) {
               <label className="block text-sm font-medium mb-2" style={{color: 'var(--text)'}}>
                 Category
               </label>
-              <div className="grid grid-cols-4 gap-2">
+              <div className="grid grid-cols-4 gap-1 sm:gap-2">
                 {categories.map((category) => (
                   <button
                     key={category.value}
                     onClick={() => handleInputChange('category', category.value)}
-                    className={`p-2 rounded-lg border-2 transition duration-200 text-xs ${
+                    className={`p-1 sm:p-2 rounded-lg border-2 transition duration-200 text-xs ${
                       formData.category === category.value
                         ? 'border-indigo-500 bg-indigo-50'
                         : 'border-gray-200 hover:border-gray-300'
                     }`}
                     style={{color: 'black'}}
                   >
-                    <div className="text-base sm:text-lg mb-1">{category.emoji}</div>
-                    <div className="text-xs">{category.value}</div>
+                    <div className="text-sm sm:text-lg mb-1">{category.emoji}</div>
+                    <div className="text-xs leading-tight">{category.value}</div>
                   </button>
                 ))}
               </div>
@@ -315,22 +315,22 @@ export default function AddExpenseModal({ isOpen, onClose, groupId, members }) {
             
             <div className="flex flex-col sm:flex-row space-y-2 sm:space-y-0 sm:space-x-3 mb-4">
               {[
-                { key: 'equal', label: 'Split Equally', icon: '⚖️' },
-                { key: 'shares', label: 'By Shares', icon: '📊' },
-                { key: 'custom', label: 'Custom Amounts', icon: '✏️' }
+                { key: 'equal', label: 'Equal', icon: '⚖️' },
+                { key: 'shares', label: 'Shares', icon: '📊' },
+                { key: 'custom', label: 'Custom', icon: '✏️' }
               ].map((option) => (
                 <button
                   key={option.key}
                   onClick={() => setSplitType(option.key)}
-                  className={`flex-1 p-3 rounded-lg border-2 transition duration-200 ${
+                  className={`flex-1 p-2 sm:p-3 rounded-lg border-2 transition duration-200 ${
                     splitType === option.key
                       ? 'border-indigo-500 bg-indigo-50 text-indigo-700'
                       : 'border-gray-200 hover:border-gray-300'
                   }`}
                   style={{color: splitType === option.key ? '#4338ca' : 'black'}}
                 >
-                  <div className="text-base sm:text-lg mb-1">{option.icon}</div>
-                  <div className="text-xs sm:text-sm">{option.label}</div>
+                  <div className="text-sm sm:text-lg mb-1">{option.icon}</div>
+                  <div className="text-xs sm:text-sm whitespace-nowrap">{option.label}</div>
                 </button>
               ))}
             </div>
@@ -436,7 +436,7 @@ export default function AddExpenseModal({ isOpen, onClose, groupId, members }) {
           <div className="flex flex-col sm:flex-row space-y-2 sm:space-y-0 sm:space-x-3">
             <button
               onClick={onClose}
-              className="flex-1 py-3 px-4 border border-gray-300 rounded-lg hover:bg-gray-50 transition duration-200 text-sm sm:text-base"
+              className="flex-1 py-3 px-4 border border-gray-300 rounded-lg hover:bg-gray-50 transition duration-200 text-xs sm:text-sm whitespace-nowrap"
               style={{color: 'black', backgroundColor: 'white'}}
             >
               Cancel
@@ -444,7 +444,7 @@ export default function AddExpenseModal({ isOpen, onClose, groupId, members }) {
             <button
               onClick={handleAddExpense}
               disabled={loading || splitError || !formData.description.trim() || !formData.amount || !formData.payer}
-              className="flex-1 py-3 px-4 bg-indigo-500 text-white rounded-lg hover:bg-indigo-600 disabled:bg-gray-400 transition duration-200 flex items-center justify-center text-sm sm:text-base"
+              className="flex-1 py-3 px-4 bg-indigo-500 text-white rounded-lg hover:bg-indigo-600 disabled:bg-gray-400 transition duration-200 flex items-center justify-center text-xs sm:text-sm whitespace-nowrap"
             >
               {loading ? (
                 <>
