@@ -11,46 +11,42 @@ export default function BalanceSummary({ groupId, group }) {
     const { from, to, amount } = settlement;
     const formattedAmount = formatCurrency(amount);
     
-    // Generate UPI payment link
-    const generateUPILink = (amount) => {
-      // This is a sample UPI link format
-      // In a real app, you would integrate with actual payment gateways
-      const upiId = 'sample@upi'; // This should be the actual UPI ID
-      return `upi://pay?pa=${upiId}&pn=${from}&am=${amount}&tn=GoSplit Settlement`;
+    // Generate deep links to open payment apps
+    const generatePaymentLink = (method, amount, to) => {
+      switch (method) {
+        case 'UPI':
+          // UPI deep link format
+          return `upi://pay?pa=${to}&pn=${from}&am=${amount}&tn=GoSplit Settlement`;
+        case 'Paytm':
+          // Paytm deep link
+          return `paytmmp://pay?pa=${to}&pn=${from}&am=${amount}&tn=GoSplit Settlement`;
+        case 'GPay':
+          // Google Pay deep link
+          return `googleplay://pay?pa=${to}&pn=${from}&am=${amount}&tn=GoSplit Settlement`;
+        default:
+          return null;
+      }
     };
 
-    const paymentLinks = {
-      'UPI': generateUPILink(amount),
-      'Paytm': `https://paytm.com/pay?amount=${amount}&to=${to}`,
-      'GPay': `https://pay.google.com/pay?amount=${amount}&to=${to}`
-    };
-
-    const link = paymentLinks[paymentMethod];
+    const paymentLink = generatePaymentLink(paymentMethod, amount, to);
     
-    if (link) {
-      // Show payment details modal
-      const paymentDetails = `
+    if (paymentLink) {
+      // Try to open the payment app
+      try {
+        window.location.href = paymentLink;
+      } catch (error) {
+        // Fallback: show payment details
+        const paymentDetails = `
 Payment Details:
 From: ${from}
 To: ${to}
 Amount: ${formattedAmount}
 Method: ${paymentMethod}
 
-${paymentMethod === 'UPI' ? 
-  `UPI ID: sample@upi\nUPI Link: ${link}` : 
-  `Payment Link: ${link}`
-}
-
-Note: This is a demo. In a real app, this would integrate with actual payment gateways.
-      `;
-      
-      alert(paymentDetails);
-      
-      // In a real implementation, you would:
-      // 1. Open the payment app/website
-      // 2. Track payment status
-      // 3. Update the settlement status in the database
-      // 4. Send notifications to both parties
+Click the ${paymentMethod} button to open the app.
+        `;
+        alert(paymentDetails);
+      }
     }
   };
 

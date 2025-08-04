@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { db } from '../../../firebase';
-import { doc, onSnapshot, updateDoc, arrayUnion } from 'firebase/firestore';
+import { doc, onSnapshot, updateDoc, arrayUnion, deleteDoc, collection, query, getDocs, serverTimestamp } from 'firebase/firestore';
 import { useAuth } from '../../AuthContext';
 import AddExpenseModal from './AddExpenseModal';
 import ExpenseList from './ExpenseList';
@@ -30,7 +30,16 @@ export default function GroupDetails() {
 
     const unsubscribe = onSnapshot(doc(db, 'groups', groupId), (doc) => {
       if (doc.exists()) {
-        setGroup({ id: doc.id, ...doc.data() });
+        const groupData = { id: doc.id, ...doc.data() };
+        
+        // Check if group is archived
+        if (groupData.isArchived) {
+          alert('This group has been archived by the creator.');
+          navigate('/gosplit');
+          return;
+        }
+        
+        setGroup(groupData);
       } else {
         // Group doesn't exist, redirect to groups list
         navigate('/gosplit');
@@ -74,6 +83,69 @@ export default function GroupDetails() {
   const copyInviteCode = () => {
     navigator.clipboard.writeText(group.inviteCode);
     alert('Invite code copied to clipboard!');
+  };
+
+  const handleDeleteGroup = async () => {
+    if (!user || !group) return;
+    
+    // Check if user is the creator of the group
+    if (group.createdByEmail !== user.email) {
+      alert('Only the group creator can delete this group.');
+      return;
+    }
+
+    const confirmDelete = window.confirm(
+      `Are you sure you want to delete "${group.name}"?\n\nThis action cannot be undone. All expenses and data will be permanently removed.`
+    );
+
+    if (confirmDelete) {
+      try {
+        // Delete the group document
+        await deleteDoc(doc(db, 'groups', groupId));
+        
+        // Delete all expenses in the group
+        const expensesQuery = query(collection(db, 'groups', groupId, 'expenses'));
+        const expensesSnapshot = await getDocs(expensesQuery);
+        
+        const deletePromises = expensesSnapshot.docs.map(doc => deleteDoc(doc.ref));
+        await Promise.all(deletePromises);
+        
+        alert('Group deleted successfully!');
+        navigate('/gosplit');
+      } catch (error) {
+        console.error('Error deleting group:', error);
+        alert('Error deleting group. Please try again.');
+      }
+    }
+  };
+
+  const handleArchiveGroup = async () => {
+    if (!user || !group) return;
+    
+    // Check if user is the creator of the group
+    if (group.createdByEmail !== user.email) {
+      alert('Only the group creator can archive this group.');
+      return;
+    }
+
+    const confirmArchive = window.confirm(
+      `Are you sure you want to archive "${group.name}"?\n\nThis will hide the group from all members but preserve all data.`
+    );
+
+    if (confirmArchive) {
+      try {
+        await updateDoc(doc(db, 'groups', groupId), {
+          isArchived: true,
+          archivedAt: serverTimestamp()
+        });
+        
+        alert('Group archived successfully!');
+        navigate('/gosplit');
+      } catch (error) {
+        console.error('Error archiving group:', error);
+        alert('Error archiving group. Please try again.');
+      }
+    }
   };
 
   if (loading) {
@@ -165,6 +237,24 @@ export default function GroupDetails() {
                 <span>💰</span>
                 <span>Add</span>
               </button>
+              {group.createdByEmail === user?.email && (
+                <>
+                  <button
+                    onClick={handleArchiveGroup}
+                    className="bg-yellow-500 hover:bg-yellow-600 text-white px-2 sm:px-3 py-2 rounded-lg transition duration-200 flex items-center justify-center space-x-1 sm:space-x-2 text-xs sm:text-sm whitespace-nowrap"
+                  >
+                    <span>📦</span>
+                    <span>Archive</span>
+                  </button>
+                  <button
+                    onClick={handleDeleteGroup}
+                    className="bg-red-500 hover:bg-red-600 text-white px-2 sm:px-3 py-2 rounded-lg transition duration-200 flex items-center justify-center space-x-1 sm:space-x-2 text-xs sm:text-sm whitespace-nowrap"
+                  >
+                    <span>🗑️</span>
+                    <span>Delete</span>
+                  </button>
+                </>
+              )}
             </div>
           </div>
 

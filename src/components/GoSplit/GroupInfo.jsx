@@ -198,12 +198,12 @@ export default function GroupInfo({ group }) {
 
       {/* Invite & Share */}
       <div className="bg-white border border-gray-200 rounded-lg p-4 sm:p-6">
-        <h3 className="text-base sm:text-lg font-semibold text-gray-800 mb-3 sm:mb-4">Invite More Members</h3>
+        <h3 className="text-base sm:text-lg font-semibold mb-3 sm:mb-4" style={{color: 'var(--text)'}}>Invite More Members</h3>
         
         <div className="space-y-3 sm:space-y-4">
           <div className="bg-gray-50 rounded-lg p-3 sm:p-4">
             <div className="flex items-center justify-between mb-2">
-              <span className="font-medium text-gray-700 text-sm sm:text-base">Invite Code:</span>
+              <span className="font-medium text-sm sm:text-base" style={{color: 'var(--text)'}}>Invite Code:</span>
               <button
                 onClick={() => setShowInviteCode(!showInviteCode)}
                 className="text-indigo-600 hover:text-indigo-800 text-xs sm:text-sm"
@@ -213,7 +213,7 @@ export default function GroupInfo({ group }) {
             </div>
             {showInviteCode && (
               <div className="flex flex-col sm:flex-row items-center space-y-2 sm:space-y-0 sm:space-x-3">
-                <code className="w-full sm:flex-1 bg-white p-3 rounded border font-mono text-sm sm:text-lg tracking-widest text-center">
+                <code className="w-full sm:flex-1 bg-white p-3 rounded border font-mono text-sm sm:text-lg tracking-widest text-center" style={{color: 'black'}}>
                   {group.inviteCode}
                 </code>
                 <button

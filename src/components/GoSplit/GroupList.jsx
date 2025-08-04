@@ -34,7 +34,7 @@ export default function GroupList() {
       const groupsData = snapshot.docs.map(doc => ({
         id: doc.id,
         ...doc.data()
-      }));
+      })).filter(group => !group.isArchived); // Filter out archived groups
       setGroups(groupsData);
       setLoading(false);
     }, (error) => {

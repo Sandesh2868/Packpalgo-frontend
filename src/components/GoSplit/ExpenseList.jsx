@@ -129,12 +129,12 @@ export default function ExpenseList({ groupId }) {
     <div>
       {/* Filters */}
       <div className="mb-4 sm:mb-6 space-y-4">
-        <h3 className="text-base sm:text-lg font-semibold text-gray-800">Filter Expenses</h3>
+        <h3 className="text-base sm:text-lg font-semibold" style={{color: 'var(--text)'}}>Filter Expenses</h3>
         
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 sm:gap-4">
           {/* Category Filter */}
           <div>
-            <label className="block text-xs sm:text-sm font-medium text-gray-700 mb-1 sm:mb-2">Category</label>
+            <label className="block text-xs sm:text-sm font-medium mb-1 sm:mb-2" style={{color: 'var(--text)'}}>Category</label>
             <select
               value={filters.category}
               onChange={(e) => handleFilterChange('category', e.target.value)}
@@ -150,7 +150,7 @@ export default function ExpenseList({ groupId }) {
 
           {/* Payer Filter */}
           <div>
-            <label className="block text-xs sm:text-sm font-medium text-gray-700 mb-1 sm:mb-2">Paid by</label>
+            <label className="block text-xs sm:text-sm font-medium mb-1 sm:mb-2" style={{color: 'var(--text)'}}>Paid by</label>
             <select
               value={filters.payer}
               onChange={(e) => handleFilterChange('payer', e.target.value)}
@@ -165,7 +165,7 @@ export default function ExpenseList({ groupId }) {
 
           {/* Date Range Filter */}
           <div className="sm:col-span-2 lg:col-span-1">
-            <label className="block text-xs sm:text-sm font-medium text-gray-700 mb-1 sm:mb-2">Date Range</label>
+            <label className="block text-xs sm:text-sm font-medium mb-1 sm:mb-2" style={{color: 'var(--text)'}}>Date Range</label>
             <select
               value={filters.dateRange}
               onChange={(e) => handleFilterChange('dateRange', e.target.value)}
@@ -182,26 +182,26 @@ export default function ExpenseList({ groupId }) {
         {/* Summary Stats */}
         <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 sm:gap-4 mt-4">
           <div className="bg-gray-50 rounded-lg p-2 sm:p-3 text-center">
-            <div className="text-lg sm:text-2xl font-bold text-gray-800">{filteredExpenses.length}</div>
-            <div className="text-xs sm:text-sm text-gray-600">Expenses</div>
+            <div className="text-lg sm:text-2xl font-bold" style={{color: 'var(--text)'}}>{filteredExpenses.length}</div>
+            <div className="text-xs sm:text-sm" style={{color: 'var(--text)'}}>Expenses</div>
           </div>
           <div className="bg-gray-50 rounded-lg p-2 sm:p-3 text-center">
             <div className="text-lg sm:text-2xl font-bold text-green-600">
               {formatCurrency(filteredExpenses.reduce((sum, exp) => sum + exp.amount, 0))}
             </div>
-            <div className="text-xs sm:text-sm text-gray-600">Total Amount</div>
+            <div className="text-xs sm:text-sm" style={{color: 'var(--text)'}}>Total Amount</div>
           </div>
           <div className="bg-gray-50 rounded-lg p-2 sm:p-3 text-center">
             <div className="text-lg sm:text-2xl font-bold text-blue-600">
               {formatCurrency(filteredExpenses.reduce((sum, exp) => sum + exp.amount, 0) / Math.max(filteredExpenses.length, 1))}
             </div>
-            <div className="text-xs sm:text-sm text-gray-600">Avg. Expense</div>
+            <div className="text-xs sm:text-sm" style={{color: 'var(--text)'}}>Avg. Expense</div>
           </div>
           <div className="bg-gray-50 rounded-lg p-2 sm:p-3 text-center">
             <div className="text-lg sm:text-2xl font-bold text-purple-600">
               {new Set(filteredExpenses.map(exp => exp.category)).size}
             </div>
-            <div className="text-xs sm:text-sm text-gray-600">Categories</div>
+            <div className="text-xs sm:text-sm" style={{color: 'var(--text)'}}>Categories</div>
           </div>
         </div>
       </div>
