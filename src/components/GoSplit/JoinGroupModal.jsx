@@ -73,15 +73,15 @@ export default function JoinGroupModal({ isOpen, onClose }) {
   if (!isOpen) return null;
 
   return (
-    <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
+    <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-2 sm:p-4">
       <div className="bg-white rounded-xl shadow-2xl w-full max-w-md" style={{backgroundColor: 'var(--bg)', color: 'var(--text)'}}>
-        <div className="p-6">
+        <div className="p-4 sm:p-6">
           {/* Header */}
-          <div className="flex justify-between items-center mb-6">
-            <h2 className="text-2xl font-bold" style={{color: 'var(--text)'}}>Join Group</h2>
+          <div className="flex justify-between items-center mb-4 sm:mb-6">
+            <h2 className="text-xl sm:text-2xl font-bold" style={{color: 'var(--text)'}}>Join Group</h2>
             <button
               onClick={onClose}
-              className="hover:opacity-70 text-2xl"
+              className="hover:opacity-70 text-xl sm:text-2xl"
               style={{color: 'var(--text)'}}
             >
               ×
@@ -89,16 +89,16 @@ export default function JoinGroupModal({ isOpen, onClose }) {
           </div>
 
           {/* Illustration */}
-          <div className="text-center mb-6">
-            <div className="text-6xl mb-4">📨</div>
-            <p style={{color: 'var(--text)'}}>
+          <div className="text-center mb-4 sm:mb-6">
+            <div className="text-4xl sm:text-6xl mb-4">📨</div>
+            <p className="text-sm sm:text-base" style={{color: 'var(--text)'}}>
               Enter the invite code shared by your group organizer to join their travel group.
             </p>
           </div>
 
           {/* Invite Code Input */}
-          <div className="mb-6">
-            <label className="block text-sm font-medium mb-2" style={{color: 'var(--text)'}}>
+          <div className="mb-4 sm:mb-6">
+            <label className="block text-sm font-medium mb-1 sm:mb-2" style={{color: 'var(--text)'}}>
               Invite Code
             </label>
             <input
@@ -106,7 +106,7 @@ export default function JoinGroupModal({ isOpen, onClose }) {
               value={inviteCode}
               onChange={(e) => setInviteCode(e.target.value.toUpperCase())}
               placeholder="Enter 6-character code"
-              className="w-full p-4 text-center text-xl font-mono border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-transparent tracking-widest"
+              className="w-full p-3 sm:p-4 text-center text-lg sm:text-xl font-mono border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-transparent tracking-widest"
               maxLength={6}
               style={{ letterSpacing: '0.3em', color: 'black', backgroundColor: 'white' }}
             />
@@ -116,10 +116,10 @@ export default function JoinGroupModal({ isOpen, onClose }) {
           </div>
 
           {/* Action Buttons */}
-          <div className="flex space-x-3">
+          <div className="flex flex-col sm:flex-row space-y-2 sm:space-y-0 sm:space-x-3">
             <button
               onClick={onClose}
-              className="flex-1 py-3 px-4 border border-gray-300 rounded-lg hover:bg-gray-50 transition duration-200"
+              className="flex-1 py-3 px-4 border border-gray-300 rounded-lg hover:bg-gray-50 transition duration-200 text-sm sm:text-base"
               style={{color: 'var(--text)', backgroundColor: 'var(--bg)'}}
             >
               Cancel
@@ -127,10 +127,10 @@ export default function JoinGroupModal({ isOpen, onClose }) {
             <button
               onClick={handleJoinGroup}
               disabled={loading || !inviteCode.trim() || inviteCode.length !== 6}
-              className="flex-1 py-3 px-4 bg-green-500 text-white rounded-lg hover:bg-green-600 disabled:bg-gray-400 transition duration-200 flex items-center justify-center"
+              className="flex-1 py-3 px-4 bg-green-500 text-white rounded-lg hover:bg-green-600 disabled:bg-gray-400 transition duration-200 flex items-center justify-center text-sm sm:text-base"
             >
               {loading ? (
-                <div className="animate-spin rounded-full h-5 w-5 border-b-2 border-white"></div>
+                <div className="animate-spin rounded-full h-4 w-4 sm:h-5 sm:w-5 border-b-2 border-white"></div>
               ) : (
                 'Join Group'
               )}
@@ -138,8 +138,8 @@ export default function JoinGroupModal({ isOpen, onClose }) {
           </div>
 
           {/* Help Text */}
-          <div className="mt-4 p-4 bg-blue-50 rounded-lg">
-            <p className="text-sm" style={{color: 'var(--text)'}}>
+          <div className="mt-4 p-3 sm:p-4 bg-blue-50 rounded-lg">
+            <p className="text-xs sm:text-sm" style={{color: 'var(--text)'}}>
               <strong>Don't have an invite code?</strong><br/>
               Ask the group creator to share their 6-character invite code with you, 
               or create your own group instead.

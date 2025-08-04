@@ -47,12 +47,12 @@ export default function App() {
   return (
     <main className="relative min-h-screen overflow-x-hidden" style={{ color: "var(--text)" }}>
       {/* Header Controls */}
-      <div className="absolute top-4 right-4 z-50 flex items-center space-x-4">
-        <AuthButton compact={true} showText={false} className="bg-white shadow-lg rounded-lg px-3 py-2" />
+      <div className="absolute top-2 sm:top-4 right-2 sm:right-4 z-50 flex items-center space-x-2 sm:space-x-4">
+        <AuthButton compact={true} showText={false} className="bg-white shadow-lg rounded-lg px-2 sm:px-3 py-1 sm:py-2" />
         <select
           value={theme}
           onChange={(e) => toggleTheme(e.target.value)}
-          className="bg-gray-800 text-white border border-gray-600 p-2 rounded"
+          className="bg-gray-800 text-white border border-gray-600 p-1 sm:p-2 rounded text-xs sm:text-sm"
         >
           {themeOptions.map((option) => (
             <option key={option} value={option}>
@@ -62,35 +62,35 @@ export default function App() {
         </select>
       </div>
 
-     <section className="relative z-20 py-48 text-center bg-cover bg-center min-h-[70vh] flex flex-col justify-center items-center" style={{ backgroundImage: "var(--bg-image)" }}>
+     <section className="relative z-20 py-32 sm:py-48 text-center bg-cover bg-center min-h-[60vh] sm:min-h-[70vh] flex flex-col justify-center items-center" style={{ backgroundImage: "var(--bg-image)" }}>
   <HeroBackground />
 
   {/* Overlay to make text readable */}
   <div className="absolute inset-0 bg-black/40 z-10"></div>
 
   <div className="relative z-20 flex flex-col items-center justify-center w-full px-4">
-    <h1 className="text-5xl md:text-7xl font-extrabold mb-4 tracking-tight font-sans text-white" style={{ letterSpacing: "-0.03em" }}>
+    <h1 className="text-4xl sm:text-5xl md:text-7xl font-extrabold mb-4 tracking-tight font-sans text-white" style={{ letterSpacing: "-0.03em" }}>
       The Pre-Trip Portal
-      <span className="block w-16 h-1 bg-blue-300 mx-auto mt-3 rounded-full" />
+      <span className="block w-12 sm:w-16 h-1 bg-blue-300 mx-auto mt-3 rounded-full" />
     </h1>
-    <p className="text-lg md:text-2xl max-w-2xl mx-auto mb-10 text-white">
-      Before you pack, let’s play and plan!
+    <p className="text-base sm:text-lg md:text-2xl max-w-2xl mx-auto mb-8 sm:mb-10 text-white">
+      Before you pack, let's play and plan!
     </p>
 
-    <div className="grid grid-cols-2 gap-4 max-w-xs sm:max-w-md mx-auto justify-center mb-6 z-20">
-      <Button onClick={() => navigate("/budget-calculator")} className="bg-blue-600 text-white hover:bg-blue-700">💰 Budget Calculator</Button>
-      <Button onClick={() => navigate("/things-to-carry")} className="bg-green-600 text-white hover:bg-green-700">📝 Pack list</Button>
-      <Button onClick={() => navigate("/itinerary-planner")} className="bg-purple-600 text-white hover:bg-purple-700">📅🧳 Itinerary Planner</Button>
-      <Button onClick={() => navigate("/gosplit")} className="bg-pink-600 text-white hover:bg-pink-700">🤝 GoSplit</Button>
+    <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4 max-w-xs sm:max-w-md mx-auto justify-center mb-6 z-20">
+      <Button onClick={() => navigate("/budget-calculator")} className="bg-blue-600 text-white hover:bg-blue-700 text-sm sm:text-base">💰 Budget Calculator</Button>
+      <Button onClick={() => navigate("/things-to-carry")} className="bg-green-600 text-white hover:bg-green-700 text-sm sm:text-base">📝 Pack list</Button>
+      <Button onClick={() => navigate("/itinerary-planner")} className="bg-purple-600 text-white hover:bg-purple-700 text-sm sm:text-base">📅🧳 Itinerary Planner</Button>
+      <Button onClick={() => navigate("/gosplit")} className="bg-pink-600 text-white hover:bg-pink-700 text-sm sm:text-base">🤝 GoSplit</Button>
     </div>
 
-    <Button onClick={toggleMusic} className="mt-2 text-sm bg-black/60 text-white hover:bg-black">
+    <Button onClick={toggleMusic} className="mt-2 text-xs sm:text-sm bg-black/60 text-white hover:bg-black">
       {musicOn ? "🔇 Mute Music" : "🔊 Play Music"}
     </Button>
 
-    <div className="flex justify-center mt-10 z-20">
-      <span className="animate-bounce-slow text-2xl text-gray-200 select-none">
-        <svg width="28" height="36" viewBox="0 0 26 26" fill="none" xmlns="http://www.w3.org/2000/svg" className="mx-auto">
+    <div className="flex justify-center mt-8 sm:mt-10 z-20">
+      <span className="animate-bounce-slow text-xl sm:text-2xl text-gray-200 select-none">
+        <svg width="24" height="32" viewBox="0 0 26 26" fill="none" xmlns="http://www.w3.org/2000/svg" className="mx-auto">
           <path d="M12 5v14m0 0l-7-7m7 7l7-7" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
         </svg>
       </span>

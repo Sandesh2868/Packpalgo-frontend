@@ -128,17 +128,17 @@ export default function ExpenseList({ groupId }) {
   return (
     <div>
       {/* Filters */}
-      <div className="mb-6 space-y-4">
-        <h3 className="text-lg font-semibold text-gray-800">Filter Expenses</h3>
+      <div className="mb-4 sm:mb-6 space-y-4">
+        <h3 className="text-base sm:text-lg font-semibold text-gray-800">Filter Expenses</h3>
         
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 sm:gap-4">
           {/* Category Filter */}
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-2">Category</label>
+            <label className="block text-xs sm:text-sm font-medium text-gray-700 mb-1 sm:mb-2">Category</label>
             <select
               value={filters.category}
               onChange={(e) => handleFilterChange('category', e.target.value)}
-              className="w-full p-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
+              className="w-full p-2 text-sm border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
             >
               {categories.map(category => (
                 <option key={category.value} value={category.value}>
@@ -150,11 +150,11 @@ export default function ExpenseList({ groupId }) {
 
           {/* Payer Filter */}
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-2">Paid by</label>
+            <label className="block text-xs sm:text-sm font-medium text-gray-700 mb-1 sm:mb-2">Paid by</label>
             <select
               value={filters.payer}
               onChange={(e) => handleFilterChange('payer', e.target.value)}
-              className="w-full p-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
+              className="w-full p-2 text-sm border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
             >
               <option value="all">All Members</option>
               {uniquePayers.map(payer => (
@@ -164,12 +164,12 @@ export default function ExpenseList({ groupId }) {
           </div>
 
           {/* Date Range Filter */}
-          <div>
-            <label className="block text-sm font-medium text-gray-700 mb-2">Date Range</label>
+          <div className="sm:col-span-2 lg:col-span-1">
+            <label className="block text-xs sm:text-sm font-medium text-gray-700 mb-1 sm:mb-2">Date Range</label>
             <select
               value={filters.dateRange}
               onChange={(e) => handleFilterChange('dateRange', e.target.value)}
-              className="w-full p-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
+              className="w-full p-2 text-sm border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
             >
               <option value="all">All Time</option>
               <option value="today">Today</option>
@@ -180,38 +180,38 @@ export default function ExpenseList({ groupId }) {
         </div>
 
         {/* Summary Stats */}
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mt-4">
-          <div className="bg-gray-50 rounded-lg p-3 text-center">
-            <div className="text-2xl font-bold text-gray-800">{filteredExpenses.length}</div>
-            <div className="text-sm text-gray-600">Expenses</div>
+        <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 sm:gap-4 mt-4">
+          <div className="bg-gray-50 rounded-lg p-2 sm:p-3 text-center">
+            <div className="text-lg sm:text-2xl font-bold text-gray-800">{filteredExpenses.length}</div>
+            <div className="text-xs sm:text-sm text-gray-600">Expenses</div>
           </div>
-          <div className="bg-gray-50 rounded-lg p-3 text-center">
-            <div className="text-2xl font-bold text-green-600">
+          <div className="bg-gray-50 rounded-lg p-2 sm:p-3 text-center">
+            <div className="text-lg sm:text-2xl font-bold text-green-600">
               {formatCurrency(filteredExpenses.reduce((sum, exp) => sum + exp.amount, 0))}
             </div>
-            <div className="text-sm text-gray-600">Total Amount</div>
+            <div className="text-xs sm:text-sm text-gray-600">Total Amount</div>
           </div>
-          <div className="bg-gray-50 rounded-lg p-3 text-center">
-            <div className="text-2xl font-bold text-blue-600">
+          <div className="bg-gray-50 rounded-lg p-2 sm:p-3 text-center">
+            <div className="text-lg sm:text-2xl font-bold text-blue-600">
               {formatCurrency(filteredExpenses.reduce((sum, exp) => sum + exp.amount, 0) / Math.max(filteredExpenses.length, 1))}
             </div>
-            <div className="text-sm text-gray-600">Avg. Expense</div>
+            <div className="text-xs sm:text-sm text-gray-600">Avg. Expense</div>
           </div>
-          <div className="bg-gray-50 rounded-lg p-3 text-center">
-            <div className="text-2xl font-bold text-purple-600">
+          <div className="bg-gray-50 rounded-lg p-2 sm:p-3 text-center">
+            <div className="text-lg sm:text-2xl font-bold text-purple-600">
               {new Set(filteredExpenses.map(exp => exp.category)).size}
             </div>
-            <div className="text-sm text-gray-600">Categories</div>
+            <div className="text-xs sm:text-sm text-gray-600">Categories</div>
           </div>
         </div>
       </div>
 
       {/* Expenses List */}
       {filteredExpenses.length === 0 ? (
-        <div className="text-center py-8">
-          <div className="text-6xl mb-4">💸</div>
-          <h3 className="text-xl font-semibold text-gray-800 mb-2">No Expenses Found</h3>
-          <p className="text-gray-600">
+        <div className="text-center py-6 sm:py-8">
+          <div className="text-4xl sm:text-6xl mb-4">💸</div>
+          <h3 className="text-lg sm:text-xl font-semibold text-gray-800 mb-2">No Expenses Found</h3>
+          <p className="text-sm sm:text-base text-gray-600">
             {expenses.length === 0 
               ? "No expenses have been added yet. Add your first expense to get started!"
               : "No expenses match your current filters. Try adjusting your filter criteria."
@@ -219,25 +219,25 @@ export default function ExpenseList({ groupId }) {
           </p>
         </div>
       ) : (
-        <div className="space-y-4">
+        <div className="space-y-3 sm:space-y-4">
           {filteredExpenses.map((expense) => (
-            <div key={expense.id} className="bg-white border border-gray-200 rounded-lg p-4 hover:shadow-md transition duration-200">
+            <div key={expense.id} className="bg-white border border-gray-200 rounded-lg p-3 sm:p-4 hover:shadow-md transition duration-200">
               <div className="flex items-start justify-between">
-                <div className="flex items-start space-x-3 flex-1">
-                  <div className="text-2xl">{getCategoryEmoji(expense.category)}</div>
+                <div className="flex items-start space-x-2 sm:space-x-3 flex-1">
+                  <div className="text-xl sm:text-2xl">{getCategoryEmoji(expense.category)}</div>
                   
-                  <div className="flex-1">
-                    <div className="flex items-center justify-between mb-2">
-                      <h4 className="text-lg font-semibold text-gray-800">{expense.description}</h4>
+                  <div className="flex-1 min-w-0">
+                    <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between mb-2 space-y-1 sm:space-y-0">
+                      <h4 className="text-base sm:text-lg font-semibold text-gray-800 truncate">{expense.description}</h4>
                       <div className="text-right">
-                        <div className="text-xl font-bold text-green-600">{formatCurrency(expense.amount)}</div>
-                        <div className="text-sm text-gray-500">
+                        <div className="text-lg sm:text-xl font-bold text-green-600">{formatCurrency(expense.amount)}</div>
+                        <div className="text-xs sm:text-sm text-gray-500">
                           {getSplitTypeIcon(expense.splitType)} {expense.splitType} split
                         </div>
                       </div>
                     </div>
                     
-                    <div className="flex items-center space-x-4 text-sm text-gray-600 mb-3">
+                    <div className="flex flex-col sm:flex-row sm:items-center space-y-1 sm:space-y-0 sm:space-x-4 text-xs sm:text-sm text-gray-600 mb-3">
                       <span className="flex items-center">
                         <span className="mr-1">💳</span>
                         Paid by <strong className="ml-1">{expense.payer}</strong>
@@ -246,25 +246,25 @@ export default function ExpenseList({ groupId }) {
                         <span className="mr-1">📅</span>
                         {formatDate(expense.date)}
                       </span>
-                      <span className={`px-2 py-1 rounded-full text-xs font-medium bg-gray-100 text-gray-800`}>
+                      <span className={`px-2 py-1 rounded-full text-xs font-medium bg-gray-100 text-gray-800 w-fit`}>
                         {expense.category}
                       </span>
                     </div>
 
                     {expense.notes && (
-                      <div className="text-sm text-gray-600 mb-3 italic">
+                      <div className="text-xs sm:text-sm text-gray-600 mb-3 italic">
                         "{expense.notes}"
                       </div>
                     )}
 
                     {/* Split Details */}
-                    <div className="bg-gray-50 rounded-lg p-3">
-                      <h5 className="text-sm font-medium text-gray-700 mb-2">Split Details:</h5>
-                      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-2">
+                    <div className="bg-gray-50 rounded-lg p-2 sm:p-3">
+                      <h5 className="text-xs sm:text-sm font-medium text-gray-700 mb-2">Split Details:</h5>
+                      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-1 sm:gap-2">
                         {Object.entries(expense.splits || {}).map(([member, amount]) => (
-                          <div key={member} className="flex justify-between items-center text-sm">
-                            <span className="text-gray-700">{member}</span>
-                            <span className="font-medium text-gray-800">{formatCurrency(amount)}</span>
+                          <div key={member} className="flex justify-between items-center text-xs sm:text-sm">
+                            <span className="text-gray-700 truncate mr-2">{member}</span>
+                            <span className="font-medium text-gray-800 flex-shrink-0">{formatCurrency(amount)}</span>
                           </div>
                         ))}
                       </div>
