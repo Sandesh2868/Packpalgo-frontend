@@ -117,15 +117,15 @@ The group will appear in your groups list once the data syncs.`;
   if (!isOpen) return null;
 
   return (
-    <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
-      <div className="bg-white rounded-xl shadow-2xl w-full max-w-md max-h-[90vh] overflow-y-auto" style={{backgroundColor: 'var(--bg)', color: 'var(--text)'}}>
-        <div className="p-6">
+    <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-2 sm:p-4">
+      <div className="bg-white rounded-xl shadow-2xl w-full max-w-md max-h-[95vh] sm:max-h-[90vh] overflow-y-auto" style={{backgroundColor: 'var(--bg)', color: 'var(--text)'}}>
+        <div className="p-4 sm:p-6">
           {/* Header */}
-          <div className="flex justify-between items-center mb-6">
-            <h2 className="text-2xl font-bold" style={{color: 'var(--text)'}}>Create New Group</h2>
+          <div className="flex justify-between items-center mb-4 sm:mb-6">
+            <h2 className="text-xl sm:text-2xl font-bold" style={{color: 'var(--text)'}}>Create New Group</h2>
             <button
               onClick={onClose}
-              className="hover:opacity-70 text-2xl"
+              className="hover:opacity-70 text-xl sm:text-2xl"
               style={{color: 'var(--text)'}}
             >
               ×
@@ -133,8 +133,8 @@ The group will appear in your groups list once the data syncs.`;
           </div>
 
           {/* Group Name */}
-          <div className="mb-4">
-            <label className="block text-sm font-medium mb-2" style={{color: 'var(--text)'}}>
+          <div className="mb-3 sm:mb-4">
+            <label className="block text-sm font-medium mb-1 sm:mb-2" style={{color: 'var(--text)'}}>
               Group Name *
             </label>
             <input
@@ -149,8 +149,8 @@ The group will appear in your groups list once the data syncs.`;
           </div>
 
           {/* Emoji Selection */}
-          <div className="mb-4">
-            <label className="block text-sm font-medium mb-2" style={{color: 'var(--text)'}}>
+          <div className="mb-3 sm:mb-4">
+            <label className="block text-sm font-medium mb-1 sm:mb-2" style={{color: 'var(--text)'}}>
               Group Icon
             </label>
             <div className="flex flex-wrap gap-2">
@@ -158,7 +158,7 @@ The group will appear in your groups list once the data syncs.`;
                 <button
                   key={emojiOption}
                   onClick={() => setEmoji(emojiOption)}
-                  className={`text-2xl p-2 rounded-lg border-2 transition duration-200 ${
+                  className={`text-xl sm:text-2xl p-2 rounded-lg border-2 transition duration-200 ${
                     emoji === emojiOption
                       ? 'border-indigo-500 bg-indigo-50'
                       : 'border-gray-200 hover:border-gray-300'
@@ -171,8 +171,8 @@ The group will appear in your groups list once the data syncs.`;
           </div>
 
           {/* Budget (Optional) */}
-          <div className="mb-4">
-            <label className="block text-sm font-medium mb-2" style={{color: 'var(--text)'}}>
+          <div className="mb-3 sm:mb-4">
+            <label className="block text-sm font-medium mb-1 sm:mb-2" style={{color: 'var(--text)'}}>
               Budget (Optional)
             </label>
             <div className="relative">
@@ -190,8 +190,8 @@ The group will appear in your groups list once the data syncs.`;
           </div>
 
           {/* Members */}
-          <div className="mb-6">
-            <label className="block text-sm font-medium mb-2" style={{color: 'var(--text)'}}>
+          <div className="mb-4 sm:mb-6">
+            <label className="block text-sm font-medium mb-1 sm:mb-2" style={{color: 'var(--text)'}}>
               Add Members (Optional)
             </label>
             <p className="text-xs mb-3" style={{color: 'var(--text)'}}>
@@ -228,10 +228,10 @@ The group will appear in your groups list once the data syncs.`;
           </div>
 
           {/* Action Buttons */}
-          <div className="flex space-x-3">
+          <div className="flex flex-col sm:flex-row space-y-2 sm:space-y-0 sm:space-x-3">
             <button
               onClick={onClose}
-              className="flex-1 py-3 px-4 border border-gray-300 rounded-lg hover:bg-gray-50 transition duration-200"
+              className="flex-1 py-3 px-4 border border-gray-300 rounded-lg hover:bg-gray-50 transition duration-200 text-sm sm:text-base"
               style={{color: 'var(--text)', backgroundColor: 'var(--bg)'}}
             >
               Cancel
@@ -239,11 +239,11 @@ The group will appear in your groups list once the data syncs.`;
             <button
               onClick={handleCreateGroup}
               disabled={loading || !groupName.trim()}
-              className="flex-1 py-3 px-4 bg-indigo-500 text-white rounded-lg hover:bg-indigo-600 disabled:bg-gray-400 transition duration-200 flex items-center justify-center"
+              className="flex-1 py-3 px-4 bg-indigo-500 text-white rounded-lg hover:bg-indigo-600 disabled:bg-gray-400 transition duration-200 flex items-center justify-center text-sm sm:text-base"
             >
               {loading ? (
                 <>
-                  <div className="animate-spin rounded-full h-5 w-5 border-b-2 border-white mr-2"></div>
+                  <div className="animate-spin rounded-full h-4 w-4 sm:h-5 sm:w-5 border-b-2 border-white mr-2"></div>
                   Creating...
                 </>
               ) : (
