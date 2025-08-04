@@ -3,6 +3,7 @@ import { useParams, useNavigate } from 'react-router-dom';
 import { db } from '../../../firebase';
 import { doc, onSnapshot, updateDoc, arrayUnion, deleteDoc, collection, query, getDocs, serverTimestamp } from 'firebase/firestore';
 import { useAuth } from '../../AuthContext';
+import { sendGroupInvitationEmail } from '../../utils/emailService';
 import AddExpenseModal from './AddExpenseModal';
 import ExpenseList from './ExpenseList';
 import BalanceSummary from './BalanceSummary';
@@ -54,6 +55,11 @@ export default function GroupDetails() {
     return () => unsubscribe();
   }, [groupId, navigate, user]);
 
+  const copyInviteCode = () => {
+    navigator.clipboard.writeText(group.inviteCode);
+    alert('Invite code copied to clipboard!');
+  };
+
   const handleInviteMember = async () => {
     if (!group || !user) return;
 
@@ -73,16 +79,26 @@ export default function GroupDetails() {
         memberEmails: arrayUnion(email),
         members: arrayUnion(email) // Will be updated when they join
       });
-      alert(`Invitation sent to ${email}! They can also join using invite code: ${group.inviteCode}`);
+
+      // Send email notification
+      const inviterName = user.displayName || user.email;
+      const emailSent = await sendGroupInvitationEmail(
+        email, 
+        group.name, 
+        inviterName, 
+        group.inviteCode, 
+        false // isNewGroup = false
+      );
+      
+      if (emailSent) {
+        alert(`Invitation sent to ${email}! They will receive an email with the invite code: ${group.inviteCode}`);
+      } else {
+        alert(`Member added to group. Invite code: ${group.inviteCode}\n\nNote: Email notification failed to send.`);
+      }
     } catch (error) {
       console.error('Error inviting member:', error);
       alert('Error sending invitation. Please try again.');
     }
-  };
-
-  const copyInviteCode = () => {
-    navigator.clipboard.writeText(group.inviteCode);
-    alert('Invite code copied to clipboard!');
   };
 
   const handleDeleteGroup = async () => {

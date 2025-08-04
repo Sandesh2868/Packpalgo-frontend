@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { db } from '../../../firebase';
 import { collection, addDoc, serverTimestamp } from 'firebase/firestore';
 import { useAuth } from '../../AuthContext';
+import { sendGroupInvitationEmail } from '../../utils/emailService';
 
 export default function CreateGroupModal({ isOpen, onClose }) {
   const [groupName, setGroupName] = useState('');
@@ -74,6 +75,34 @@ export default function CreateGroupModal({ isOpen, onClose }) {
       const docRef = await addDoc(collection(db, 'groups'), groupData);
       console.log('Group created successfully with ID:', docRef.id);
       
+      // Send email notifications to added members
+      const creatorName = user.displayName || user.email;
+      let emailNotificationsSent = 0;
+      let emailNotificationsFailed = 0;
+      
+      for (const memberEmail of validMembers) {
+        if (memberEmail !== user.email) {
+          try {
+            const emailSent = await sendGroupInvitationEmail(
+              memberEmail, 
+              groupName.trim(), 
+              creatorName, 
+              inviteCode, 
+              true // isNewGroup = true
+            );
+            
+            if (emailSent) {
+              emailNotificationsSent++;
+            } else {
+              emailNotificationsFailed++;
+            }
+          } catch (error) {
+            console.error(`Failed to send email to ${memberEmail}:`, error);
+            emailNotificationsFailed++;
+          }
+        }
+      }
+      
       // Reset form first
       setGroupName('');
       setMembers(['']);
@@ -86,13 +115,20 @@ export default function CreateGroupModal({ isOpen, onClose }) {
       
       // Show success message with invite code
       setTimeout(() => {
-        const successMessage = `Group "${groupName}" created successfully!
-
-Invite Code: ${inviteCode}
-
-Share this code with others to let them join your group.
-
-The group will appear in your groups list once the data syncs.`;
+        let successMessage = `Group "${groupName}" created successfully!\n\nInvite Code: ${inviteCode}`;
+        
+        if (validMembers.length > 0) {
+          successMessage += `\n\nEmail notifications:`;
+          if (emailNotificationsSent > 0) {
+            successMessage += `\n✅ Sent to ${emailNotificationsSent} member(s)`;
+          }
+          if (emailNotificationsFailed > 0) {
+            successMessage += `\n❌ Failed to send to ${emailNotificationsFailed} member(s)`;
+          }
+        }
+        
+        successMessage += `\n\nShare this code with others to let them join your group.\n\nThe group will appear in your groups list once the data syncs.`;
+        
         alert(successMessage);
       }, 100);
       
