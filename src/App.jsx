@@ -112,6 +112,7 @@ export default function App() {
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6 }}
+            style={{ color: "var(--text)" }}
           >
             🌍 Spin the Globe — Double tap to Explore.
           </motion.h2>
@@ -120,6 +121,7 @@ export default function App() {
             initial={{ opacity: 0, y: 10 }}
             whileInView={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.2 }}
+            style={{ color: "var(--text)" }}
           >
             Rotate and zoom the interactive globe to get inspired.
           </motion.p>
@@ -127,12 +129,13 @@ export default function App() {
         </div>
       </section>
 
-      <section className="relative z-10 py-32 text-center">
+      <section className="relative z-10 py-32 text-center" style={{ color: "var(--text)" }}>
         <motion.h2
           className="text-4xl font-bold mb-6"
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6 }}
+          style={{ color: "var(--text)" }}
         >
           🕹️ Travel Games
         </motion.h2>
@@ -141,6 +144,7 @@ export default function App() {
           initial={{ opacity: 0, y: 10 }}
           whileInView={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.2 }}
+          style={{ color: "var(--text)" }}
         >
           Play trivia, guess hidden places, and challenge your travel buddies.
         </motion.p>
