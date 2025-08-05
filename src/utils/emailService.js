@@ -19,9 +19,9 @@ export const sendEmailViaEmailJS = async (emailData) => {
         'Content-Type': 'application/json',
       },
       body: JSON.stringify({
-        service_id: EMAILJS_SERVICE_ID,
-        template_id: EMAILJS_TEMPLATE_ID,
-        user_id: EMAILJS_USER_ID,
+        service_id: process.env.REACT_APP_EMAILJS_SERVICE_ID,
+        template_id: process.env.REACT_APP_EMAILJS_TEMPLATE_ID,
+        user_id: process.env.REACT_APP_EMAILJS_USER_ID,
         template_params: emailData
       })
     });
@@ -40,7 +40,7 @@ export const sendEmailViaSimpleService = async (emailData) => {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
-        'Authorization': `Bearer ${SIMPLE_EMAIL_API_KEY}`
+        'Authorization': `Bearer ${process.env.REACT_APP_EMAIL_API_KEY}`
       },
       body: JSON.stringify({
         to: emailData.to_email,
@@ -73,7 +73,7 @@ export const sendEmailViaPublicAPI = async (emailData) => {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
-        'Authorization': `Bearer ${RESEND_API_KEY}`
+        'Authorization': `Bearer ${process.env.REACT_APP_RESEND_API_KEY}`
       },
       body: JSON.stringify({
         from: 'noreply@gosplit.com',
@@ -114,6 +114,7 @@ export const sendGroupInvitationEmail = async (recipientEmail, groupName, invite
     group_name: groupName,
     inviter_name: inviterName,
     invite_code: inviteCode,
+    isNewGroup: isNewGroup,
     message: `
 Hello!
 
