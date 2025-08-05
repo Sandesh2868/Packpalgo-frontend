@@ -154,31 +154,30 @@ The GoSplit Team
     code: inviteCode
   });
 
-  // Try simple notification first (for testing)
-  const simpleNotificationSent = sendSimpleNotification(emailData);
+  // Check if email services are configured
+  const emailServicesConfigured = isEmailServiceConfigured();
   
-  if (simpleNotificationSent) {
-    return true;
+  // Try EmailJS first (if configured)
+  let emailSent = false;
+  if (emailServicesConfigured) {
+    emailSent = await sendEmailViaEmailJS(emailData);
   }
-
-  // Try EmailJS
-  let emailSent = await sendEmailViaEmailJS(emailData);
   
-  if (!emailSent) {
+  if (!emailSent && emailServicesConfigured) {
     // Try public API
     emailSent = await sendEmailViaPublicAPI(emailData);
   }
   
-  if (!emailSent) {
+  if (!emailSent && emailServicesConfigured) {
     // Try simple email service
     emailSent = await sendEmailViaSimpleService(emailData);
   }
   
   if (!emailSent) {
-    // Fallback to mailto
-    console.log('Email services unavailable, using mailto fallback');
-    sendEmailViaMailto(emailData);
-    return false; // Return false to indicate fallback was used
+    // If no email services configured or all failed, show test notification
+    console.log('Email services not configured or failed, showing test notification');
+    sendSimpleNotification(emailData);
+    return false; // Return false to indicate test notification was used
   }
   
   return emailSent;
