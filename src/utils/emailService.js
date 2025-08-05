@@ -1,4 +1,4 @@
-// Email service utility for GoSplit notifications (No .env references)
+// Email service utility for GoSplit notifications (Direct hardcoded keys for testing)
 
 // ======== CONFIGURATION (replace with your actual values) =========
 const EMAILJS_SERVICE_ID = 'service_pcv2e9b';
@@ -214,4 +214,23 @@ The GoSplit Team
 // Email service config checker (optional)
 export const isEmailServiceConfigured = () => {
   return !!(EMAILJS_SERVICE_ID || SIMPLE_EMAIL_API_KEY || RESEND_API_KEY);
+};
+
+// Test function to verify email configuration
+export const testEmailConfiguration = () => {
+  console.log('=== Email Configuration Test ===');
+  console.log('EmailJS Service ID:', EMAILJS_SERVICE_ID);
+  console.log('EmailJS Template ID:', EMAILJS_TEMPLATE_ID);
+  console.log('EmailJS User ID:', EMAILJS_USER_ID);
+  console.log('Resend API Key:', RESEND_API_KEY ? 'Set' : 'Not Set');
+  console.log('Simple Email API Key:', SIMPLE_EMAIL_API_KEY ? 'Set' : 'Not Set');
+  console.log('Email Services Configured:', isEmailServiceConfigured());
+  console.log('================================');
+  
+  return {
+    emailjsConfigured: !!(EMAILJS_SERVICE_ID && EMAILJS_TEMPLATE_ID && EMAILJS_USER_ID),
+    resendConfigured: !!RESEND_API_KEY,
+    simpleEmailConfigured: !!SIMPLE_EMAIL_API_KEY,
+    anyServiceConfigured: isEmailServiceConfigured()
+  };
 };
