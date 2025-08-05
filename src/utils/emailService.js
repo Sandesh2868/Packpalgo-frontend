@@ -13,20 +13,47 @@ const SIMPLE_EMAIL_API_KEY = 'your_simple_email_key'; // Optional
 // Option 1: Using EmailJS
 export const sendEmailViaEmailJS = async (emailData) => {
   try {
+    const serviceId = process.env.REACT_APP_EMAILJS_SERVICE_ID;
+    const templateId = process.env.REACT_APP_EMAILJS_TEMPLATE_ID;
+    const userId = process.env.REACT_APP_EMAILJS_USER_ID;
+
+    console.log('EmailJS Config:', {
+      serviceId: serviceId ? 'Set' : 'Missing',
+      templateId: templateId ? 'Set' : 'Missing',
+      userId: userId ? 'Set' : 'Missing'
+    });
+
+    if (!serviceId || !templateId || !userId) {
+      console.error('EmailJS configuration missing:', { serviceId, templateId, userId });
+      return false;
+    }
+
+    const requestBody = {
+      service_id: serviceId,
+      template_id: templateId,
+      user_id: userId,
+      template_params: emailData
+    };
+
+    console.log('EmailJS Request:', requestBody);
+
     const response = await fetch('https://api.emailjs.com/api/v1.0/email/send', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
       },
-      body: JSON.stringify({
-        service_id: process.env.REACT_APP_EMAILJS_SERVICE_ID,
-        template_id: process.env.REACT_APP_EMAILJS_TEMPLATE_ID,
-        user_id: process.env.REACT_APP_EMAILJS_USER_ID,
-        template_params: emailData
-      })
+      body: JSON.stringify(requestBody)
     });
 
-    return response.ok;
+    const responseText = await response.text();
+    console.log('EmailJS Response:', response.status, responseText);
+
+    if (!response.ok) {
+      console.error('EmailJS API error:', response.status, responseText);
+      return false;
+    }
+
+    return true;
   } catch (error) {
     console.error('EmailJS error:', error);
     return false;
@@ -156,30 +183,36 @@ The GoSplit Team
 
   // Check if email services are configured
   const emailServicesConfigured = isEmailServiceConfigured();
+  console.log('Email services configured:', emailServicesConfigured);
   
   // Try EmailJS first (if configured)
   let emailSent = false;
   if (emailServicesConfigured) {
+    console.log('Attempting to send via EmailJS...');
     emailSent = await sendEmailViaEmailJS(emailData);
+    console.log('EmailJS result:', emailSent);
   }
   
   if (!emailSent && emailServicesConfigured) {
-    // Try public API
+    console.log('Attempting to send via Resend API...');
     emailSent = await sendEmailViaPublicAPI(emailData);
+    console.log('Resend API result:', emailSent);
   }
   
   if (!emailSent && emailServicesConfigured) {
-    // Try simple email service
+    console.log('Attempting to send via Simple Email Service...');
     emailSent = await sendEmailViaSimpleService(emailData);
+    console.log('Simple Email Service result:', emailSent);
   }
   
   if (!emailSent) {
     // If no email services configured or all failed, show test notification
-    console.log('Email services not configured or failed, showing test notification');
+    console.log('All email services failed, showing test notification');
     sendSimpleNotification(emailData);
     return false; // Return false to indicate test notification was used
   }
   
+  console.log('Email sent successfully!');
   return emailSent;
 };
 
