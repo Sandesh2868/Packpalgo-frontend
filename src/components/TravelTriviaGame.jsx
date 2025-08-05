@@ -87,7 +87,7 @@ export default function TravelTriviaGame({ clickSound, correctSound, wrongSound 
       {!done ? (
         <Card>
           <CardContent className="p-6">
-            <h3 className="text-xl font-semibold mb-4">{triviaQuestions[current].question}</h3>
+            <h3 className="text-xl font-semibold mb-4" style={{ color: "white" }}>{triviaQuestions[current].question}</h3>
             <div className="grid grid-cols-2 gap-4">
               {triviaQuestions[current].options.map((opt, i) => (
                 <Button key={i} onClick={() => handleAnswer(opt)} style={buttonStyle}>
@@ -97,7 +97,7 @@ export default function TravelTriviaGame({ clickSound, correctSound, wrongSound 
             </div>
             {showFact && (
               <>
-                <p className="mt-4 text-green-300 text-sm">✅ {triviaQuestions[current].fact}</p>
+                <p className="mt-4 text-sm" style={{ color: "white" }}>✅ {triviaQuestions[current].fact}</p>
                 <Button className="mt-4" onClick={nextQuestion} style={buttonStyle}>
                   Next Question →
                 </Button>
@@ -108,7 +108,7 @@ export default function TravelTriviaGame({ clickSound, correctSound, wrongSound 
       ) : (
                         <Card className="bg-green-100">
           <CardContent className="p-6 text-center">
-            <h3 className="text-xl font-semibold mb-2">🎉 Your Score: {score}/{triviaQuestions.length}</h3>
+            <h3 className="text-xl font-semibold mb-2" style={{ color: "white" }}>🎉 Your Score: {score}/{triviaQuestions.length}</h3>
             <Button onClick={reset} style={buttonStyle}>
               Play Again
             </Button>

@@ -71,7 +71,7 @@ export default function GuessThePlaceGame({ clickSound, correctSound, wrongSound
       {!completed ? (
         <Card>
           <CardContent className="p-4">
-            <p className="text-md text-gray-300 mb-2">
+            <p className="text-md mb-2" style={{ color: "white" }}>
               🎮 Turn: <strong>{currentPlayer === "player1" ? "Player 1" : "Player 2"}</strong>
             </p>
             <img src={current.image} alt="Guess the place" className="w-full h-64 object-cover rounded-xl mb-4" />
@@ -87,10 +87,10 @@ export default function GuessThePlaceGame({ clickSound, correctSound, wrongSound
       ) : (
         <Card className="bg-gray-800 text-white">
           <CardContent className="p-6 text-center">
-            <h3 className="text-xl font-bold mb-2">🏁 Game Over</h3>
-            <p className="mb-1">Player 1 Score: <strong>{scores.player1}</strong></p>
-            <p className="mb-3">Player 2 Score: <strong>{scores.player2}</strong></p>
-            <p className="text-lg font-semibold">
+            <h3 className="text-xl font-bold mb-2" style={{ color: "white" }}>🏁 Game Over</h3>
+            <p className="mb-1" style={{ color: "white" }}>Player 1 Score: <strong>{scores.player1}</strong></p>
+            <p className="mb-3" style={{ color: "white" }}>Player 2 Score: <strong>{scores.player2}</strong></p>
+            <p className="text-lg font-semibold" style={{ color: "white" }}>
               {winner === "Tie" ? "🤝 It's a Tie!" : `🎉 ${winner} Wins!`}
             </p>
             <Button className="mt-4" onClick={resetGame} style={buttonStyle}>
