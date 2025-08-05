@@ -1,7 +1,16 @@
-// Email service utility for GoSplit notifications
-// This file provides multiple options for sending email notifications
+// Email service utility for GoSplit notifications (No .env references)
 
-// Option 1: Using EmailJS (requires setup)
+// ======== CONFIGURATION (replace with your actual values) =========
+const EMAILJS_SERVICE_ID = 'service_pcv2e9b';
+const EMAILJS_TEMPLATE_ID = 'template_ma23tgt';
+const EMAILJS_USER_ID = 'r111Q3ncr8hS9oqra';
+
+const RESEND_API_KEY = 're_123456789'; // Replace with actual key
+const SIMPLE_EMAIL_API_KEY = 'your_simple_email_key'; // Optional
+// ===================================================================
+
+
+// Option 1: Using EmailJS
 export const sendEmailViaEmailJS = async (emailData) => {
   try {
     const response = await fetch('https://api.emailjs.com/api/v1.0/email/send', {
@@ -10,9 +19,9 @@ export const sendEmailViaEmailJS = async (emailData) => {
         'Content-Type': 'application/json',
       },
       body: JSON.stringify({
-        service_id: process.env.REACT_APP_EMAILJS_SERVICE_ID || 'your_service_id',
-        template_id: process.env.REACT_APP_EMAILJS_TEMPLATE_ID || 'your_template_id',
-        user_id: process.env.REACT_APP_EMAILJS_USER_ID || 'your_user_id',
+        service_id: EMAILJS_SERVICE_ID,
+        template_id: EMAILJS_TEMPLATE_ID,
+        user_id: EMAILJS_USER_ID,
         template_params: emailData
       })
     });
@@ -24,15 +33,14 @@ export const sendEmailViaEmailJS = async (emailData) => {
   }
 };
 
-// Option 2: Using a simple email service (like EmailJS alternative)
+// Option 2: Using another service
 export const sendEmailViaSimpleService = async (emailData) => {
   try {
-    // You can replace this with any email service API
     const response = await fetch('https://your-email-service.com/api/send', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
-        'Authorization': `Bearer ${process.env.REACT_APP_EMAIL_API_KEY}`
+        'Authorization': `Bearer ${SIMPLE_EMAIL_API_KEY}`
       },
       body: JSON.stringify({
         to: emailData.to_email,
@@ -43,12 +51,12 @@ export const sendEmailViaSimpleService = async (emailData) => {
 
     return response.ok;
   } catch (error) {
-    console.error('Email service error:', error);
+    console.error('Simple Email Service error:', error);
     return false;
   }
 };
 
-// Option 3: Using mailto link (fallback option)
+// Option 3: Mailto fallback
 export const sendEmailViaMailto = (emailData) => {
   const subject = encodeURIComponent(emailData.subject);
   const body = encodeURIComponent(emailData.message);
@@ -58,15 +66,14 @@ export const sendEmailViaMailto = (emailData) => {
   return true;
 };
 
-// Option 4: Using a public email API (for testing)
+// Option 4: Using Resend API
 export const sendEmailViaPublicAPI = async (emailData) => {
   try {
-    // Using a public email API for testing (you can replace this with your preferred service)
     const response = await fetch('https://api.resend.com/emails', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
-        'Authorization': `Bearer ${process.env.REACT_APP_RESEND_API_KEY || 're_123456789'}` // Replace with actual API key
+        'Authorization': `Bearer ${RESEND_API_KEY}`
       },
       body: JSON.stringify({
         from: 'noreply@gosplit.com',
@@ -78,14 +85,13 @@ export const sendEmailViaPublicAPI = async (emailData) => {
 
     return response.ok;
   } catch (error) {
-    console.error('Public API error:', error);
+    console.error('Resend API error:', error);
     return false;
   }
 };
 
-// Option 5: Simple notification (for immediate testing)
+// Option 5: Simple alert (test mode)
 export const sendSimpleNotification = (emailData) => {
-  // For immediate testing, show a notification with the email content
   const notification = `
 📧 Email Notification (Test Mode)
 
@@ -93,15 +99,14 @@ To: ${emailData.to_email}
 Subject: ${emailData.subject}
 
 ${emailData.message}
-
-Note: This is a test notification. In production, this would be sent as an actual email.
   `;
   
   alert(notification);
   return true;
 };
 
-// Main email notification function
+
+// Main email trigger function
 export const sendGroupInvitationEmail = async (recipientEmail, groupName, inviterName, inviteCode, isNewGroup = false) => {
   const emailData = {
     to_email: recipientEmail,
@@ -146,47 +151,21 @@ The GoSplit Team
     `
   };
 
-  // For immediate testing, use simple notification
-  console.log('Email notification triggered:', {
-    recipient: recipientEmail,
-    group: groupName,
-    inviter: inviterName,
-    code: inviteCode
-  });
+  console.log('Email triggered:', { recipientEmail, groupName, inviterName, inviteCode });
 
-  // Try simple notification first (for testing)
-  const simpleNotificationSent = sendSimpleNotification(emailData);
-  
-  if (simpleNotificationSent) {
-    return true;
-  }
+  // Try alert first
+  const alertSent = sendSimpleNotification(emailData);
+  if (alertSent) return true;
 
-  // Try EmailJS
-  let emailSent = await sendEmailViaEmailJS(emailData);
-  
-  if (!emailSent) {
-    // Try public API
-    emailSent = await sendEmailViaPublicAPI(emailData);
-  }
-  
-  if (!emailSent) {
-    // Try simple email service
-    emailSent = await sendEmailViaSimpleService(emailData);
-  }
-  
-  if (!emailSent) {
-    // Fallback to mailto
-    console.log('Email services unavailable, using mailto fallback');
-    sendEmailViaMailto(emailData);
-    return false; // Return false to indicate fallback was used
-  }
-  
-  return emailSent;
+  let sent = await sendEmailViaEmailJS(emailData);
+  if (!sent) sent = await sendEmailViaPublicAPI(emailData);
+  if (!sent) sent = await sendEmailViaSimpleService(emailData);
+  if (!sent) sendEmailViaMailto(emailData);
+
+  return sent;
 };
 
-// Utility function to check if email services are configured
+// Email service config checker (optional)
 export const isEmailServiceConfigured = () => {
-  return !!(process.env.REACT_APP_EMAILJS_SERVICE_ID || 
-           process.env.REACT_APP_EMAIL_API_KEY ||
-           process.env.REACT_APP_RESEND_API_KEY);
+  return !!(EMAILJS_SERVICE_ID || SIMPLE_EMAIL_API_KEY || RESEND_API_KEY);
 };
