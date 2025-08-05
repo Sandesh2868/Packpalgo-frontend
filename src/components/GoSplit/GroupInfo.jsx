@@ -197,9 +197,8 @@ export default function GroupInfo({ group }) {
       </div>
 
       {/* Invite & Share */}
-      <div className="bg-white border border-gray-200 rounded-lg p-4 sm:p-6">
-        <h3 className="text-base sm:text-lg font-semibold text-gray-800 mb-3 sm:mb-4">Invite More Members</h3>
-        
+      <div className="bg-white text-black border border-gray-200 rounded-lg p-4 sm:p-6">
+        <h3 className="text-base sm:text-lg font-semibold text-gray-800 mb-3 sm:mb-4">Invite More Members</h3>  
         <div className="space-y-3 sm:space-y-4">
           <div className="bg-gray-50 rounded-lg p-3 sm:p-4">
             <div className="flex items-center justify-between mb-2">
