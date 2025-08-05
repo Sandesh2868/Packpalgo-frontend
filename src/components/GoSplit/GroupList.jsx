@@ -118,7 +118,7 @@ export default function GroupList() {
             {groups.map(group => (
               <div key={group.id} onClick={() => handleGroupClick(group.id)} className="bg-white rounded-xl shadow-lg p-4 sm:p-6 cursor-pointer hover:shadow-xl transition duration-200 transform hover:-translate-y-1" style={{ backgroundColor: 'var(--bg)', color: 'var(--text)' }}>
                 <div className="flex items-center justify-between mb-3 sm:mb-4">
-                  <h3 className="text-lg sm:text-xl font-semibold truncate flex-1 mr-2">{group.groupName || 'Unnamed Group'}</h3>
+                  <h3 className="text-lg sm:text-xl font-semibold truncate flex-1 mr-2">{group.name || group.groupName || 'Unnamed Group'}</h3>
                   <span className="text-xl sm:text-2xl flex-shrink-0">{group.emoji || '🌍'}</span>
                 </div>
                 <div className="space-y-1 sm:space-y-2 mb-3 sm:mb-4 text-xs sm:text-sm">
