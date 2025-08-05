@@ -9,29 +9,24 @@ const RESEND_API_KEY = 're_123456789'; // Replace with actual key
 const SIMPLE_EMAIL_API_KEY = 'your_simple_email_key'; // Optional
 // ===================================================================
 
-
 // Option 1: Using EmailJS
 export const sendEmailViaEmailJS = async (emailData) => {
   try {
-    const serviceId = process.env.REACT_APP_EMAILJS_SERVICE_ID;
-    const templateId = process.env.REACT_APP_EMAILJS_TEMPLATE_ID;
-    const userId = process.env.REACT_APP_EMAILJS_USER_ID;
-
     console.log('EmailJS Config:', {
-      serviceId: serviceId ? 'Set' : 'Missing',
-      templateId: templateId ? 'Set' : 'Missing',
-      userId: userId ? 'Set' : 'Missing'
+      serviceId: EMAILJS_SERVICE_ID ? 'Set' : 'Missing',
+      templateId: EMAILJS_TEMPLATE_ID ? 'Set' : 'Missing',
+      userId: EMAILJS_USER_ID ? 'Set' : 'Missing'
     });
 
-    if (!serviceId || !templateId || !userId) {
-      console.error('EmailJS configuration missing:', { serviceId, templateId, userId });
+    if (!EMAILJS_SERVICE_ID || !EMAILJS_TEMPLATE_ID || !EMAILJS_USER_ID) {
+      console.error('EmailJS configuration missing:', { EMAILJS_SERVICE_ID, EMAILJS_TEMPLATE_ID, EMAILJS_USER_ID });
       return false;
     }
 
     const requestBody = {
-      service_id: serviceId,
-      template_id: templateId,
-      user_id: userId,
+      service_id: EMAILJS_SERVICE_ID,
+      template_id: EMAILJS_TEMPLATE_ID,
+      user_id: EMAILJS_USER_ID,
       template_params: emailData
     };
 
@@ -67,7 +62,7 @@ export const sendEmailViaSimpleService = async (emailData) => {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
-        'Authorization': `Bearer ${process.env.REACT_APP_EMAIL_API_KEY}`
+        'Authorization': `Bearer ${SIMPLE_EMAIL_API_KEY}`
       },
       body: JSON.stringify({
         to: emailData.to_email,
@@ -100,7 +95,7 @@ export const sendEmailViaPublicAPI = async (emailData) => {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
-        'Authorization': `Bearer ${process.env.REACT_APP_RESEND_API_KEY}`
+        'Authorization': `Bearer ${RESEND_API_KEY}`
       },
       body: JSON.stringify({
         from: 'noreply@gosplit.com',
@@ -218,7 +213,5 @@ The GoSplit Team
 
 // Email service config checker (optional)
 export const isEmailServiceConfigured = () => {
-  return !!(process.env.REACT_APP_EMAILJS_SERVICE_ID || 
-           process.env.REACT_APP_EMAIL_API_KEY ||
-           process.env.REACT_APP_RESEND_API_KEY);
+  return !!(EMAILJS_SERVICE_ID || SIMPLE_EMAIL_API_KEY || RESEND_API_KEY);
 };
