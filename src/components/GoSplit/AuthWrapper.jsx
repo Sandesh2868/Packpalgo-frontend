@@ -41,7 +41,7 @@ export default function AuthWrapper({ children }) {
         <div className="bg-white rounded-xl shadow-2xl p-8 w-full max-w-md text-center">
           <div className="text-6xl mb-6">🤝</div>
           <h1 className="text-3xl font-bold text-gray-800 mb-4">Welcome to GoSplit</h1>
-          <p className="text-gray-600 mb-8">
+          <p className="text-black-600 mb-8">
             Split travel expenses with your friends and family. Sign in with Google to get started.
           </p>
           
