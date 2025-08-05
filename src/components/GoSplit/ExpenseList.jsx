@@ -127,57 +127,59 @@ export default function ExpenseList({ groupId }) {
 
   return (
     <div>
-      {/* Filters */}
-      <div className="mb-4 sm:mb-6 space-y-4">
-        <h3 className="text-base sm:text-lg font-semibold text-gray-800">Filter Expenses</h3>
-        
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 sm:gap-4">
-          {/* Category Filter */}
-          <div>
-            <label className="block text-xs sm:text-sm font-medium text-gray-700 mb-1 sm:mb-2">Category</label>
-            <select
-              value={filters.category}
-              onChange={(e) => handleFilterChange('category', e.target.value)}
-              className="w-full p-2 text-sm border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
-            >
-              {categories.map(category => (
-                <option key={category.value} value={category.value}>
-                  {category.emoji} {category.label}
-                </option>
-              ))}
-            </select>
-          </div>
+    {/* Filters */}
+<div className="mb-4 sm:mb-6 space-y-4 text-black">
+  <h3 className="text-base sm:text-lg font-semibold text-black">Filter Expenses</h3>
 
-          {/* Payer Filter */}
-          <div>
-            <label className="block text-xs sm:text-sm font-medium text-gray-700 mb-1 sm:mb-2">Paid by</label>
-            <select
-              value={filters.payer}
-              onChange={(e) => handleFilterChange('payer', e.target.value)}
-              className="w-full p-2 text-sm border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
-            >
-              <option value="all">All Members</option>
-              {uniquePayers.map(payer => (
-                <option key={payer} value={payer}>{payer}</option>
-              ))}
-            </select>
-          </div>
+  <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 sm:gap-4">
+    {/* Category Filter */}
+    <div>
+      <label className="block text-xs sm:text-sm font-medium text-black mb-1 sm:mb-2">Category</label>
+      <select
+        value={filters.category}
+        onChange={(e) => handleFilterChange('category', e.target.value)}
+        className="w-full p-2 text-sm border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-transparent text-black bg-white"
+      >
+        {categories.map(category => (
+          <option key={category.value} value={category.value} className="text-black">
+            {category.emoji} {category.label}
+          </option>
+        ))}
+      </select>
+    </div>
 
-          {/* Date Range Filter */}
-          <div className="sm:col-span-2 lg:col-span-1">
-            <label className="block text-xs sm:text-sm font-medium text-gray-700 mb-1 sm:mb-2">Date Range</label>
-            <select
-              value={filters.dateRange}
-              onChange={(e) => handleFilterChange('dateRange', e.target.value)}
-              className="w-full p-2 text-sm border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
-            >
-              <option value="all">All Time</option>
-              <option value="today">Today</option>
-              <option value="week">Last 7 Days</option>
-              <option value="month">Last Month</option>
-            </select>
-          </div>
-        </div>
+    {/* Payer Filter */}
+    <div>
+      <label className="block text-xs sm:text-sm font-medium text-black mb-1 sm:mb-2">Paid by</label>
+      <select
+        value={filters.payer}
+        onChange={(e) => handleFilterChange('payer', e.target.value)}
+        className="w-full p-2 text-sm border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-transparent text-black bg-white"
+      >
+        <option value="all" className="text-black">All Members</option>
+        {uniquePayers.map(payer => (
+          <option key={payer} value={payer} className="text-black">{payer}</option>
+        ))}
+      </select>
+    </div>
+
+    {/* Date Range Filter */}
+    <div className="sm:col-span-2 lg:col-span-1">
+      <label className="block text-xs sm:text-sm font-medium text-black mb-1 sm:mb-2">Date Range</label>
+      <select
+        value={filters.dateRange}
+        onChange={(e) => handleFilterChange('dateRange', e.target.value)}
+        className="w-full p-2 text-sm border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-transparent text-black bg-white"
+      >
+        <option value="all" className="text-black">All Time</option>
+        <option value="today" className="text-black">Today</option>
+        <option value="week" className="text-black">Last 7 Days</option>
+        <option value="month" className="text-black">Last Month</option>
+      </select>
+    </div>
+  </div>
+</div>
+
 
         {/* Summary Stats */}
         <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 sm:gap-4 mt-4">
