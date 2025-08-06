@@ -101,33 +101,37 @@ export default function App() {
 
       <ComingSoonBanner />
 
-      <section
-        className="relative z-10 py-10 text-center bg-cover bg-center"
-        style={{ backgroundImage: "var(--bg-image)" }}
-      >
-        <div className="absolute inset-0 z-0 pointer-events-none" />
-        <div className="relative z-10">
-          <motion.h2
-            className="text-4xl font-bold mb-6"
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6 }}
-            style={{ color: "var(--text)" }}
-          >
-            🌍 Spin the Globe — Double tap to Explore.
-          </motion.h2>
-          <motion.p
-            className="text-lg mb-10 max-w-xl mx-auto"
-            initial={{ opacity: 0, y: 10 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.2 }}
-            style={{ color: "var(--text)" }}
-          >
-            Rotate and zoom the interactive globe to get inspired.
-          </motion.p>
-          <InteractiveGlobe />
-        </div>
-      </section>
+    <section
+  className="relative z-10 py-10 text-center bg-cover bg-center"
+  style={{ backgroundImage: "var(--bg-image)" }}
+>
+  {/* Pure blur overlay with no background color */}
+  <div className="absolute inset-0 backdrop-blur-sm z-0 pointer-events-none"></div>
+
+  {/* Foreground content */}
+  <div className="relative z-10">
+    <motion.h2
+      className="text-4xl font-bold mb-6"
+      initial={{ opacity: 0, y: 20 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.6 }}
+      style={{ color: "var(--text)" }}
+    >
+      🌍 Spin the Globe — Double tap to Explore.
+    </motion.h2>
+    <motion.p
+      className="text-lg mb-10 max-w-xl mx-auto"
+      initial={{ opacity: 0, y: 10 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      transition={{ delay: 0.2 }}
+      style={{ color: "var(--text)" }}
+    >
+      Rotate and zoom the interactive globe to get inspired.
+    </motion.p>
+    <InteractiveGlobe />
+  </div>
+</section>
+
 
       <section className="relative z-10 py-32 text-center">
         <motion.h2
