@@ -48,7 +48,7 @@ export default function App() {
     <main className="relative min-h-screen overflow-x-hidden" style={{ color: "var(--text)" }}>
       {/* Header Controls */}
       <div className="absolute top-2 sm:top-4 right-2 sm:right-4 z-50 flex items-center space-x-2 sm:space-x-4">
-        <AuthButton compact={true} showText={false} className="bg-white shadow-lg rounded-lg px-2 sm:px-3 py-1 sm:py-2" />
+        <AuthButton compact={true} showText={false} className="bg-black shadow-lg rounded-lg px-2 sm:px-3 py-1 sm:py-2" />
         <select
           value={theme}
           onChange={(e) => toggleTheme(e.target.value)}
