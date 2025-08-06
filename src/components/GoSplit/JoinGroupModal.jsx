@@ -138,7 +138,7 @@ export default function JoinGroupModal({ isOpen, onClose }) {
           </div>
 
           {/* Help Text */}
-          <div className="mt-4 p-3 sm:p-4 bg-blue-50 rounded-lg">
+          <div className="mt-4 p-3 sm:p-4 bg-blue-50 rounded-lg text-black">
             <p className="text-xs sm:text-sm" style={{color: 'var(--text)'}}>
               <strong>Don't have an invite code?</strong><br/>
               Ask the group creator to share their 6-character invite code with you, 
