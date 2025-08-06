@@ -2,7 +2,7 @@
 
 // ======== CONFIGURATION (replace with your actual values) =========
 const EMAILJS_SERVICE_ID = 'service_pcv2e9b';
-const EMAILJS_TEMPLATE_ID = 'template_qlcte6r';
+const EMAILJS_TEMPLATE_ID = 'template_ma23tgt';
 const EMAILJS_USER_ID = 'r111Q3ncr8hS9oqra';
 
 const RESEND_API_KEY = 're_123456789'; // Replace with actual key
@@ -12,17 +12,6 @@ const SIMPLE_EMAIL_API_KEY = 'your_simple_email_key'; // Optional
 // Option 1: Using EmailJS
 export const sendEmailViaEmailJS = async (emailData) => {
   try {
-    console.log('EmailJS Config:', {
-      serviceId: EMAILJS_SERVICE_ID ? 'Set' : 'Missing',
-      templateId: EMAILJS_TEMPLATE_ID ? 'Set' : 'Missing',
-      userId: EMAILJS_USER_ID ? 'Set' : 'Missing'
-    });
-
-    if (!EMAILJS_SERVICE_ID || !EMAILJS_TEMPLATE_ID || !EMAILJS_USER_ID) {
-      console.error('EmailJS configuration missing:', { EMAILJS_SERVICE_ID, EMAILJS_TEMPLATE_ID, EMAILJS_USER_ID });
-      return false;
-    }
-
     const requestBody = {
       service_id: EMAILJS_SERVICE_ID,
       template_id: EMAILJS_TEMPLATE_ID,
@@ -34,9 +23,7 @@ export const sendEmailViaEmailJS = async (emailData) => {
 
     const response = await fetch('https://api.emailjs.com/api/v1.0/email/send', {
       method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
+      headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(requestBody)
     });
 
@@ -44,13 +31,13 @@ export const sendEmailViaEmailJS = async (emailData) => {
     console.log('EmailJS Response:', response.status, responseText);
 
     if (!response.ok) {
-      console.error('EmailJS API error:', response.status, responseText);
+      alert('EmailJS API error: ' + response.status + ' ' + responseText);
       return false;
     }
 
     return true;
   } catch (error) {
-    console.error('EmailJS error:', error);
+    alert('EmailJS error: ' + error.message);
     return false;
   }
 };
