@@ -474,7 +474,7 @@ function ActivityEditModal({ activity, isOpen, onClose, onSave }) {
   return (
     <div className="fixed inset-0 bg-black/40 z-50 flex items-center justify-center">
       <div className="bg-white rounded-xl p-6 w-full max-w-md shadow-2xl">
-        <h2 className="text-xl font-bold mb-4">Edit Activity</h2>
+        <h2 className="text-xl font-bold mb-4 text-black">Edit Activity</h2>
         <div className="space-y-3">
                       <input className="w-full border rounded p-2" placeholder="Name" value={form.name || ''} onChange={e => setForm(f => ({...f, name: e.target.value}))} />
             <input className="w-full border rounded p-2" placeholder="Duration (min)" type="number" value={form.duration || ''} onChange={e => setForm(f => ({...f, duration: Number(e.target.value)}))} />
@@ -597,7 +597,7 @@ function CreateTemplateModal({ isOpen, onClose, onSave }) {
   return (
     <div className="fixed inset-0 bg-black/40 z-50 flex items-center justify-center">
       <div className="bg-white rounded-xl p-6 w-full max-w-lg shadow-2xl">
-        <h2 className="text-xl font-bold mb-4">Create New Template</h2>
+        <h2 className="text-xl font-bold mb-4 text-black">Create New Template</h2>
         <input className="w-full border rounded p-2 mb-2" placeholder="Template Name" value={name} onChange={e => setName(e.target.value)} />
         <div className="mb-2">
           <label className="block mb-1 font-medium">Gradient</label>
@@ -893,7 +893,7 @@ export default function ItineraryPlannerPage() {
           {/* Available Activities Sidebar */}
           <div className="lg:col-span-1">
             <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-6 sticky top-6">
-              <h3 className="font-bold text-lg mb-4 flex items-center gap-2">
+              <h3 className="font-bold text-lg mb-4 flex items-center gap-2 text-black">
                 <span>🎯</span>
                 Available Activities
               </h3>
