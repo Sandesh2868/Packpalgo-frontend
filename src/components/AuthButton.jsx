@@ -77,7 +77,7 @@ export default function AuthButton({ className = "", showText = true, compact = 
     <button
       onClick={handleSignIn}
       disabled={loading}
-      className={`bg-indigo-500 hover:bg-indigo-600 disabled:bg-gray-400 text-white px-4 py-2 rounded-lg transition duration-200 flex items-center space-x-2 ${className}`}
+      className={`bg-black-500 hover:bg-indigo-600 disabled:bg-gray-400 text-white px-4 py-2 rounded-lg transition duration-200 flex items-center space-x-2 ${className}`}
     >
       {loading ? (
         <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-white"></div>
