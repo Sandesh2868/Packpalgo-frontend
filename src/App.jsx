@@ -77,7 +77,7 @@ export default function App() {
       Before you pack, let's play and plan!
     </p>
 
-    <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4 max-w-xs sm:max-w-md mx-auto justify-center mb-6 z-20">
+    <div className="grid grid-cols-2 gap-3 sm:gap-4 max-w-xs sm:max-w-md mx-auto justify-center mb-6 z-20">
       <Button onClick={() => navigate("/budget-calculator")} className="bg-blue-600 text-white hover:bg-blue-700 text-sm sm:text-base">💰 Budget Calculator</Button>
       <Button onClick={() => navigate("/things-to-carry")} className="bg-green-600 text-white hover:bg-green-700 text-sm sm:text-base">📝 Pack list</Button>
       <Button onClick={() => navigate("/itinerary-planner")} className="bg-purple-600 text-white hover:bg-purple-700 text-sm sm:text-base">📅🧳 Itinerary Planner</Button>
