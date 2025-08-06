@@ -1034,53 +1034,59 @@ export default function ItineraryPlannerPage() {
         </div>
       </div>
 
-      {/* Main Content */}
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-        <div className="grid grid-cols-1 lg:grid-cols-4 gap-6">
-          {/* Available Activities Sidebar */}
-          <div className="lg:col-span-1">
-            <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-6 sticky top-6">
-              <h3 className="font-bold text-lg mb-4 flex items-center gap-2 text-black">
-                <span>🎯</span>
-                Available Activities
-              </h3>
-              
-                             <div className="space-y-3 max-h-96 overflow-y-auto">
-                {availableActivities.map((activity) => (
-                  <div
-                    key={activity.id}
-                    draggable
-                    onDragStart={(e) => {
-                      e.dataTransfer.setData('application/json', JSON.stringify(activity));
-                    }}
-                    onClick={() => {
-                      // Mobile: Select activity on click
-                      if (window.innerWidth < 1024) {
-                        setSelectedActivityForMobile(
-                          selectedActivityForMobile?.id === activity.id ? null : activity
-                        );
-                      }
-                    }}
-                    className={`cursor-grab active:cursor-grabbing select-none transition-all duration-200 ${
-                      selectedActivityForMobile?.id === activity.id 
-                        ? 'ring-2 ring-blue-500 ring-offset-2' 
-                        : ''
-                    }`}
-                  >
-                    <ActivityCard
-                      activity={activity}
-                      onEdit={handleEditActivity}
-                      onDelete={(id) => setAvailableActivities(prev => prev.filter(a => a.id !== id))}
-                    />
-                    {selectedActivityForMobile?.id === activity.id && (
-                      <div className="lg:hidden text-center mt-2 text-sm text-blue-600 font-medium">
-                        👆 Now tap a day to add this activity
-                      </div>
-                    )}
-                  </div>
-                ))}
-              </div>
+    {/* Main Content */}
+<div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+  <div className="grid grid-cols-1 lg:grid-cols-4 gap-6">
+    {/* Available Activities Sidebar */}
+    <div className="lg:col-span-1">
+      <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-6 sticky top-6">
+        <h3 className="font-bold text-lg mb-4 flex items-center gap-2 text-black">
+          <span>🎯</span>
+          Available Activities
+        </h3>
 
+        <div className="space-y-3 max-h-96 overflow-y-auto text-black">
+          {availableActivities.map((activity) => (
+            <div
+              key={activity.id}
+              draggable
+              onDragStart={(e) => {
+                e.dataTransfer.setData('application/json', JSON.stringify(activity));
+              }}
+              onClick={() => {
+                // Mobile: Select activity on click
+                if (window.innerWidth < 1024) {
+                  setSelectedActivityForMobile(
+                    selectedActivityForMobile?.id === activity.id ? null : activity
+                  );
+                }
+              }}
+              className={`cursor-grab active:cursor-grabbing select-none transition-all duration-200 ${
+                selectedActivityForMobile?.id === activity.id 
+                  ? 'ring-2 ring-blue-500 ring-offset-2' 
+                  : ''
+              }`}
+            >
+              <ActivityCard
+                activity={activity}
+                onEdit={handleEditActivity}
+                onDelete={(id) =>
+                  setAvailableActivities((prev) => prev.filter((a) => a.id !== id))
+                }
+              />
+
+              {selectedActivityForMobile?.id === activity.id && (
+                <div className="lg:hidden text-center mt-2 text-sm text-blue-600 font-medium">
+                  👆 Now tap a day to add this activity
+                </div>
+              )}
+            </div>
+          ))}
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
               {availableActivities.length === 0 && (
                 <div className="text-center py-8 text-gray-400">
                   <div className="text-3xl mb-2">🎭</div>
