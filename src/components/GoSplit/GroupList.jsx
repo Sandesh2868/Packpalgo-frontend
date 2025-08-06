@@ -59,12 +59,12 @@ export default function GroupList() {
           <p className="mb-6">
             Split travel expenses with your friends and family. Sign in to get started.
           </p>
-          <div className="bg-blue-50 p-4 rounded-lg mb-6 text-sm">
+          <div className="bg-blue-50 p-4 rounded-lg mb-6 text-sm text-black">
             <strong>📱 Your Data is Safe:</strong><br />
             All your groups and expenses are stored securely in the cloud.
             When you sign in, you'll see all your data exactly as you left it.
           </div>
-          <p className="text-sm">Please sign in using the button in the top right corner of the page.</p>
+          <p className="text-sm">Please sign in using the button in the top right corner of the main page.</p>
         </div>
       </div>
     );
