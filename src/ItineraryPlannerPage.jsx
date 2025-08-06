@@ -880,7 +880,20 @@ export default function ItineraryPlannerPage() {
   };
 
   const handleSaveEditActivity = (updated) => {
+    // Update in available activities
     setAvailableActivities(prev => prev.map(a => a.id === updated.id ? updated : a));
+    
+    // Update in day activities
+    setDayActivities(prev => {
+      const newActivities = { ...prev };
+      Object.keys(newActivities).forEach(dayId => {
+        newActivities[dayId] = newActivities[dayId].map(activity => 
+          activity.id === updated.id ? updated : activity
+        );
+      });
+      return newActivities;
+    });
+    
     setEditActivity(null);
   };
 
@@ -958,15 +971,13 @@ export default function ItineraryPlannerPage() {
           </p>
 
           {/* Controls */}
-         <div className="flex flex-col md:flex-row gap-4 items-center justify-center mb-6 relative">
-  <input
-    type="text"
-    placeholder="Enter destination (e.g., Paris, Tokyo)..."
-    value={selectedDestination}
-    onChange={(e) => setSelectedDestination(e.target.value)}
-    className="w-full md:w-80 px-4 py-3 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 placeholder:text-gray-700 text-black"
-  />
-</div>
+          <div className="flex flex-col md:flex-row gap-4 items-center justify-center mb-6 relative">
+            <input
+              type="text"
+              placeholder="Enter destination (e.g., Paris, Tokyo)..."
+              value={selectedDestination}
+              onChange={(e) => setSelectedDestination(e.target.value)}
+              className="w-full md:w-80 px-4 py-3 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 placeholder:text-gray-700 text-black"
             />
             {/* Smart Suggestions Modal Popup */}
             <AnimatePresence>
@@ -1034,65 +1045,61 @@ export default function ItineraryPlannerPage() {
         </div>
       </div>
 
-    {/* Main Content */}
-<div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-  <div className="grid grid-cols-1 lg:grid-cols-4 gap-6">
-    {/* Available Activities Sidebar */}
-    <div className="lg:col-span-1">
-      <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-6 sticky top-6">
-        <h3 className="font-bold text-lg mb-4 flex items-center gap-2 text-black">
-          <span>🎯</span>
-          Available Activities
-        </h3>
+      {/* Main Content */}
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        <div className="grid grid-cols-1 lg:grid-cols-4 gap-6">
+          {/* Available Activities Sidebar */}
+          <div className="lg:col-span-1">
+            <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-6 sticky top-6">
+              <h3 className="font-bold text-lg mb-4 flex items-center gap-2 text-black">
+                <span>🎯</span>
+                Available Activities
+              </h3>
 
-        <div className="space-y-3 max-h-96 overflow-y-auto text-black">
-          {availableActivities.map((activity) => (
-            <div
-              key={activity.id}
-              draggable
-              onDragStart={(e) => {
-                e.dataTransfer.setData('application/json', JSON.stringify(activity));
-              }}
-              onClick={() => {
-                // Mobile: Select activity on click
-                if (window.innerWidth < 1024) {
-                  setSelectedActivityForMobile(
-                    selectedActivityForMobile?.id === activity.id ? null : activity
-                  );
-                }
-              }}
-              className={`cursor-grab active:cursor-grabbing select-none transition-all duration-200 ${
-                selectedActivityForMobile?.id === activity.id 
-                  ? 'ring-2 ring-blue-500 ring-offset-2' 
-                  : ''
-              }`}
-            >
-              <ActivityCard
-                activity={activity}
-                onEdit={handleEditActivity}
-                onDelete={(id) =>
-                  setAvailableActivities((prev) => prev.filter((a) => a.id !== id))
-                }
-              />
+              <div className="space-y-3 max-h-96 overflow-y-auto text-black">
+                {availableActivities.map((activity) => (
+                  <div
+                    key={activity.id}
+                    draggable
+                    onDragStart={(e) => {
+                      e.dataTransfer.setData('application/json', JSON.stringify(activity));
+                    }}
+                    onClick={() => {
+                      // Mobile: Select activity on click
+                      if (window.innerWidth < 1024) {
+                        setSelectedActivityForMobile(
+                          selectedActivityForMobile?.id === activity.id ? null : activity
+                        );
+                      }
+                    }}
+                    className={`cursor-grab active:cursor-grabbing select-none transition-all duration-200 ${
+                      selectedActivityForMobile?.id === activity.id 
+                        ? 'ring-2 ring-blue-500 ring-offset-2' 
+                        : ''
+                    }`}
+                  >
+                    <ActivityCard
+                      activity={activity}
+                      onEdit={handleEditActivity}
+                      onDelete={(id) =>
+                        setAvailableActivities((prev) => prev.filter((a) => a.id !== id))
+                      }
+                    />
 
-              {selectedActivityForMobile?.id === activity.id && (
-                <div className="lg:hidden text-center mt-2 text-sm text-blue-600 font-medium">
-                  👆 Now tap a day to add this activity
-                </div>
-              )}
-            </div>
-          ))}
-        </div>
-      </div>
-    </div>
-  </div>
-</div>
-              {availableActivities.length === 0 && (
-                <div className="text-center py-8 text-gray-400">
-                  <div className="text-3xl mb-2">🎭</div>
-                  <p className="text-sm">Add activity templates to get started!</p>
-                </div>
-              )}
+                    {selectedActivityForMobile?.id === activity.id && (
+                      <div className="lg:hidden text-center mt-2 text-sm text-blue-600 font-medium">
+                        👆 Now tap a day to add this activity
+                      </div>
+                    )}
+                  </div>
+                ))}
+                {availableActivities.length === 0 && (
+                  <div className="text-center py-8 text-gray-400">
+                    <div className="text-3xl mb-2">🎭</div>
+                    <p className="text-sm">Add activity templates to get started!</p>
+                  </div>
+                )}
+              </div>
               <button onClick={() => setShowAddActivityModal(true)} className="w-full mb-4 bg-blue-100 hover:bg-blue-200 text-blue-800 px-4 py-2 rounded-lg transition-colors">➕ Add Activity</button>
             </div>
           </div>
@@ -1136,9 +1143,6 @@ export default function ItineraryPlannerPage() {
                 <button className="bg-blue-100 hover:bg-blue-200 text-blue-800 px-4 py-2 rounded-lg transition-colors" onClick={() => emailItinerary(days, dayActivities)}>
                   📧 Email Itinerary
                 </button>
-{/*                 <button className="bg-green-100 hover:bg-green-200 text-green-800 px-4 py-2 rounded-lg transition-colors" onClick={() => exportToCalendar(days, dayActivities)}>
-                  📱 Export to Calendar
-                </button> */}
                 <button className="bg-purple-100 hover:bg-purple-200 text-purple-800 px-4 py-2 rounded-lg transition-colors" onClick={() => downloadFile('itinerary.txt', generateItineraryText(days, dayActivities))}>
                   📄 Generate PDF
                 </button>
@@ -1151,7 +1155,7 @@ export default function ItineraryPlannerPage() {
         </div>
       </div>
 
-      {/* Template Selection Modal */}
+      {/* Modals */}
       <AnimatePresence>
         {showTemplateModal && (
           <TemplateModal
@@ -1163,15 +1167,25 @@ export default function ItineraryPlannerPage() {
           />
         )}
       </AnimatePresence>
-      <AnimatePresence>
-        <AddActivityModal isOpen={showAddActivityModal} onClose={() => setShowAddActivityModal(false)} onAdd={handleAddActivity} />
-      </AnimatePresence>
-      <AnimatePresence>
-        <ActivityEditModal activity={editActivity} isOpen={!!editActivity} onClose={() => setEditActivity(null)} onSave={handleSaveEditActivity} />
-      </AnimatePresence>
-      <AnimatePresence>
-        <CreateTemplateModal isOpen={showCreateTemplateModal} onClose={() => setShowCreateTemplateModal(false)} onSave={tpl => setUserTemplates(prev => [...prev, tpl])} />
-      </AnimatePresence>
+      
+      <AddActivityModal 
+        isOpen={showAddActivityModal} 
+        onClose={() => setShowAddActivityModal(false)} 
+        onAdd={handleAddActivity} 
+      />
+      
+      <ActivityEditModal 
+        activity={editActivity} 
+        isOpen={!!editActivity} 
+        onClose={() => setEditActivity(null)} 
+        onSave={handleSaveEditActivity} 
+      />
+      
+      <CreateTemplateModal 
+        isOpen={showCreateTemplateModal} 
+        onClose={() => setShowCreateTemplateModal(false)} 
+        onSave={tpl => setUserTemplates(prev => [...prev, tpl])} 
+      />
     </div>
   );
 }
