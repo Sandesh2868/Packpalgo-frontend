@@ -1,12 +1,12 @@
 // Email service utility for GoSplit notifications (Direct hardcoded keys for testing)
 
 // ======== CONFIGURATION (replace with your actual values) =========
-const EMAILJS_SERVICE_ID = 'service_pcv2e9b';
-const EMAILJS_TEMPLATE_ID = 'template_xvo13i2';
-const EMAILJS_USER_ID = 'r111Q3ncr8hS9oqra';
+const EMAILJS_SERVICE_ID = import.meta.env.VITE_EMAILJS_SERVICE_ID;
+const EMAILJS_TEMPLATE_ID = import.meta.env.VITE_EMAILJS_TEMPLATE_ID;
+const EMAILJS_USER_ID = import.meta.env.VITE_EMAILJS_USER_ID;
 
-const RESEND_API_KEY = 're_123456789'; // Replace with actual key
-const SIMPLE_EMAIL_API_KEY = 'your_simple_email_key'; // Optional
+const RESEND_API_KEY = import.meta.env.VITE_RESEND_API_KEY;
+const SIMPLE_EMAIL_API_KEY = import.meta.env.VITE_SIMPLE_EMAIL_API_KEY;
 // ===================================================================
 
 // Option 1: Using EmailJS
