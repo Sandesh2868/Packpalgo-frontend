@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { db } from '../../../firebase';
-import { doc, onSnapshot, updateDoc, arrayUnion } from 'firebase/firestore';
+import { doc, onSnapshot, updateDoc, arrayUnion, arrayRemove, deleteDoc, collection, getDocs } from 'firebase/firestore';
 import { useAuth } from '../../AuthContext';
 import AddExpenseModal from './AddExpenseModal';
 import ExpenseList from './ExpenseList';
@@ -74,6 +74,59 @@ export default function GroupDetails() {
   const copyInviteCode = () => {
     navigator.clipboard.writeText(group.inviteCode);
     alert('Invite code copied to clipboard!');
+  };
+
+  const handleDeleteGroup = async () => {
+    if (!user || !group) return;
+    if (group.createdByEmail !== user.email) {
+      alert('Only the group creator can delete this group.');
+      return;
+    }
+    const confirmDelete = window.confirm(
+      `Are you sure you want to delete "${group.name}"?\n\nThis action cannot be undone. All expenses and data will be permanently removed.`
+    );
+    if (confirmDelete) {
+      try {
+        await deleteDoc(doc(db, 'groups', groupId));
+        // Delete all expenses in the group
+        const expensesQuery = collection(db, 'groups', groupId, 'expenses');
+        const expensesSnapshot = await getDocs(expensesQuery);
+        const deletePromises = expensesSnapshot.docs.map(doc => deleteDoc(doc.ref));
+        await Promise.all(deletePromises);
+        alert('Group deleted successfully!');
+        navigate('/gosplit');
+      } catch (error) {
+        console.error('Error deleting group:', error);
+        alert('Error deleting group. Please try again.');
+      }
+    }
+  };
+
+  const handleRemoveMember = async (memberEmail) => {
+    if (!user || !group) return;
+    if (group.createdByEmail !== user.email) {
+      alert('Only the group creator can remove members.');
+      return;
+    }
+    if (memberEmail === user.email) {
+      alert('The creator cannot remove themselves.');
+      return;
+    }
+    const confirmRemove = window.confirm(
+      `Are you sure you want to remove ${memberEmail} from the group?`
+    );
+    if (confirmRemove) {
+      try {
+        await updateDoc(doc(db, 'groups', groupId), {
+          memberEmails: arrayRemove(memberEmail),
+          members: arrayRemove(memberEmail)
+        });
+        alert(`${memberEmail} removed from the group.`);
+      } catch (error) {
+        console.error('Error removing member:', error);
+        alert('Error removing member. Please try again.');
+      }
+    }
   };
 
   if (loading) {
@@ -165,6 +218,15 @@ export default function GroupDetails() {
                 <span>💰</span>
                 <span>Add Expense</span>
               </button>
+              {group.createdByEmail === user.email && (
+                <button
+                  onClick={handleDeleteGroup}
+                  className="bg-red-500 hover:bg-red-600 text-white px-3 sm:px-4 py-2 rounded-lg transition duration-200 flex items-center justify-center space-x-2 text-sm sm:text-base"
+                >
+                  <span>🗑️</span>
+                  <span>Delete Group</span>
+                </button>
+              )}
             </div>
           </div>
 
@@ -222,6 +284,27 @@ export default function GroupDetails() {
           <div className="p-4 sm:p-6">
             {activeTab === 'expenses' && <ExpenseList groupId={groupId} />}
             {activeTab === 'balances' && <BalanceSummary groupId={groupId} group={group} />}
+            {activeTab === 'info' && (
+              <div className="mt-4">
+                <h3 className="text-lg font-semibold mb-2">Members</h3>
+                <ul>
+                  {group.memberEmails.map((email) => (
+                    <li key={email} className="flex items-center justify-between py-1">
+                      <span>{email}</span>
+                      {group.createdByEmail === user.email && email !== group.createdByEmail && (
+                        <button
+                          onClick={() => handleRemoveMember(email)}
+                          className="ml-2 text-red-500 hover:text-red-700 text-xs px-2 py-1 rounded"
+                          title="Remove member"
+                        >
+                          Remove
+                        </button>
+                      )}
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            )}
             {activeTab === 'info' && <GroupInfo group={group} />}
           </div>
         </div>
