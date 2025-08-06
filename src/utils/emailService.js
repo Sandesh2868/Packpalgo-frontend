@@ -163,6 +163,9 @@ The GoSplit Team
 
   console.log('Email triggered:', { recipientEmail, groupName, inviterName, inviteCode });
 
+  // Add this log here:
+  console.log('EmailJS template params:', emailData);
+
   // Check if email services are configured
   const emailServicesConfigured = isEmailServiceConfigured();
   console.log('Email services configured:', emailServicesConfigured);
