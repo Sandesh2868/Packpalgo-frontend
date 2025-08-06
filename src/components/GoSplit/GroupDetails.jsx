@@ -286,16 +286,17 @@ export default function GroupDetails() {
             {activeTab === 'balances' && <BalanceSummary groupId={groupId} group={group} />}
             {activeTab === 'info' && (
               <div className="mt-4">
-                <h3 className="text-lg font-semibold mb-2">Members</h3>
-                <ul>
+                <h3 className="text-lg font-semibold mb-2" style={{ color: 'black' }}>Members</h3>
+                <ul style={{ color: 'black' }}>
                   {group.memberEmails.map((email) => (
-                    <li key={email} className="flex items-center justify-between py-1">
+                    <li key={email} className="flex items-center justify-between py-1" style={{ color: 'black' }}>
                       <span>{email}</span>
                       {group.createdByEmail === user.email && email !== group.createdByEmail && (
                         <button
                           onClick={() => handleRemoveMember(email)}
-                          className="ml-2 text-red-500 hover:text-red-700 text-xs px-2 py-1 rounded"
+                          className="ml-2 text-red-600 hover:text-red-800 text-xs px-2 py-1 rounded"
                           title="Remove member"
+                          style={{ color: 'red', fontWeight: 'bold' }}
                         >
                           Remove
                         </button>
