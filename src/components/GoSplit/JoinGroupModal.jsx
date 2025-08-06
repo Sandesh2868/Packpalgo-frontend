@@ -145,10 +145,8 @@ export default function JoinGroupModal({ isOpen, onClose }) {
     or create your own group instead.
   </p>
 </div>
-
           </div>
         </div>
       </div>
-    </div>
   );
 }
