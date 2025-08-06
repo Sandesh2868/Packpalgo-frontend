@@ -2,7 +2,7 @@
 
 // ======== CONFIGURATION (replace with your actual values) =========
 const EMAILJS_SERVICE_ID = 'service_pcv2e9b';
-const EMAILJS_TEMPLATE_ID = 'template_qlcte6r';
+const EMAILJS_TEMPLATE_ID = 'template_xvo13i2';
 const EMAILJS_USER_ID = 'r111Q3ncr8hS9oqra';
 
 const RESEND_API_KEY = 're_123456789'; // Replace with actual key
