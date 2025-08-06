@@ -958,15 +958,13 @@ export default function ItineraryPlannerPage() {
           </p>
 
           {/* Controls */}
-         <div className="flex flex-col md:flex-row gap-4 items-center justify-center mb-6 relative">
-  <input
-    type="text"
-    placeholder="Enter destination (e.g., Paris, Tokyo)..."
-    value={selectedDestination}
-    onChange={(e) => setSelectedDestination(e.target.value)}
-    className="w-full md:w-80 px-4 py-3 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 placeholder:text-gray-700 text-black"
-  />
-</div>
+          <div className="flex flex-col md:flex-row gap-4 items-center justify-center mb-6 relative">
+            <input
+              type="text"
+              placeholder="Enter destination (e.g., Paris, Tokyo)..."
+              value={selectedDestination}
+              onChange={(e) => setSelectedDestination(e.target.value)}
+              className="w-full md:w-80 px-4 py-3 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 placeholder:text-gray-700 text-black"
             />
             {/* Smart Suggestions Modal Popup */}
             <AnimatePresence>
@@ -1035,121 +1033,115 @@ export default function ItineraryPlannerPage() {
       </div>
 
     {/* Main Content */}
-<div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-  <div className="grid grid-cols-1 lg:grid-cols-4 gap-6">
-    {/* Available Activities Sidebar */}
-    <div className="lg:col-span-1">
-      <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-6 sticky top-6">
-        <h3 className="font-bold text-lg mb-4 flex items-center gap-2 text-black">
-          <span>🎯</span>
-          Available Activities
-        </h3>
+    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+      <div className="grid grid-cols-1 lg:grid-cols-4 gap-6">
+        {/* Available Activities Sidebar */}
+        <div className="lg:col-span-1">
+          <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-6 sticky top-6">
+            <h3 className="font-bold text-lg mb-4 flex items-center gap-2 text-black">
+              <span>🎯</span>
+              Available Activities
+            </h3>
 
-        <div className="space-y-3 max-h-96 overflow-y-auto text-black">
-          {availableActivities.map((activity) => (
-            <div
-              key={activity.id}
-              draggable
-              onDragStart={(e) => {
-                e.dataTransfer.setData('application/json', JSON.stringify(activity));
-              }}
-              onClick={() => {
-                // Mobile: Select activity on click
-                if (window.innerWidth < 1024) {
-                  setSelectedActivityForMobile(
-                    selectedActivityForMobile?.id === activity.id ? null : activity
-                  );
-                }
-              }}
-              className={`cursor-grab active:cursor-grabbing select-none transition-all duration-200 ${
-                selectedActivityForMobile?.id === activity.id 
-                  ? 'ring-2 ring-blue-500 ring-offset-2' 
-                  : ''
-              }`}
-            >
-              <ActivityCard
-                activity={activity}
-                onEdit={handleEditActivity}
-                onDelete={(id) =>
-                  setAvailableActivities((prev) => prev.filter((a) => a.id !== id))
-                }
-              />
+            <div className="space-y-3 max-h-96 overflow-y-auto text-black">
+              {availableActivities.map((activity) => (
+                <div
+                  key={activity.id}
+                  draggable
+                  onDragStart={(e) => {
+                    e.dataTransfer.setData('application/json', JSON.stringify(activity));
+                  }}
+                  onClick={() => {
+                    // Mobile: Select activity on click
+                    if (window.innerWidth < 1024) {
+                      setSelectedActivityForMobile(
+                        selectedActivityForMobile?.id === activity.id ? null : activity
+                      );
+                    }
+                  }}
+                  className={`cursor-grab active:cursor-grabbing select-none transition-all duration-200 ${
+                    selectedActivityForMobile?.id === activity.id 
+                      ? 'ring-2 ring-blue-500 ring-offset-2' 
+                      : ''
+                  }`}
+                >
+                  <ActivityCard
+                    activity={activity}
+                    onEdit={handleEditActivity}
+                    onDelete={(id) =>
+                      setAvailableActivities((prev) => prev.filter((a) => a.id !== id))
+                    }
+                  />
 
-              {selectedActivityForMobile?.id === activity.id && (
-                <div className="lg:hidden text-center mt-2 text-sm text-blue-600 font-medium">
-                  👆 Now tap a day to add this activity
+                  {selectedActivityForMobile?.id === activity.id && (
+                    <div className="lg:hidden text-center mt-2 text-sm text-blue-600 font-medium">
+                      👆 Now tap a day to add this activity
+                    </div>
+                  )}
                 </div>
-              )}
-            </div>
-          ))}
-        </div>
-      </div>
-    </div>
-  </div>
-</div>
-              {availableActivities.length === 0 && (
-                <div className="text-center py-8 text-gray-400">
-                  <div className="text-3xl mb-2">🎭</div>
-                  <p className="text-sm">Add activity templates to get started!</p>
-                </div>
-              )}
-              <button onClick={() => setShowAddActivityModal(true)} className="w-full mb-4 bg-blue-100 hover:bg-blue-200 text-blue-800 px-4 py-2 rounded-lg transition-colors">➕ Add Activity</button>
-            </div>
-          </div>
-
-          {/* Days Timeline */}
-          <div className="lg:col-span-3">
-            <div className="flex gap-6 overflow-x-auto pb-6">
-              {days.map((day) => (
-                <DayColumn
-                  key={day.id}
-                  day={day}
-                  activities={dayActivities[day.id] || []}
-                  onActivityDrop={handleActivityDrop}
-                  onDeleteActivity={handleDeleteActivity}
-                  onEditActivity={handleEditActivity}
-                  selectedActivityForMobile={selectedActivityForMobile}
-                  setSelectedActivityForMobile={setSelectedActivityForMobile}
-                />
               ))}
             </div>
+            
+            {availableActivities.length === 0 && (
+              <div className="text-center py-8 text-gray-400">
+                <div className="text-3xl mb-2">🎭</div>
+                <p className="text-sm">Add activity templates to get started!</p>
+              </div>
+            )}
+            <button onClick={() => setShowAddActivityModal(true)} className="w-full mb-4 bg-blue-100 hover:bg-blue-200 text-blue-800 px-4 py-2 rounded-lg transition-colors">➕ Add Activity</button>
+          </div>
+        </div>
 
-            {/* Google Maps Placeholder */}
-            <div className="mt-8 bg-white rounded-xl shadow-sm border border-gray-200 p-6">
-              <h3 className="font-bold text-lg mb-4 flex items-center gap-2">
-                <span>🗺️</span>
-                Route Overview
-              </h3>
-              <div className="bg-gradient-to-br from-blue-100 to-purple-100 rounded-lg h-64 flex items-center justify-center">
-                <div className="text-center text-gray-600">
-                  <div className="text-4xl mb-2">🌍</div>
-                  <p className="font-semibold">Interactive Map Coming Soon!</p>
-                  <p className="text-sm">Google Maps integration with route optimization</p>
-                </div>
+        {/* Days Timeline */}
+        <div className="lg:col-span-3">
+          <div className="flex gap-6 overflow-x-auto pb-6">
+            {days.map((day) => (
+              <DayColumn
+                key={day.id}
+                day={day}
+                activities={dayActivities[day.id] || []}
+                onActivityDrop={handleActivityDrop}
+                onDeleteActivity={handleDeleteActivity}
+                onEditActivity={handleEditActivity}
+                selectedActivityForMobile={selectedActivityForMobile}
+                setSelectedActivityForMobile={setSelectedActivityForMobile}
+              />
+            ))}
+          </div>
+
+          {/* Google Maps Placeholder */}
+          <div className="mt-8 bg-white rounded-xl shadow-sm border border-gray-200 p-6">
+            <h3 className="font-bold text-lg mb-4 flex items-center gap-2">
+              <span>🗺️</span>
+              Route Overview
+            </h3>
+            <div className="bg-gradient-to-br from-blue-100 to-purple-100 rounded-lg h-64 flex items-center justify-center">
+              <div className="text-center text-gray-600">
+                <div className="text-4xl mb-2">🌍</div>
+                <p className="font-semibold">Interactive Map Coming Soon!</p>
+                <p className="text-sm">Google Maps integration with route optimization</p>
               </div>
             </div>
+          </div>
 
-            {/* Quick Actions */}
-            <div className="mt-6 bg-white rounded-xl shadow-sm border border-gray-200 p-6">
-              <h3 className="font-bold text-lg mb-4">Quick Actions</h3>
-              <div className="flex flex-wrap gap-3">
-                <button className="bg-blue-100 hover:bg-blue-200 text-blue-800 px-4 py-2 rounded-lg transition-colors" onClick={() => emailItinerary(days, dayActivities)}>
-                  📧 Email Itinerary
-                </button>
-{/*                 <button className="bg-green-100 hover:bg-green-200 text-green-800 px-4 py-2 rounded-lg transition-colors" onClick={() => exportToCalendar(days, dayActivities)}>
-                  📱 Export to Calendar
-                </button> */}
-                <button className="bg-purple-100 hover:bg-purple-200 text-purple-800 px-4 py-2 rounded-lg transition-colors" onClick={() => downloadFile('itinerary.txt', generateItineraryText(days, dayActivities))}>
-                  📄 Generate PDF
-                </button>
-                <button className="bg-orange-100 hover:bg-orange-200 text-orange-800 px-4 py-2 rounded-lg transition-colors" onClick={() => shareItinerary(days, dayActivities)}>
-                  🔗 Share with Friends
-                </button>
-              </div>
+          {/* Quick Actions */}
+          <div className="mt-6 bg-white rounded-xl shadow-sm border border-gray-200 p-6">
+            <h3 className="font-bold text-lg mb-4">Quick Actions</h3>
+            <div className="flex flex-wrap gap-3">
+              <button className="bg-blue-100 hover:bg-blue-200 text-blue-800 px-4 py-2 rounded-lg transition-colors" onClick={() => emailItinerary(days, dayActivities)}>
+                📧 Email Itinerary
+              </button>
+              <button className="bg-purple-100 hover:bg-purple-200 text-purple-800 px-4 py-2 rounded-lg transition-colors" onClick={() => downloadFile('itinerary.txt', generateItineraryText(days, dayActivities))}>
+                📄 Generate PDF
+              </button>
+              <button className="bg-orange-100 hover:bg-orange-200 text-orange-800 px-4 py-2 rounded-lg transition-colors" onClick={() => shareItinerary(days, dayActivities)}>
+                🔗 Share with Friends
+              </button>
             </div>
           </div>
         </div>
       </div>
+    
 
       {/* Template Selection Modal */}
       <AnimatePresence>
