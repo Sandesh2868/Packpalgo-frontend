@@ -232,8 +232,8 @@ const ActivityCard = ({ activity, onEdit, onDelete, isDragging = false }) => {
         <div className="flex items-center gap-3">
           <span className="text-2xl">{activity.icon}</span>
           <div>
-            <h4 className="font-semibold text-gray-800 text-sm">{activity.name}</h4>
-            <p className="text-xs text-gray-500">{formatDuration(activity.duration)}</p>
+            <h4 className="font-semibold text-black text-sm">{activity.name}</h4>
+            <p className="text-xs text-black">{formatDuration(activity.duration)}</p>
           </div>
         </div>
         <div className="flex gap-1">
@@ -256,7 +256,7 @@ const ActivityCard = ({ activity, onEdit, onDelete, isDragging = false }) => {
         <span className={`px-2 py-1 rounded-full text-xs font-medium ${getCategoryColor(activity.category)}`}>
           {activity.category}
         </span>
-        <div className="flex items-center gap-1 text-xs text-gray-500">
+        <div className="flex items-center gap-1 text-xs text-black">
           <span>📍</span>
           <span>{activity.location || 'Add location'}</span>
         </div>
@@ -456,7 +456,7 @@ function TimeOfDaySelector({ value, onChange }) {
         <button
           key={slot.key}
           type="button"
-          className={`px-3 py-1 rounded-full border ${value === slot.key ? 'bg-blue-500 text-white' : 'bg-gray-100 text-gray-700'} transition`}
+          className={`px-3 py-1 rounded-full border ${value === slot.key ? 'bg-blue-500 text-white' : 'bg-gray-100 text-black'} transition`}
           onClick={() => onChange(slot.key)}
         >
           {slot.icon} {slot.label}
@@ -620,7 +620,7 @@ function CreateTemplateModal({ isOpen, onClose, onSave }) {
         <div className="mb-2">
           <label className="block mb-1 font-medium text-black">Activities</label>
           <ul className="mb-2">
-            {activities.map((a, i) => <li key={i} className="text-sm flex gap-2 items-center text-black">{a.icon} {a.name} <span className="text-xs text-gray-400">({a.timeOfDay})</span></li>)}
+            {activities.map((a, i) => <li key={i} className="text-sm flex gap-2 items-center text-black">{a.icon} {a.name} <span className="text-xs text-black">({a.timeOfDay})</span></li>)}
           </ul>
         </div>
         <div className="flex gap-2 mt-4 justify-end">
@@ -819,7 +819,7 @@ export default function ItineraryPlannerPage() {
               placeholder="Enter destination (e.g., Paris, Tokyo)..."
               value={selectedDestination}
               onChange={(e) => setSelectedDestination(e.target.value)}
-              className="w-full md:w-80 px-4 py-3 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 placeholder:text-gray-700"
+              className="w-full md:w-80 px-4 py-3 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 placeholder:text-gray-700 text-black"
             />
             {/* Smart Suggestions Modal Popup */}
             <AnimatePresence>
@@ -935,7 +935,7 @@ export default function ItineraryPlannerPage() {
               </div>
 
               {availableActivities.length === 0 && (
-                <div className="text-center py-8 text-gray-400">
+                <div className="text-center py-8 text-black">
                   <div className="text-3xl mb-2">🎭</div>
                   <p className="text-sm">Add activity templates to get started!</p>
                 </div>
