@@ -6,6 +6,9 @@ import { useAuth } from '../../AuthContext';
 import CreateGroupModal from './CreateGroupModal';
 import JoinGroupModal from './JoinGroupModal';
 
+// 🔽 Import Firebase Auth utilities
+import { getAuth, GoogleAuthProvider, signInWithPopup } from 'firebase/auth';
+
 export default function GroupList() {
   const [groups, setGroups] = useState([]);
   const [showCreateModal, setShowCreateModal] = useState(false);
@@ -16,6 +19,16 @@ export default function GroupList() {
   const navigate = useNavigate();
 
   const refreshGroups = () => setRefreshKey(prev => prev + 1);
+
+  const handleGoogleSignIn = async () => {
+    const auth = getAuth();
+    const provider = new GoogleAuthProvider();
+    try {
+      await signInWithPopup(auth, provider);
+    } catch (error) {
+      console.error("Google sign-in error:", error.message);
+    }
+  };
 
   useEffect(() => {
     if (!user?.email) {
@@ -47,7 +60,7 @@ export default function GroupList() {
   }, [user, refreshKey]);
 
   const handleGroupClick = (groupId) => {
-    navigate(`/gosplit/group/${groupId}`); // ✅ fixed template literal
+    navigate(`/gosplit/group/${groupId}`);
   };
 
   if (!user) {
@@ -64,7 +77,12 @@ export default function GroupList() {
             All your groups and expenses are stored securely in the cloud.
             When you sign in, you'll see all your data exactly as you left it.
           </div>
-          <p className="text-sm">Please sign in using the button in the top right corner of the main page.</p>
+          <button
+            onClick={handleGoogleSignIn}
+            className="bg-indigo-600 hover:bg-indigo-700 text-white px-6 py-3 rounded-lg font-medium transition duration-200"
+          >
+            Sign in with Google
+          </button>
         </div>
       </div>
     );
