@@ -284,17 +284,17 @@ export default function AddExpenseModal({ isOpen, onClose, groupId, members }) {
                         ? 'border-indigo-500 bg-indigo-50'
                         : 'border-gray-200 hover:border-gray-300'
                     }`}
-                    style={{color: 'black'}}
+                    style={{color: 'var(--text)'}}
                   >
-                    <div className="text-base sm:text-lg mb-1" style={{color: 'black'}}>{category.emoji}</div>
-                    <div className="text-xs" style={{color: 'black'}}>{category.value}</div>
+                    <div className="text-base sm:text-lg mb-1" style={{color: 'var(--text)'}}>{category.emoji}</div>
+                    <div className="text-xs" style={{color: 'var(--text)'}}>{category.value}</div>
                   </button>
                 ))}
               </div>
             </div>
 
             <div>
-              <label className="block text-sm font-medium mb-2" style={{color: 'black'}}>
+              <label className="block text-sm font-medium mb-2" style={{color: 'var(--text)'}}>
                 Date
               </label>
               <input
@@ -309,7 +309,7 @@ export default function AddExpenseModal({ isOpen, onClose, groupId, members }) {
 
           {/* Split Options */}
           <div className="mb-4 sm:mb-6">
-            <label className="block text-sm font-medium mb-3" style={{color: 'black'}}>
+            <label className="block text-sm font-medium mb-3" style={{color: 'var(--text)'}}>
               How to split?
             </label>
             
@@ -327,10 +327,10 @@ export default function AddExpenseModal({ isOpen, onClose, groupId, members }) {
                       ? 'border-indigo-500 bg-indigo-50 text-indigo-700'
                       : 'border-gray-200 hover:border-gray-300'
                   }`}
-                  style={{color: 'black'}}
+                  style={{color: 'var(--text)'}}
                 >
-                  <div className="text-base sm:text-lg mb-1" style={{color: 'black'}}>{option.icon}</div>
-                  <div className="text-xs sm:text-sm" style={{color: 'black'}}>{option.label}</div>
+                  <div className="text-base sm:text-lg mb-1" style={{color: 'var(--text)'}}>{option.icon}</div>
+                  <div className="text-xs sm:text-sm" style={{color: 'var(--text)'}}>{option.label}</div>
                 </button>
               ))}
             </div>
@@ -355,7 +355,7 @@ export default function AddExpenseModal({ isOpen, onClose, groupId, members }) {
                   <div className="space-y-3">
                     {members.map((member) => (
                       <div key={member} className="flex flex-col sm:flex-row sm:items-center sm:justify-between space-y-2 sm:space-y-0">
-                        <span className="flex-1 text-sm sm:text-base" style={{color: 'black'}}>{member}</span>
+                        <span className="flex-1 text-sm sm:text-base" style={{color: 'var(--text)'}}>{member}</span>
                         <div className="flex items-center space-x-2">
                           <input
                             type="number"
@@ -367,8 +367,8 @@ export default function AddExpenseModal({ isOpen, onClose, groupId, members }) {
                             style={{color: 'black', backgroundColor: 'white'}}
                             placeholder="1"
                           />
-                          <span className="text-xs sm:text-sm" style={{color: 'black'}}>shares</span>
-                          <span className="font-medium w-16 sm:w-20 text-right text-sm sm:text-base" style={{color: 'black'}}>
+                          <span className="text-xs sm:text-sm" style={{color: 'var(--text)'}}>shares</span>
+                          <span className="font-medium w-16 sm:w-20 text-right text-sm sm:text-base" style={{color: 'var(--text)'}}>
                             ₹{splits[member] ? splits[member].toFixed(2) : '0.00'}
                           </span>
                         </div>
@@ -381,9 +381,9 @@ export default function AddExpenseModal({ isOpen, onClose, groupId, members }) {
                   <div className="space-y-3">
                     {members.map((member) => (
                       <div key={member} className="flex flex-col sm:flex-row sm:items-center sm:justify-between space-y-2 sm:space-y-0">
-                        <span className="flex-1 text-sm sm:text-base" style={{color: 'black'}}>{member}</span>
+                        <span className="flex-1 text-sm sm:text-base" style={{color: 'var(--text)'}}>{member}</span>
                         <div className="flex items-center space-x-2">
-                          <span className="text-sm sm:text-base" style={{color: 'black'}}>₹</span>
+                          <span className="text-sm sm:text-base" style={{color: 'var(--text)'}}>₹</span>
                           <input
                             type="number"
                             min="0"
@@ -399,7 +399,7 @@ export default function AddExpenseModal({ isOpen, onClose, groupId, members }) {
                     ))}
                     <div className="border-t pt-2 mt-2">
                       <div className="flex justify-between items-center">
-                        <span className="font-medium text-sm sm:text-base" style={{color: 'black'}}>Total:</span>
+                        <span className="font-medium text-sm sm:text-base" style={{color: 'var(--text)'}}>Total:</span>
                         <span className={`font-medium text-sm sm:text-base ${splitError ? 'text-red-600' : 'text-green-600'}`} style={{color: splitError ? '#dc2626' : '#059669'}}>
                           ₹{Object.values(splits).reduce((sum, split) => sum + split, 0).toFixed(2)}
                         </span>
@@ -419,7 +419,7 @@ export default function AddExpenseModal({ isOpen, onClose, groupId, members }) {
 
           {/* Notes */}
           <div className="mb-4 sm:mb-6">
-            <label className="block text-sm font-medium mb-2" style={{color: 'black'}}>
+            <label className="block text-sm font-medium mb-2" style={{color: 'var(--text)'}}>
               Notes (Optional)
             </label>
             <textarea
