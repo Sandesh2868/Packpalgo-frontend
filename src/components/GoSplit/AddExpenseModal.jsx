@@ -286,15 +286,15 @@ export default function AddExpenseModal({ isOpen, onClose, groupId, members }) {
                     }`}
                     style={{color: 'black'}}
                   >
-                    <div className="text-base sm:text-lg mb-1">{category.emoji}</div>
-                    <div className="text-xs">{category.value}</div>
+                    <div className="text-base sm:text-lg mb-1" style={{color: 'black'}}>{category.emoji}</div>
+                    <div className="text-xs" style={{color: 'black'}}>{category.value}</div>
                   </button>
                 ))}
               </div>
             </div>
 
             <div>
-              <label className="block text-sm font-medium mb-2" style={{color: 'var(--text)'}}>
+              <label className="block text-sm font-medium mb-2" style={{color: 'black'}}>
                 Date
               </label>
               <input
@@ -309,7 +309,7 @@ export default function AddExpenseModal({ isOpen, onClose, groupId, members }) {
 
           {/* Split Options */}
           <div className="mb-4 sm:mb-6">
-            <label className="block text-sm font-medium mb-3" style={{color: 'var(--text)'}}>
+            <label className="block text-sm font-medium mb-3" style={{color: 'black'}}>
               How to split?
             </label>
             
@@ -327,10 +327,10 @@ export default function AddExpenseModal({ isOpen, onClose, groupId, members }) {
                       ? 'border-indigo-500 bg-indigo-50 text-indigo-700'
                       : 'border-gray-200 hover:border-gray-300'
                   }`}
-                  style={{color: splitType === option.key ? '#4338ca' : 'black'}}
+                  style={{color: 'black'}}
                 >
-                  <div className="text-base sm:text-lg mb-1">{option.icon}</div>
-                  <div className="text-xs sm:text-sm">{option.label}</div>
+                  <div className="text-base sm:text-lg mb-1" style={{color: 'black'}}>{option.icon}</div>
+                  <div className="text-xs sm:text-sm" style={{color: 'black'}}>{option.label}</div>
                 </button>
               ))}
             </div>
