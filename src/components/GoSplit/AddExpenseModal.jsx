@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { db } from '../../../firebase';
 import { collection, addDoc, serverTimestamp, updateDoc, doc, increment } from 'firebase/firestore';
 
@@ -12,25 +12,23 @@ export default function AddExpenseModal({ isOpen, onClose, groupId, members }) {
     notes: ''
   });
 
-  const [splitType, setSplitType] = useState('equal'); // equal, shares, custom
+  const [splitType, setSplitType] = useState('equal');
   const [customSplits, setCustomSplits] = useState({});
   const [sharesSplits, setSharesSplits] = useState({});
   const [loading, setLoading] = useState(false);
 
- const categories = [
-  { value: 'Food', emoji: '🍽️', color: 'bg-orange-200 text-orange-900 dark:bg-orange-900 dark:text-orange-200' },
-  { value: 'Transport', emoji: '🚗', color: 'bg-blue-200 text-blue-900 dark:bg-blue-900 dark:text-blue-200' },
-  { value: 'Accommodation', emoji: '🏠', color: 'bg-green-200 text-green-900 dark:bg-green-900 dark:text-green-200' },
-  { value: 'Activities', emoji: '🎢', color: 'bg-purple-200 text-purple-900 dark:bg-purple-900 dark:text-purple-200' },
-  { value: 'Shopping', emoji: '🛍️', color: 'bg-pink-200 text-pink-900 dark:bg-pink-900 dark:text-pink-200' },
-  { value: 'Entertainment', emoji: '🎬', color: 'bg-yellow-200 text-yellow-900 dark:bg-yellow-900 dark:text-yellow-200' },
-  { value: 'Medical', emoji: '⚕️', color: 'bg-red-200 text-red-900 dark:bg-red-900 dark:text-red-200' },
-  { value: 'Other', emoji: '📋', color: 'bg-gray-200 text-gray-900 dark:bg-gray-800 dark:text-gray-200' }
-];
+  const categories = [
+    { value: 'Food', emoji: '🍽️', color: 'bg-orange-200 text-orange-800' },
+    { value: 'Transport', emoji: '🚗', color: 'bg-blue-200 text-blue-800' },
+    { value: 'Accommodation', emoji: '🏠', color: 'bg-green-200 text-green-800' },
+    { value: 'Activities', emoji: '🎢', color: 'bg-purple-200 text-purple-800' },
+    { value: 'Shopping', emoji: '🛍️', color: 'bg-pink-200 text-pink-800' },
+    { value: 'Entertainment', emoji: '🎬', color: 'bg-yellow-200 text-yellow-800' },
+    { value: 'Medical', emoji: '⚕️', color: 'bg-red-200 text-red-800' },
+    { value: 'Other', emoji: '📋', color: 'bg-gray-200 text-gray-800' }
+  ];
 
-
-  // Initialize splits when members or split type changes
-  React.useEffect(() => {
+  useEffect(() => {
     if (splitType === 'custom') {
       const initialCustom = {};
       members.forEach(member => {
@@ -74,7 +72,6 @@ export default function AddExpenseModal({ isOpen, onClose, groupId, members }) {
       case 'shares':
         const totalShares = Object.values(sharesSplits).reduce((sum, share) => sum + parseFloat(share || 0), 0);
         if (totalShares === 0) return {};
-        
         const sharesSplitsResult = {};
         members.forEach(member => {
           const memberShares = parseFloat(sharesSplits[member] || 0);
@@ -101,12 +98,11 @@ export default function AddExpenseModal({ isOpen, onClose, groupId, members }) {
 
     if (splitType === 'custom') {
       const difference = Math.abs(amount - totalSplit);
-      if (difference > 0.01) { // Allow for small rounding errors
+      if (difference > 0.01) {
         return `Total splits (₹${totalSplit.toFixed(2)}) must equal the expense amount (₹${amount.toFixed(2)})`;
       }
     }
 
-    // Check if any split is negative
     const hasNegative = Object.values(splits).some(split => split < 0);
     if (hasNegative) {
       return 'Split amounts cannot be negative';
@@ -116,27 +112,12 @@ export default function AddExpenseModal({ isOpen, onClose, groupId, members }) {
   };
 
   const handleAddExpense = async () => {
-    // Validation
-    if (!formData.description.trim()) {
-      alert('Please enter a description');
-      return;
-    }
-
-    if (!formData.amount || parseFloat(formData.amount) <= 0) {
-      alert('Please enter a valid amount');
-      return;
-    }
-
-    if (!formData.payer) {
-      alert('Please select who paid');
-      return;
-    }
+    if (!formData.description.trim()) return alert('Please enter a description');
+    if (!formData.amount || parseFloat(formData.amount) <= 0) return alert('Please enter a valid amount');
+    if (!formData.payer) return alert('Please select who paid');
 
     const splitError = validateSplits();
-    if (splitError) {
-      alert(splitError);
-      return;
-    }
+    if (splitError) return alert(splitError);
 
     setLoading(true);
 
@@ -144,33 +125,26 @@ export default function AddExpenseModal({ isOpen, onClose, groupId, members }) {
       const amount = parseFloat(formData.amount);
       const splits = calculateSplits();
 
-      // Create expense document
       const expenseData = {
         description: formData.description.trim(),
-        amount: amount,
+        amount,
         payer: formData.payer,
         category: formData.category,
         date: new Date(formData.date),
         notes: formData.notes.trim(),
-        splitType: splitType,
-        splits: splits,
+        splitType,
+        splits,
         createdAt: serverTimestamp(),
-        groupId: groupId
+        groupId
       };
 
-      // Add expense to Firestore
-      console.log('Adding expense with data:', expenseData);
       const expenseRef = await addDoc(collection(db, 'groups', groupId, 'expenses'), expenseData);
-      console.log('Expense added successfully with ID:', expenseRef.id);
 
-      // Update group totals
       await updateDoc(doc(db, 'groups', groupId), {
         totalExpenses: increment(1),
         totalAmount: increment(amount)
       });
-      console.log('Group totals updated successfully');
 
-      // Reset form first
       setFormData({
         description: '',
         amount: '',
@@ -183,18 +157,12 @@ export default function AddExpenseModal({ isOpen, onClose, groupId, members }) {
       setCustomSplits({});
       setSharesSplits({});
       setLoading(false);
-      
-      // Close modal before showing alert to prevent UI issues
       onClose();
+      setTimeout(() => alert('Expense added successfully! 💰'), 100);
 
-      // Show success message
-      setTimeout(() => {
-        alert('Expense added successfully! 💰');
-      }, 100);
-      
     } catch (error) {
       console.error('Error adding expense:', error);
-      alert(`Error adding expense: ${error.message}. Please try again.`);
+      alert(`Error adding expense: ${error.message}`);
     } finally {
       setLoading(false);
     }
@@ -206,115 +174,89 @@ export default function AddExpenseModal({ isOpen, onClose, groupId, members }) {
   const splitError = validateSplits();
 
   return (
-    <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-2 sm:p-4">
-      <div className="bg-white rounded-xl shadow-2xl w-full max-w-2xl max-h-[95vh] sm:max-h-[90vh] overflow-y-auto" style={{backgroundColor: 'var(--bg)', color: 'var(--text)'}}>
-        <div className="p-4 sm:p-6">
+    <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
+      <div className="bg-white text-black rounded-xl shadow-2xl w-full max-w-2xl max-h-[95vh] overflow-y-auto">
+        <div className="p-6">
           {/* Header */}
-          <div className="flex justify-between items-center mb-4 sm:mb-6">
-            <h2 className="text-xl sm:text-2xl font-bold" style={{color: 'var(--text)'}}>Add New Expense</h2>
-            <button
-              onClick={onClose}
-              className="hover:opacity-70 text-xl sm:text-2xl"
-              style={{color: 'var(--text)'}}
-            >
-              ×
-            </button>
+          <div className="flex justify-between items-center mb-6">
+            <h2 className="text-2xl font-bold">Add New Expense</h2>
+            <button onClick={onClose} className="text-2xl hover:opacity-70">×</button>
           </div>
 
-          {/* Basic Details */}
-          <div className="grid grid-cols-1 gap-4 mb-4 sm:mb-6">
+          {/* Form Fields */}
+          <div className="grid gap-4 mb-6">
             <div>
-              <label className="block text-sm font-medium mb-2" style={{color: 'var(--text)'}}>
-                Description *
-              </label>
+              <label className="block text-sm font-medium mb-1">Description *</label>
               <input
                 type="text"
                 value={formData.description}
                 onChange={(e) => handleInputChange('description', e.target.value)}
                 placeholder="e.g., Dinner at beach restaurant"
-                className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
-                style={{color: 'black', backgroundColor: 'white'}}
+                className="w-full p-3 border border-gray-300 rounded-lg bg-white text-black"
               />
             </div>
 
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            <div className="grid sm:grid-cols-2 gap-4">
               <div>
-                <label className="block text-sm font-medium mb-2" style={{color: 'var(--text)'}}>
-                  Amount (₹) *
-                </label>
+                <label className="block text-sm font-medium mb-1">Amount (₹) *</label>
                 <input
                   type="number"
                   step="0.01"
                   value={formData.amount}
                   onChange={(e) => handleInputChange('amount', e.target.value)}
-                  placeholder="0.00"
-                  className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
-                  style={{color: 'black', backgroundColor: 'white'}}
+                  className="w-full p-3 border border-gray-300 rounded-lg bg-white text-black"
                 />
               </div>
-
               <div>
-                <label className="block text-sm font-medium mb-2" style={{color: 'var(--text)'}}>
-                  Paid by *
-                </label>
+                <label className="block text-sm font-medium mb-1">Paid by *</label>
                 <select
                   value={formData.payer}
                   onChange={(e) => handleInputChange('payer', e.target.value)}
-                  className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
-                  style={{color: 'black', backgroundColor: 'white'}}
+                  className="w-full p-3 border border-gray-300 rounded-lg bg-white text-black"
                 >
                   <option value="">Select payer</option>
-                  {members.map((member, index) => (
-                    <option key={index} value={member}>{member}</option>
+                  {members.map((member, i) => (
+                    <option key={i} value={member}>{member}</option>
                   ))}
                 </select>
               </div>
             </div>
 
             <div>
-              <label className="block text-sm font-medium mb-2" style={{color: 'var(--text)'}}>
-                Category
-              </label>
+              <label className="block text-sm font-medium mb-1">Category</label>
               <div className="grid grid-cols-4 gap-2">
                 {categories.map((category) => (
                   <button
                     key={category.value}
                     onClick={() => handleInputChange('category', category.value)}
-                    className={`p-2 rounded-lg border-2 transition duration-200 text-xs ${
+                    className={`rounded-lg p-2 text-center text-xs ${category.color} ${
                       formData.category === category.value
-                        ? 'border-indigo-500 bg-indigo-50'
-                        : 'border-gray-200 hover:border-gray-300'
+                        ? 'ring-2 ring-indigo-400 border border-indigo-500'
+                        : 'border border-gray-200 hover:border-gray-400'
                     }`}
-                    style={{color: 'black'}}
                   >
-                    <div className="text-base sm:text-lg mb-1" style={{color: 'black'}}>{category.emoji}</div>
-                    <div className="text-xs" style={{color: 'black'}}>{category.value}</div>
+                    <div className="text-lg mb-1">{category.emoji}</div>
+                    <div>{category.value}</div>
                   </button>
                 ))}
               </div>
             </div>
 
             <div>
-              <label className="block text-sm font-medium mb-2" style={{color: 'black'}}>
-                Date
-              </label>
+              <label className="block text-sm font-medium mb-1">Date</label>
               <input
                 type="date"
                 value={formData.date}
                 onChange={(e) => handleInputChange('date', e.target.value)}
-                className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
-                style={{color: 'black', backgroundColor: 'white'}}
+                className="w-full p-3 border border-gray-300 rounded-lg bg-white text-black"
               />
             </div>
           </div>
 
-          {/* Split Options */}
-          <div className="mb-4 sm:mb-6">
-            <label className="block text-sm font-medium mb-3" style={{color: 'black'}}>
-              How to split?
-            </label>
-            
-            <div className="flex flex-col sm:flex-row space-y-2 sm:space-y-0 sm:space-x-3 mb-4">
+          {/* Split Section */}
+          <div className="mb-6">
+            <label className="block text-sm font-medium mb-3">How to split?</label>
+            <div className="flex flex-col sm:flex-row sm:space-x-3 mb-4">
               {[
                 { key: 'equal', label: 'Split Equally', icon: '⚖️' },
                 { key: 'shares', label: 'By Shares', icon: '📊' },
@@ -323,95 +265,72 @@ export default function AddExpenseModal({ isOpen, onClose, groupId, members }) {
                 <button
                   key={option.key}
                   onClick={() => setSplitType(option.key)}
-                  className={`flex-1 p-3 rounded-lg border-2 transition duration-200 ${
+                  className={`flex-1 p-3 rounded-lg border-2 text-sm ${
                     splitType === option.key
                       ? 'border-indigo-500 bg-indigo-50 text-indigo-700'
                       : 'border-gray-200 hover:border-gray-300'
                   }`}
-                  style={{color: 'black'}}
                 >
-                  <div className="text-base sm:text-lg mb-1" style={{color: 'black'}}>{option.icon}</div>
-                  <div className="text-xs sm:text-sm" style={{color: 'black'}}>{option.label}</div>
+                  <div className="text-lg">{option.icon}</div>
+                  {option.label}
                 </button>
               ))}
             </div>
 
-            {/* Split Details */}
+            {/* Breakdown */}
             {formData.amount && parseFloat(formData.amount) > 0 && (
-              <div className="bg-gray-50 rounded-lg p-3 sm:p-4" style={{backgroundColor: '#f9fafb'}}>
-                <h4 className="font-medium mb-3 text-sm sm:text-base" style={{color: 'var(--text)'}}>Split breakdown:</h4>
-                
-                {splitType === 'equal' && (
-                  <div className="space-y-2">
-                    {members.map((member) => (
-                      <div key={member} className="flex justify-between items-center">
-                        <span className="text-sm sm:text-base" style={{color: 'var(--text)'}}>{member}</span>
-                        <span className="font-medium text-sm sm:text-base" style={{color: 'var(--text)'}}>₹{(parseFloat(formData.amount) / members.length).toFixed(2)}</span>
-                      </div>
-                    ))}
+              <div className="bg-gray-50 p-4 rounded-lg">
+                <h4 className="font-medium mb-3">Split breakdown:</h4>
+                {splitType === 'equal' && members.map(member => (
+                  <div key={member} className="flex justify-between">
+                    <span>{member}</span>
+                    <span className="font-medium">₹{(parseFloat(formData.amount) / members.length).toFixed(2)}</span>
                   </div>
-                )}
+                ))}
 
-                {splitType === 'shares' && (
-                  <div className="space-y-3">
-                    {members.map((member) => (
-                      <div key={member} className="flex flex-col sm:flex-row sm:items-center sm:justify-between space-y-2 sm:space-y-0">
-                        <span className="flex-1 text-sm sm:text-base" style={{color: 'black'}}>{member}</span>
-                        <div className="flex items-center space-x-2">
-                          <input
-                            type="number"
-                            min="0"
-                            step="0.1"
-                            value={sharesSplits[member] || ''}
-                            onChange={(e) => handleSharesSplitChange(member, e.target.value)}
-                            className="w-16 sm:w-20 p-2 border border-gray-300 rounded text-center text-sm"
-                            style={{color: 'black', backgroundColor: 'white'}}
-                            placeholder="1"
-                          />
-                          <span className="text-xs sm:text-sm" style={{color: 'black'}}>shares</span>
-                          <span className="font-medium w-16 sm:w-20 text-right text-sm sm:text-base" style={{color: 'black'}}>
-                            ₹{splits[member] ? splits[member].toFixed(2) : '0.00'}
-                          </span>
-                        </div>
-                      </div>
-                    ))}
+                {splitType === 'shares' && members.map(member => (
+                  <div key={member} className="flex items-center justify-between mb-2">
+                    <span>{member}</span>
+                    <div className="flex items-center space-x-2">
+                      <input
+                        type="number"
+                        min="0"
+                        value={sharesSplits[member] || ''}
+                        onChange={(e) => handleSharesSplitChange(member, e.target.value)}
+                        className="w-20 p-2 border border-gray-300 rounded text-right bg-white text-black"
+                      />
+                      <span>shares</span>
+                      <span className="font-medium">₹{splits[member]?.toFixed(2) || '0.00'}</span>
+                    </div>
                   </div>
-                )}
+                ))}
+
+                {splitType === 'custom' && members.map(member => (
+                  <div key={member} className="flex items-center justify-between mb-2">
+                    <span>{member}</span>
+                    <input
+                      type="number"
+                      min="0"
+                      value={customSplits[member] || ''}
+                      onChange={(e) => handleCustomSplitChange(member, e.target.value)}
+                      className="w-24 p-2 border border-gray-300 rounded text-right bg-white text-black"
+                      placeholder="0.00"
+                    />
+                  </div>
+                ))}
 
                 {splitType === 'custom' && (
-                  <div className="space-y-3">
-                    {members.map((member) => (
-                      <div key={member} className="flex flex-col sm:flex-row sm:items-center sm:justify-between space-y-2 sm:space-y-0">
-                        <span className="flex-1 text-sm sm:text-base" style={{color: 'black'}}>{member}</span>
-                        <div className="flex items-center space-x-2">
-                          <span className="text-sm sm:text-base" style={{color: 'black'}}>₹</span>
-                          <input
-                            type="number"
-                            min="0"
-                            step="0.01"
-                            value={customSplits[member] || ''}
-                            onChange={(e) => handleCustomSplitChange(member, e.target.value)}
-                            className="w-20 sm:w-24 p-2 border border-gray-300 rounded text-right text-sm"
-                            style={{color: 'black', backgroundColor: 'white'}}
-                            placeholder="0.00"
-                          />
-                        </div>
-                      </div>
-                    ))}
-                    <div className="border-t pt-2 mt-2">
-                      <div className="flex justify-between items-center">
-                        <span className="font-medium text-sm sm:text-base" style={{color: 'black'}}>Total:</span>
-                        <span className={`font-medium text-sm sm:text-base ${splitError ? 'text-red-600' : 'text-green-600'}`} style={{color: splitError ? '#dc2626' : '#059669'}}>
-                          ₹{Object.values(splits).reduce((sum, split) => sum + split, 0).toFixed(2)}
-                        </span>
-                      </div>
-                    </div>
+                  <div className="flex justify-between border-t pt-2 mt-2 font-medium">
+                    <span>Total:</span>
+                    <span className={`${splitError ? 'text-red-600' : 'text-green-600'}`}>
+                      ₹{Object.values(splits).reduce((sum, s) => sum + s, 0).toFixed(2)}
+                    </span>
                   </div>
                 )}
 
                 {splitError && (
-                  <div className="mt-3 p-3 bg-red-50 border border-red-200 rounded-lg">
-                    <p className="text-red-700 text-xs sm:text-sm" style={{color: '#dc2626'}}>{splitError}</p>
+                  <div className="mt-2 p-3 bg-red-100 border border-red-300 rounded text-red-800 text-sm">
+                    {splitError}
                   </div>
                 )}
               </div>
@@ -419,37 +338,33 @@ export default function AddExpenseModal({ isOpen, onClose, groupId, members }) {
           </div>
 
           {/* Notes */}
-          <div className="mb-4 sm:mb-6">
-            <label className="block text-sm font-medium mb-2" style={{color: 'black'}}>
-              Notes (Optional)
-            </label>
+          <div className="mb-6">
+            <label className="block text-sm font-medium mb-1">Notes (Optional)</label>
             <textarea
+              rows={3}
               value={formData.notes}
               onChange={(e) => handleInputChange('notes', e.target.value)}
-              placeholder="Additional details..."
-              rows={3}
-              className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
-              style={{color: 'black', backgroundColor: 'white'}}
+              placeholder="Add any extra info..."
+              className="w-full p-3 border border-gray-300 rounded-lg bg-white text-black"
             />
           </div>
 
-          {/* Action Buttons */}
-          <div className="flex flex-col sm:flex-row space-y-2 sm:space-y-0 sm:space-x-3">
+          {/* Buttons */}
+          <div className="flex flex-col sm:flex-row sm:space-x-3">
             <button
               onClick={onClose}
-              className="flex-1 py-3 px-4 border border-gray-300 rounded-lg hover:bg-gray-50 transition duration-200 text-sm sm:text-base"
-              style={{color: 'black', backgroundColor: 'white'}}
+              className="flex-1 py-3 px-4 border border-gray-300 rounded-lg bg-white text-black hover:bg-gray-100"
             >
               Cancel
             </button>
             <button
               onClick={handleAddExpense}
               disabled={loading || splitError || !formData.description.trim() || !formData.amount || !formData.payer}
-              className="flex-1 py-3 px-4 bg-indigo-500 text-white rounded-lg hover:bg-indigo-600 disabled:bg-gray-400 transition duration-200 flex items-center justify-center text-sm sm:text-base"
+              className="flex-1 py-3 px-4 bg-indigo-500 text-white rounded-lg hover:bg-indigo-600 disabled:bg-gray-400 flex items-center justify-center"
             >
               {loading ? (
                 <>
-                  <div className="animate-spin rounded-full h-4 w-4 sm:h-5 sm:w-5 border-b-2 border-white mr-2"></div>
+                  <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-white mr-2" />
                   Adding...
                 </>
               ) : (
