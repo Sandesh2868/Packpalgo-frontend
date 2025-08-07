@@ -137,6 +137,51 @@ const destinationActivities = {
     { name: "Montmartre Walk", duration: 60, category: "culture", icon: "🎨", location: "Montmartre" },
     { name: "French Pastry Tasting", duration: 60, category: "food", icon: "🥐", location: "Bakery" }
   ],
+  manali: [
+  { name: "Solang Valley Adventure", duration: 180, category: "outdoor", icon: "⛷️", location: "Solang Valley" },
+  { name: "Hidimba Temple Visit", duration: 45, category: "culture", icon: "🛕", location: "Hidimba Devi Temple" },
+  { name: "Old Manali Café Hopping", duration: 90, category: "food", icon: "☕", location: "Old Manali" },
+  { name: "Vashisht Hot Springs", duration: 60, category: "relax", icon: "♨️", location: "Vashisht Village" },
+  { name: "Beas River Walk", duration: 60, category: "outdoor", icon: "🌊", location: "Beas River" }
+],
+  kasol: [
+  { name: "Parvati River Chill", duration: 90, category: "outdoor", icon: "🏞️", location: "Parvati River" },
+  { name: "Kheerganga Trek", duration: 300, category: "adventure", icon: "🥾", location: "Kheerganga" },
+  { name: "Café Munching", duration: 60, category: "food", icon: "🍝", location: "Kasol Market" },
+  { name: "Manikaran Sahib Visit", duration: 60, category: "culture", icon: "🕌", location: "Manikaran" },
+  { name: "Star Gazing Night", duration: 120, category: "outdoor", icon: "🌌", location: "Kasol Hills" }
+],
+  kerala: [
+  { name: "Houseboat Ride", duration: 180, category: "relax", icon: "⛵", location: "Alleppey Backwaters" },
+  { name: "Tea Plantation Tour", duration: 90, category: "culture", icon: "🍃", location: "Munnar" },
+  { name: "Kathakali Performance", duration: 60, category: "entertainment", icon: "🎭", location: "Kochi" },
+  { name: "Ayurvedic Spa Session", duration: 90, category: "relax", icon: "💆‍♀️", location: "Ayurveda Center" },
+  { name: "Street Food Walk", duration: 60, category: "food", icon: "🍢", location: "Fort Kochi" }
+],
+  mumbai: [
+  { name: "Marine Drive Sunset", duration: 60, category: "outdoor", icon: "🌇", location: "Marine Drive" },
+  { name: "Gateway of India Visit", duration: 45, category: "culture", icon: "🕌", location: "Colaba" },
+  { name: "Bollywood Studio Tour", duration: 120, category: "entertainment", icon: "🎬", location: "Film City" },
+  { name: "Juhu Beach Snacks", duration: 60, category: "food", icon: "🌭", location: "Juhu Beach" },
+  { name: "Crawford Market Walk", duration: 75, category: "shopping", icon: "🛍️", location: "Crawford Market" }
+],
+  delhi: [
+  { name: "Red Fort Exploration", duration: 90, category: "culture", icon: "🏰", location: "Red Fort" },
+  { name: "Street Food Trail", duration: 60, category: "food", icon: "🍲", location: "Chandni Chowk" },
+  { name: "India Gate & Rajpath Walk", duration: 60, category: "outdoor", icon: "🕊️", location: "India Gate" },
+  { name: "Qutub Minar Visit", duration: 60, category: "culture", icon: "🗼", location: "Mehrauli" },
+  { name: "Dilli Haat Shopping", duration: 90, category: "shopping", icon: "🎁", location: "INA Market" }
+],
+  bangalore: [
+  { name: "Cubbon Park Morning Walk", duration: 60, category: "outdoor", icon: "🌳", location: "Cubbon Park" },
+  { name: "Bangalore Palace Tour", duration: 90, category: "culture", icon: "🏰", location: "Bangalore Palace" },
+  { name: "Street Food at VV Puram", duration: 60, category: "food", icon: "🌮", location: "VV Puram Food Street" },
+  { name: "Shopping at Commercial Street", duration: 90, category: "shopping", icon: "🛍️", location: "Commercial Street" },
+  { name: "Art & Coffee at Church Street", duration: 75, category: "relax", icon: "🎨", location: "Church Street" },
+  { name: "Pub Hopping in Indiranagar", duration: 120, category: "entertainment", icon: "🍻", location: "Indiranagar" },
+  { name: "ISKCON Temple Visit", duration: 45, category: "culture", icon: "🛕", location: "ISKCON Temple" },
+  { name: "Tech Museum Exploration", duration: 90, category: "education", icon: "🔬", location: "Visvesvaraya Museum" }
+],
   tokyo: [
     { name: "Shibuya Crossing", duration: 30, category: "culture", icon: "🚦", location: "Shibuya" },
     { name: "Senso-ji Temple", duration: 90, category: "culture", icon: "⛩️", location: "Asakusa" },
