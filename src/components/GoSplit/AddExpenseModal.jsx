@@ -17,16 +17,17 @@ export default function AddExpenseModal({ isOpen, onClose, groupId, members }) {
   const [sharesSplits, setSharesSplits] = useState({});
   const [loading, setLoading] = useState(false);
 
-  const categories = [
-    { value: 'Food', emoji: '🍽️', color: 'bg-orange-100 text-orange-800' },
-    { value: 'Transport', emoji: '🚗', color: 'bg-blue-100 text-blue-800' },
-    { value: 'Accommodation', emoji: '🏠', color: 'bg-green-100 text-green-800' },
-    { value: 'Activities', emoji: '🎢', color: 'bg-purple-100 text-purple-800' },
-    { value: 'Shopping', emoji: '🛍️', color: 'bg-pink-100 text-pink-800' },
-    { value: 'Entertainment', emoji: '🎬', color: 'bg-yellow-100 text-yellow-800' },
-    { value: 'Medical', emoji: '⚕️', color: 'bg-red-100 text-red-800' },
-    { value: 'Other', emoji: '📋', color: 'bg-gray-100 text-gray-800' }
-  ];
+ const categories = [
+  { value: 'Food', emoji: '🍽️', color: 'bg-orange-200 text-orange-900 dark:bg-orange-900 dark:text-orange-200' },
+  { value: 'Transport', emoji: '🚗', color: 'bg-blue-200 text-blue-900 dark:bg-blue-900 dark:text-blue-200' },
+  { value: 'Accommodation', emoji: '🏠', color: 'bg-green-200 text-green-900 dark:bg-green-900 dark:text-green-200' },
+  { value: 'Activities', emoji: '🎢', color: 'bg-purple-200 text-purple-900 dark:bg-purple-900 dark:text-purple-200' },
+  { value: 'Shopping', emoji: '🛍️', color: 'bg-pink-200 text-pink-900 dark:bg-pink-900 dark:text-pink-200' },
+  { value: 'Entertainment', emoji: '🎬', color: 'bg-yellow-200 text-yellow-900 dark:bg-yellow-900 dark:text-yellow-200' },
+  { value: 'Medical', emoji: '⚕️', color: 'bg-red-200 text-red-900 dark:bg-red-900 dark:text-red-200' },
+  { value: 'Other', emoji: '📋', color: 'bg-gray-200 text-gray-900 dark:bg-gray-800 dark:text-gray-200' }
+];
+
 
   // Initialize splits when members or split type changes
   React.useEffect(() => {
