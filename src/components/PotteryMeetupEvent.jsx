@@ -19,7 +19,7 @@ export default function RSVPForm() {
 
     try {
       const scriptURL =
-        "https://script.google.com/macros/s/AKfycbyoU64L7GapQNn4mDhk2W5q_bawaozvON2BeIfFLT5wYypojXxQH5NuVbK6el1BADub/exec";
+        "https://script.google.com/macros/s/AKfycbxvAcX3HTbFV4A4q1enSQvJvJfHUBW_fMmHe0raixJskyof6IIYxYdrK5Fu2ph72E4/exec";
 
       const res = await fetch(scriptURL, {
         method: "POST",
