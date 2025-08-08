@@ -22,35 +22,46 @@ export default function PotteryMeetupEvent() {
     e.preventDefault();
     setLoading(true);
 
-    try {
-      const scriptURL = "https://script.google.com/macros/s/AKfycbyoU64L7GapQNn4mDhk2W5q_bawaozvON2BeIfFLT5wYypojXxQH5NuVbK6el1BADub/exec"; // From Apps Script Deploy > Web App
+ try {
+  const scriptURL =
+    "https://script.google.com/macros/s/AKfycbyoU64L7GapQNn4mDhk2W5q_bawaozvON2BeIfFLT5wYypojXxQH5NuVbK6el1BADub/exec";
 
-      const payload = {
-        name: form.name,
-        phone: form.phone,
-        email: form.email,
-        instagram: form.instagram,
-      };
-
-      const res = await fetch(scriptURL, {
-        method: "POST",
-        body: JSON.stringify(payload),
-        headers: {
-          "Content-Type": "application/json",
-        },
-      });
-
-      if (!res.ok) throw new Error("Network response was not ok");
-
-      alert("✅ RSVP submitted! We’ll DM or email you soon 💌");
-      setForm({ name: "", phone: "", email: "", instagram: "" });
-    } catch (err) {
-      console.error(err);
-      alert("❌ Error submitting RSVP. Please try again.");
-    } finally {
-      setLoading(false);
-    }
+  const payload = {
+    name: form.name,
+    phone: form.phone,
+    email: form.email,
+    instagram: form.instagram,
   };
+
+  const res = await fetch(scriptURL, {
+    method: "POST",
+    body: JSON.stringify(payload),
+    headers: {
+      "Content-Type": "application/json",
+    },
+  });
+
+  if (!res.ok) {
+    // Server responded but with error code
+    throw new Error(`Server Error: ${res.status} ${res.statusText}`);
+  }
+
+  const data = await res.json();
+  console.log("Form submitted successfully:", data);
+
+  alert("✅ Form submitted successfully!");
+} catch (error) {
+  console.error("❌ Submission failed:", error);
+
+  if (error.message.includes("Failed to fetch")) {
+    alert(
+      "⚠️ Unable to submit the form. This might be due to CORS restrictions or no internet connection."
+    );
+  } else {
+    alert(`⚠️ Error: ${error.message}`);
+  }
+}
+
 
   return (
     <div className="max-w-4xl mx-auto p-6 text-zinc-800 font-sans">
