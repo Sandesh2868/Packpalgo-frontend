@@ -1,15 +1,22 @@
 // components/EventCard.jsx
 import React from "react";
 import { useNavigate } from "react-router-dom";
-import PotteryMeetupEvent from "./components/PotteryMeetupEvent";
 
-export default function EventCard({ image, title, date, time, description, link }) {
+export default function EventCard({ image, title, date, time, description, link, external }) {
   const navigate = useNavigate();
+
+  const handleClick = () => {
+    if (external) {
+      window.open(link, "_blank");
+    } else {
+      navigate(link);
+    }
+  };
 
   return (
     <div
       className="relative group rounded-2xl overflow-hidden shadow-lg cursor-pointer transform transition-all duration-300 hover:scale-[1.05] hover:-translate-y-1"
-      onClick={() => navigate(link)}
+      onClick={handleClick}
     >
       {/* Event Image */}
       <img
