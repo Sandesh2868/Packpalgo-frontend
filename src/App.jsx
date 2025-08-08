@@ -38,6 +38,7 @@ export default function App() {
   const themeOptions = ["dark", "beach", "sunset", "jungle"];
   const [musicOn, setMusicOn] = useState(false);
   const navigate = useNavigate();
+  const [showComingSoon, setShowComingSoon] = useState(false);
 
   const toggleMusic = () => {
     if (musicOn) {
@@ -127,6 +128,8 @@ export default function App() {
   description="A fun day of food, games, and good vibes in Chennai. Bring a dish, share stories, and make new friends!"
   location="📍 Chennai"
   link="/event/potluck-day"
+  comingSoon={true}
+  onComingSoon={() => setShowComingSoon(true)}
 />
    <EventCard
   image="/images/munnar.jpg"
@@ -135,13 +138,15 @@ export default function App() {
   time="⏳ Details to be announced"
   description="Escape to the tea gardens & misty hills of Munnar. Waterfalls, spice plantations, and serene vibes await!"
   link="/event/munnar-trip"
+  comingSoon={true}
+  onComingSoon={() => setShowComingSoon(true)}
 />
 
   </div>
 </section>
 
 
-      <ComingSoonBanner />
+      <ComingSoonBanner visible={showComingSoon} onClose={() => setShowComingSoon(false)} />
 
     <section
   className="relative z-10 py-10 text-center bg-cover bg-center"
