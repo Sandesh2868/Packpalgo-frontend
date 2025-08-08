@@ -103,7 +103,7 @@ export default function App() {
 </section>
 
       {/* 🆕 Upcoming Trips & Events Section */}
-<section className="relative z-20 py-16 bg-white/80 backdrop-blur-md">
+<section className="relative z-20 py-16 bg-slate-100/70 backdrop-blur-lg border border-white/20"
   <h2 className="text-3xl sm:text-4xl font-bold text-center mb-10 text-rose-600">
     🌟 Upcoming Trips & Events
   </h2>
@@ -116,26 +116,26 @@ export default function App() {
       date="10th August 2025 (Sunday)"
       time="3:00 PM – 4:15 PM"
       description="Hand-pressed pottery at The Mudhouse Studio. Limited seats — book now!"
+      location="📍 Chennai"
       link="/pottery-meetup"
     />
-
     <EventCard
-      image="/images/trekking.jpg"
-      title="🥾 Monsoon Trek"
-      date="17th August 2025 (Sunday)"
-      time="6:00 AM – 5:00 PM"
-      description="Explore lush trails, waterfalls & new friends this monsoon!"
-      link="/event/trekking"
-    />
-
-    <EventCard
-      image="/images/beach-cleanup.jpg"
-      title="🌊 Beach Cleanup"
-      date="24th August 2025 (Sunday)"
-      time="7:00 AM – 12:00 PM"
-      description="Join the community in giving back to nature at Marina Beach."
-      link="/event/beach-cleanup"
-    />
+  image="/images/potluck.jpg"
+  title="🍲 Potluck & Day Out"
+  date="🗓 Coming Soon"
+  time="⏳ Details to be announced"
+  description="A fun day of food, games, and good vibes in Chennai. Bring a dish, share stories, and make new friends!"
+  location="📍 Chennai"
+  link="/event/potluck-day"
+/>
+   <EventCard
+  image="/images/munnar.jpg"
+  title="🌿 Munnar Getaway – 3 Days, 2 Nights"
+  date="🗓 Coming Soon"
+  time="⏳ Details to be announced"
+  description="Escape to the tea gardens & misty hills of Munnar. Waterfalls, spice plantations, and serene vibes await!"
+  link="/event/munnar-trip"
+/>
 
   </div>
 </section>
