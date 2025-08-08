@@ -23,7 +23,7 @@ export default function PotteryMeetupEvent() {
     setLoading(true);
 
     try {
-      const scriptURL = "https://script.google.com/macros/s/AKfycbw_TNkMSy12o1RAtBUaAqj7ikHpRrfIVo4CiKMBASmI9CsAOXjPB6ScPl1OJCSC2zwF/exec"; // From Apps Script Deploy > Web App
+      const scriptURL = "https://script.google.com/macros/s/AKfycbxbmh8hEljcHZHPJzggnUD4kwLWUxJyrLlVPdJOJr87vLBKOTZX86rzBodJbJhvuSiB/exec"; // From Apps Script Deploy > Web App
 
       const payload = {
         name: form.name,
