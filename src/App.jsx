@@ -12,6 +12,7 @@ import AboutSection from "./components/AboutSection";
 import Footer from "./components/Footer";
 import AuthButton from "./components/AuthButton";
 import EventCard from "./components/EventCard"; 
+import PotteryMeetupEvent from "./components/PotteryMeetupEvent";
 
 const bgMusic = new Audio("/sounds/background.mp3");
 bgMusic.loop = true;
