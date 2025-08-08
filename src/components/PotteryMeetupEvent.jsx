@@ -1,4 +1,6 @@
 import React, { useState } from "react";
+import { storage } from "../../firebase";
+import { ref as storageRef, uploadBytes, getDownloadURL } from "firebase/storage";
 
 export default function PotteryMeetupEvent() {
   const [form, setForm] = useState({
@@ -7,6 +9,9 @@ export default function PotteryMeetupEvent() {
     instagram: "",
     screenshot: null,
   });
+  const [submitting, setSubmitting] = useState(false);
+  const [errorMessage, setErrorMessage] = useState("");
+  const [successMessage, setSuccessMessage] = useState("");
 
   const handleChange = (e) => {
     const { name, value, files } = e.target;
@@ -16,10 +21,70 @@ export default function PotteryMeetupEvent() {
     }));
   };
 
-  const handleSubmit = (e) => {
+  const uploadScreenshotAndGetUrl = async (file) => {
+    if (!file) return "";
+    const timestamp = Date.now();
+    const safeName = file.name.replace(/[^a-zA-Z0-9_.-]/g, "_");
+    const path = `rsvp_screenshots/${timestamp}_${safeName}`;
+    const fileRef = storageRef(storage, path);
+    await uploadBytes(fileRef, file);
+    const url = await getDownloadURL(fileRef);
+    return url;
+  };
+
+  const submitToGoogleSheets = async (payload) => {
+    const endpoint = import.meta.env.VITE_SHEETS_WEBAPP_URL || "";
+    if (!endpoint) {
+      throw new Error("Missing VITE_SHEETS_WEBAPP_URL env var");
+    }
+    const res = await fetch(endpoint, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(payload),
+    });
+    if (!res.ok) {
+      const text = await res.text().catch(() => "");
+      throw new Error(`Sheets API error (${res.status}): ${text}`);
+    }
+    return res.json().catch(() => ({}));
+  };
+
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    alert("RSVP submitted! We’ll DM you soon 💌");
-    // TODO: Upload to Firebase / backend here
+    setSubmitting(true);
+    setErrorMessage("");
+    setSuccessMessage("");
+
+    try {
+      if (!form.name || !form.phone) {
+        throw new Error("Name and phone are required");
+      }
+
+      // 1) Upload screenshot to Firebase Storage (optional)
+      const screenshotUrl = await uploadScreenshotAndGetUrl(form.screenshot);
+
+      // 2) Send RSVP to Google Sheets via Apps Script Web App
+      const payload = {
+        event: "Pottery Meetup",
+        name: form.name,
+        phone: form.phone,
+        instagram: form.instagram || "",
+        screenshotUrl,
+        submittedAt: new Date().toISOString(),
+      };
+
+      await submitToGoogleSheets(payload);
+
+      setSuccessMessage("RSVP submitted! We’ll DM you soon 💌");
+      setForm({ name: "", phone: "", instagram: "", screenshot: null });
+      // Clear file input visually
+      const fileInput = document.getElementById("rsvp-screenshot-input");
+      if (fileInput) fileInput.value = "";
+    } catch (err) {
+      setErrorMessage(err.message || "Failed to submit RSVP. Please try again.");
+    } finally {
+      setSubmitting(false);
+    }
   };
 
   return (
@@ -68,6 +133,20 @@ export default function PotteryMeetupEvent() {
 
         <form onSubmit={handleSubmit} className="mt-8 space-y-4">
           <h3 className="text-xl font-semibold text-zinc-700">📲 RSVP Now</h3>
+
+          {errorMessage && (
+            <div className="p-3 rounded-lg bg-red-100 text-red-700">{errorMessage}</div>
+          )}
+          {successMessage && (
+            <div className="p-3 rounded-lg bg-green-100 text-green-700">{successMessage}</div>
+          )}
+
+          {!import.meta.env.VITE_SHEETS_WEBAPP_URL && (
+            <div className="p-3 rounded-lg bg-yellow-50 text-yellow-800 text-sm">
+              Configure <code>VITE_SHEETS_WEBAPP_URL</code> in your environment to enable Google Sheets submission.
+            </div>
+          )}
+
           <input
             type="text"
             name="name"
@@ -76,6 +155,7 @@ export default function PotteryMeetupEvent() {
             onChange={handleChange}
             required
             className="w-full p-3 rounded-xl border bg-white"
+            disabled={submitting}
           />
           <input
             type="tel"
@@ -85,6 +165,7 @@ export default function PotteryMeetupEvent() {
             onChange={handleChange}
             required
             className="w-full p-3 rounded-xl border bg-white"
+            disabled={submitting}
           />
           <input
             type="text"
@@ -93,20 +174,24 @@ export default function PotteryMeetupEvent() {
             value={form.instagram}
             onChange={handleChange}
             className="w-full p-3 rounded-xl border bg-white"
+            disabled={submitting}
           />
           <input
+            id="rsvp-screenshot-input"
             type="file"
             name="screenshot"
             accept="image/*"
             onChange={handleChange}
             required
             className="w-full p-3 rounded-xl border bg-white"
+            disabled={submitting}
           />
           <button
             type="submit"
-            className="w-full bg-rose-500 text-white py-3 rounded-xl font-semibold hover:bg-rose-600 transition"
+            disabled={submitting}
+            className="w-full bg-rose-500 disabled:bg-rose-300 text-white py-3 rounded-xl font-semibold hover:bg-rose-600 transition"
           >
-            Submit RSVP
+            {submitting ? "Submitting…" : "Submit RSVP"}
           </button>
         </form>
       </div>
