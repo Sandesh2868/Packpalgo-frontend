@@ -116,7 +116,7 @@ export default function App() {
       date="10th August 2025 (Sunday)"
       time="3:00 PM – 4:15 PM"
       description="Hand-pressed pottery at The Mudhouse Studio. Limited seats — book now!"
-      link="/event/pottery"
+      link="/pottery-meetup"
     />
 
     <EventCard
