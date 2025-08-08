@@ -22,46 +22,57 @@ export default function PotteryMeetupEvent() {
     e.preventDefault();
     setLoading(true);
 
- try {
-  const scriptURL =
-    "https://script.google.com/macros/s/AKfycbyoU64L7GapQNn4mDhk2W5q_bawaozvON2BeIfFLT5wYypojXxQH5NuVbK6el1BADub/exec";
+    try {
+      const scriptURL = "/.netlify/functions/submit-rsvp";
 
-  const payload = {
-    name: form.name,
-    phone: form.phone,
-    email: form.email,
-    instagram: form.instagram,
+      const payload = {
+        name: form.name,
+        phone: form.phone,
+        email: form.email,
+        instagram: form.instagram,
+      };
+
+      const res = await fetch(scriptURL, {
+        method: "POST",
+        body: JSON.stringify(payload),
+        headers: {
+          "Content-Type": "application/json",
+        },
+      });
+
+      if (!res.ok) {
+        // Server responded but with error code
+        throw new Error(`Server Error: ${res.status} ${res.statusText}`);
+      }
+
+      // Try to parse JSON, else read text
+      let data;
+      const text = await res.text();
+      try {
+        data = JSON.parse(text);
+      } catch {
+        data = { raw: text };
+      }
+      console.log("Form submitted successfully:", data);
+
+      alert("✅ Form submitted successfully!");
+
+      // Optional: reset form
+      setForm({ name: "", phone: "", email: "", instagram: "" });
+    } catch (error) {
+      console.error("❌ Submission failed:", error);
+
+      if ((error?.message || "").includes("Failed to fetch")) {
+        alert(
+          "⚠️ Unable to submit the form. This might be due to CORS restrictions or no internet connection."
+        );
+      } else {
+        alert(`⚠️ Error: ${error.message}`);
+      }
+    } finally {
+      setLoading(false);
+    }
   };
-
-  const res = await fetch(scriptURL, {
-    method: "POST",
-    body: JSON.stringify(payload),
-    headers: {
-      "Content-Type": "application/json",
-    },
-  });
-
-  if (!res.ok) {
-    // Server responded but with error code
-    throw new Error(Server Error: ${res.status} ${res.statusText});
-  }
-
-  const data = await res.json();
-  console.log("Form submitted successfully:", data);
-
-  alert("✅ Form submitted successfully!");
-} catch (error) {
-  console.error("❌ Submission failed:", error);
-
-  if (error.message.includes("Failed to fetch")) {
-    alert(
-      "⚠️ Unable to submit the form. This might be due to CORS restrictions or no internet connection."
-    );
-  } else {
-    alert(⚠️ Error: ${error.message});
-  }
-}
-
 
   return (
     <div className="max-w-4xl mx-auto p-6 text-zinc-800 font-sans">
@@ -170,9 +181,9 @@ export default function PotteryMeetupEvent() {
           <button
             type="submit"
             disabled={loading}
-            className={w-full bg-rose-500 text-white py-3 rounded-xl font-semibold transition ${
+            className={`w-full bg-rose-500 text-white py-3 rounded-xl font-semibold transition ${
               loading ? "opacity-70 cursor-not-allowed" : "hover:bg-rose-600"
-            }}
+            }`}
           >
             {loading ? "Submitting..." : "Submit RSVP"}
           </button>
