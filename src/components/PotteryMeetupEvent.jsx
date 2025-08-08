@@ -66,9 +66,6 @@ export default function PotteryMeetupEvent() {
               alt="UPI QR Code"
               className="w-full max-w-xs mx-auto rounded-xl shadow-md"
             />
-            <p className="text-center text-sm mt-2 text-zinc-500">
-              UPI: packpalgo@ybl
-            </p>
           </div>
         </div>
 
