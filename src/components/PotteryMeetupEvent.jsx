@@ -1,79 +1,6 @@
-import React, { useState } from "react";
+import React from "react";
 
 export default function PotteryMeetupEvent() {
-  const [form, setForm] = useState({
-    name: "",
-    phone: "",
-    email: "",
-    instagram: "",
-  });
-
-  const [loading, setLoading] = useState(false);
-
-  const handleChange = (e) => {
-    const { name, value } = e.target;
-    setForm((prev) => ({
-      ...prev,
-      [name]: value,
-    }));
-  };
-
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    setLoading(true);
-
-    try {
-      const scriptURL = "/.netlify/functions/submit-rsvp";
-
-      const payload = {
-        name: form.name,
-        phone: form.phone,
-        email: form.email,
-        instagram: form.instagram,
-      };
-
-      const res = await fetch(scriptURL, {
-        method: "POST",
-        body: JSON.stringify(payload),
-        headers: {
-          "Content-Type": "application/json",
-        },
-      });
-
-      if (!res.ok) {
-        // Server responded but with error code
-        throw new Error(`Server Error: ${res.status} ${res.statusText}`);
-      }
-
-      // Try to parse JSON, else read text
-      let data;
-      const text = await res.text();
-      try {
-        data = JSON.parse(text);
-      } catch {
-        data = { raw: text };
-      }
-      console.log("Form submitted successfully:", data);
-
-      alert("✅ Form submitted successfully!");
-
-      // Optional: reset form
-      setForm({ name: "", phone: "", email: "", instagram: "" });
-    } catch (error) {
-      console.error("❌ Submission failed:", error);
-
-      if ((error?.message || "").includes("Failed to fetch")) {
-        alert(
-          "⚠️ Unable to submit the form. This might be due to CORS restrictions or no internet connection."
-        );
-      } else {
-        alert(`⚠️ Error: ${error.message}`);
-      }
-    } finally {
-      setLoading(false);
-    }
-  };
-
   return (
     <div className="max-w-4xl mx-auto p-6 text-zinc-800 font-sans">
       <div className="bg-[#fdf6f0] rounded-2xl shadow-xl p-6">
@@ -135,59 +62,17 @@ export default function PotteryMeetupEvent() {
           <li>3:00 PM – 4:15 PM – Hand-Pressed Pottery Workshop</li>
         </ul>
 
-        {/* RSVP Form */}
-        <form onSubmit={handleSubmit} className="mt-8 space-y-4">
-          <h3 className="text-xl font-semibold text-zinc-700">📲 RSVP Now</h3>
-
-          <input
-            type="text"
-            name="name"
-            placeholder="Your Name"
-            value={form.name}
-            onChange={handleChange}
-            required
-            className="w-full p-3 rounded-xl border bg-white"
-          />
-
-          <input
-            type="tel"
-            name="phone"
-            placeholder="Phone Number"
-            value={form.phone}
-            onChange={handleChange}
-            required
-            className="w-full p-3 rounded-xl border bg-white"
-          />
-
-          <input
-            type="email"
-            name="email"
-            placeholder="Email Address"
-            value={form.email}
-            onChange={handleChange}
-            required
-            className="w-full p-3 rounded-xl border bg-white"
-          />
-
-          <input
-            type="text"
-            name="instagram"
-            placeholder="Instagram Handle (optional)"
-            value={form.instagram}
-            onChange={handleChange}
-            className="w-full p-3 rounded-xl border bg-white"
-          />
-
-          <button
-            type="submit"
-            disabled={loading}
-            className={`w-full bg-rose-500 text-white py-3 rounded-xl font-semibold transition ${
-              loading ? "opacity-70 cursor-not-allowed" : "hover:bg-rose-600"
-            }`}
+        {/* RSVP Button */}
+        <div className="mt-8 text-center">
+          <a
+            href="https://forms.gle/your-google-form-id"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="inline-block bg-rose-500 text-white py-3 px-6 rounded-xl font-semibold shadow-lg hover:bg-rose-600 transition-transform transform hover:scale-105"
           >
-            {loading ? "Submitting..." : "Submit RSVP"}
-          </button>
-        </form>
+            📲 RSVP Now
+          </a>
+        </div>
       </div>
     </div>
   );
