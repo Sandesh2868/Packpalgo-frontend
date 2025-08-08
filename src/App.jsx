@@ -98,6 +98,44 @@ export default function App() {
   </div>
 </section>
 
+      {/* 🆕 Upcoming Trips & Events Section */}
+<section className="relative z-20 py-16 bg-white/80 backdrop-blur-md">
+  <h2 className="text-3xl sm:text-4xl font-bold text-center mb-10 text-rose-600">
+    🌟 Upcoming Trips & Events
+  </h2>
+
+  <div className="max-w-5xl mx-auto grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 px-4">
+
+    <EventCard
+      image="/images/pottery-meetup.jpg"
+      title="🎨 Pottery Meetup"
+      date="10th August 2025 (Sunday)"
+      time="3:00 PM – 4:15 PM"
+      description="Hand-pressed pottery at The Mudhouse Studio. Limited seats — book now!"
+      link="/event/pottery"
+    />
+
+    <EventCard
+      image="/images/trekking.jpg"
+      title="🥾 Monsoon Trek"
+      date="17th August 2025 (Sunday)"
+      time="6:00 AM – 5:00 PM"
+      description="Explore lush trails, waterfalls & new friends this monsoon!"
+      link="/event/trekking"
+    />
+
+    <EventCard
+      image="/images/beach-cleanup.jpg"
+      title="🌊 Beach Cleanup"
+      date="24th August 2025 (Sunday)"
+      time="7:00 AM – 12:00 PM"
+      description="Join the community in giving back to nature at Marina Beach."
+      link="/event/beach-cleanup"
+    />
+
+  </div>
+</section>
+
 
       <ComingSoonBanner />
 
