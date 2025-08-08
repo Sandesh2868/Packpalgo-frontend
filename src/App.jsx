@@ -103,7 +103,7 @@ export default function App() {
 </section>
 
       {/* 🆕 Upcoming Trips & Events Section */}
-<section className="relative z-20 py-16 bg-sky-50/80 backdrop-blur-md border border-white/10">
+<section className="relative z-20 py-16 bg-sky-80/100 backdrop-blur-md border border-white/10">
   <h2 className="text-3xl sm:text-4xl font-bold text-center mb-10 text-rose-600">
     🌟 Upcoming Trips & Events
   </h2>
