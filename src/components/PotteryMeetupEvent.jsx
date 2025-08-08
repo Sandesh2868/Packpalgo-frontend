@@ -62,7 +62,7 @@ export default function PotteryMeetupEvent() {
           </div>
           <div>
             <img
-              src="/qr-code.png"
+              src="/images/qr-code.png"
               alt="UPI QR Code"
               className="w-full max-w-xs mx-auto rounded-xl shadow-md"
             />
