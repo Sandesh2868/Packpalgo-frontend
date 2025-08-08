@@ -2,10 +2,17 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
 
-export default function EventCard({ image, title, date, time, description, link, external }) {
+export default function EventCard({ image, title, date, time, description, link, external, comingSoon = false, onComingSoon }) {
   const navigate = useNavigate();
 
   const handleClick = () => {
+    if (comingSoon) {
+      if (typeof onComingSoon === "function") {
+        onComingSoon();
+      }
+      return;
+    }
+
     if (external) {
       window.open(link, "_blank");
     } else {

@@ -1,8 +1,16 @@
 import React from "react";
 
-export default function ComingSoonBanner() {
+export default function ComingSoonBanner({ visible = false, onClose }) {
+  if (!visible) return null;
   return (
-    <section className="w-full bg-gradient-to-r from-pink-600 to-purple-700 text-white py-6 px-4 text-center shadow-md z-20 relative">
+    <section className="fixed top-0 left-0 right-0 w-full bg-gradient-to-r from-pink-600 to-purple-700 text-white py-6 px-4 text-center shadow-md z-[1000]">
+      <button
+        aria-label="Close"
+        onClick={onClose}
+        className="absolute right-4 top-4 text-white/90 hover:text-white text-2xl leading-none"
+      >
+        ×
+      </button>
       <h1 className="text-3xl md:text-4xl font-extrabold mb-2 animate-pulse">
         🚀 PackPalGo is Coming Soon!
       </h1>
