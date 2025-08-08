@@ -1,4 +1,6 @@
 import React, { useState } from "react";
+import { db } from "../../firebase";
+import { collection, addDoc, serverTimestamp } from "firebase/firestore";
 
 export default function PotteryMeetupEvent() {
   const [form, setForm] = useState({
@@ -23,52 +25,23 @@ export default function PotteryMeetupEvent() {
     setLoading(true);
 
     try {
-      const scriptURL = "/.netlify/functions/submit-rsvp";
-
-      const payload = {
+      // Save RSVP to Firestore
+      await addDoc(collection(db, "rsvps"), {
         name: form.name,
         phone: form.phone,
         email: form.email,
-        instagram: form.instagram,
-      };
-
-      const res = await fetch(scriptURL, {
-        method: "POST",
-        body: JSON.stringify(payload),
-        headers: {
-          "Content-Type": "application/json",
-        },
+        instagram: form.instagram || "",
+        createdAt: serverTimestamp(),
       });
 
-      if (!res.ok) {
-        // Server responded but with error code
-        throw new Error(`Server Error: ${res.status} ${res.statusText}`);
-      }
-
-      // Try to parse JSON, else read text
-      let data;
-      const text = await res.text();
-      try {
-        data = JSON.parse(text);
-      } catch {
-        data = { raw: text };
-      }
-      console.log("Form submitted successfully:", data);
-
-      alert("✅ Form submitted successfully!");
+      console.log("Form submitted successfully to Firestore");
+      alert("✅ RSVP saved successfully!");
 
       // Optional: reset form
       setForm({ name: "", phone: "", email: "", instagram: "" });
     } catch (error) {
       console.error("❌ Submission failed:", error);
-
-      if ((error?.message || "").includes("Failed to fetch")) {
-        alert(
-          "⚠️ Unable to submit the form. This might be due to CORS restrictions or no internet connection."
-        );
-      } else {
-        alert(`⚠️ Error: ${error.message}`);
-      }
+      alert(`⚠️ Error: ${error.message}`);
     } finally {
       setLoading(false);
     }
