@@ -27,6 +27,7 @@ ReactDOM.createRoot(document.getElementById('root')).render(
             <Route path="/itinerary-planner" element={<ItineraryPlannerPage />} />
             <Route path="/gosplit" element={<GroupList />} />
             <Route path="/gosplit/group/:groupId" element={<GroupDetails />} />
+            <Route path="/pottery-meetup" element={<PotteryMeetupEvent />} />
           </Routes>
         </BrowserRouter>
       </ThemeProvider>
