@@ -1,6 +1,7 @@
 // components/EventCard.jsx
 import React from "react";
 import { useNavigate } from "react-router-dom";
+import PotteryMeetupEvent from "./components/PotteryMeetupEvent";
 
 export default function EventCard({ image, title, date, time, description, link }) {
   const navigate = useNavigate();
