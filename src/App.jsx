@@ -38,7 +38,6 @@ export default function App() {
   const themeOptions = ["dark", "beach", "sunset", "jungle"];
   const [musicOn, setMusicOn] = useState(false);
   const navigate = useNavigate();
-  const [showComingSoon, setShowComingSoon] = useState(false);
 
   const toggleMusic = () => {
     if (musicOn) {
@@ -47,6 +46,10 @@ export default function App() {
       bgMusic.play();
     }
     setMusicOn(!musicOn);
+  };
+
+  const showSimpleComingSoon = () => {
+    alert("Coming soon — stay tuned! Follow us on Instagram for updates.");
   };
 
   return (
@@ -129,7 +132,7 @@ export default function App() {
   location="📍 Chennai"
   link="/event/potluck-day"
   comingSoon={true}
-  onComingSoon={() => setShowComingSoon(true)}
+  onComingSoon={showSimpleComingSoon}
 />
    <EventCard
   image="/images/munnar.jpg"
@@ -139,14 +142,14 @@ export default function App() {
   description="Escape to the tea gardens & misty hills of Munnar. Waterfalls, spice plantations, and serene vibes await!"
   link="/event/munnar-trip"
   comingSoon={true}
-  onComingSoon={() => setShowComingSoon(true)}
+  onComingSoon={showSimpleComingSoon}
 />
 
   </div>
 </section>
 
 
-      <ComingSoonBanner visible={showComingSoon} onClose={() => setShowComingSoon(false)} />
+      <ComingSoonBanner />
 
     <section
   className="relative z-10 py-10 text-center bg-cover bg-center"
