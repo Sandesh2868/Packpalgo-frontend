@@ -4,6 +4,7 @@ export default function PotteryMeetupEvent() {
   const [form, setForm] = useState({
     name: "",
     phone: "",
+    email: "",
     instagram: "",
   });
 
@@ -22,23 +23,27 @@ export default function PotteryMeetupEvent() {
     setLoading(true);
 
     try {
-      const scriptURL = "PASTE_YOUR_GOOGLE_SCRIPT_WEB_APP_URL_HERE"; // From your Apps Script deploy
+      const scriptURL = "https://script.google.com/macros/s/AKfycbw_TNkMSy12o1RAtBUaAqj7ikHpRrfIVo4CiKMBASmI9CsAOXjPB6ScPl1OJCSC2zwF/exec"; // From Apps Script Deploy > Web App
 
       const payload = {
         name: form.name,
         phone: form.phone,
+        email: form.email,
         instagram: form.instagram,
       };
 
       const res = await fetch(scriptURL, {
         method: "POST",
         body: JSON.stringify(payload),
+        headers: {
+          "Content-Type": "application/json",
+        },
       });
 
       if (!res.ok) throw new Error("Network response was not ok");
 
-      alert("✅ RSVP submitted! We’ll DM you soon 💌");
-      setForm({ name: "", phone: "", instagram: "" });
+      alert("✅ RSVP submitted! We’ll DM or email you soon 💌");
+      setForm({ name: "", phone: "", email: "", instagram: "" });
     } catch (err) {
       console.error(err);
       alert("❌ Error submitting RSVP. Please try again.");
@@ -65,6 +70,7 @@ export default function PotteryMeetupEvent() {
           <span className="font-bold text-rose-400">PackPalGo</span>
         </p>
 
+        {/* Event Details */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mt-4">
           <div className="space-y-2">
             <p>
@@ -85,7 +91,8 @@ export default function PotteryMeetupEvent() {
               <strong>⏰ Time:</strong> 3:00 PM – 4:15 PM
             </p>
             <p>
-              <strong>💸 Fees:</strong> ₹799 (includes all material & pottery to take home)
+              <strong>💸 Fees:</strong> ₹799 (includes all material & pottery to
+              take home)
             </p>
             <p>
               <strong>🚨 Limited Spots:</strong> Only 15 seats!
@@ -100,13 +107,16 @@ export default function PotteryMeetupEvent() {
           </div>
         </div>
 
+        {/* Itinerary */}
         <h2 className="mt-8 text-2xl font-bold text-rose-500">🗺️ Itinerary</h2>
         <ul className="list-disc ml-6 mt-2 space-y-1 text-zinc-700">
           <li>3:00 PM – 4:15 PM – Hand-Pressed Pottery Workshop</li>
         </ul>
 
+        {/* RSVP Form */}
         <form onSubmit={handleSubmit} className="mt-8 space-y-4">
           <h3 className="text-xl font-semibold text-zinc-700">📲 RSVP Now</h3>
+
           <input
             type="text"
             name="name"
@@ -116,6 +126,7 @@ export default function PotteryMeetupEvent() {
             required
             className="w-full p-3 rounded-xl border bg-white"
           />
+
           <input
             type="tel"
             name="phone"
@@ -125,6 +136,17 @@ export default function PotteryMeetupEvent() {
             required
             className="w-full p-3 rounded-xl border bg-white"
           />
+
+          <input
+            type="email"
+            name="email"
+            placeholder="Email Address"
+            value={form.email}
+            onChange={handleChange}
+            required
+            className="w-full p-3 rounded-xl border bg-white"
+          />
+
           <input
             type="text"
             name="instagram"
@@ -133,6 +155,7 @@ export default function PotteryMeetupEvent() {
             onChange={handleChange}
             className="w-full p-3 rounded-xl border bg-white"
           />
+
           <button
             type="submit"
             disabled={loading}
