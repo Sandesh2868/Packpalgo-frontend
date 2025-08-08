@@ -2,7 +2,18 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
 
-export default function EventCard({ image, title, date, time, description, link, external, comingSoon = false, onComingSoon }) {
+export default function EventCard({
+  image,
+  title,
+  date,
+  time,
+  location, // ✅ New prop
+  description,
+  link,
+  external,
+  comingSoon = false,
+  onComingSoon
+}) {
   const navigate = useNavigate();
 
   const handleClick = () => {
@@ -38,7 +49,9 @@ export default function EventCard({ image, title, date, time, description, link,
       {/* Event Text Content */}
       <div className="absolute bottom-0 left-0 right-0 p-5 text-white z-10">
         <h3 className="text-2xl font-bold drop-shadow-md">{title}</h3>
-        <p className="text-sm drop-shadow-sm">{date} • {time}</p>
+        <p className="text-sm drop-shadow-sm">
+          {date} • {time} • {location} {/* ✅ Added location here */}
+        </p>
         <p className="mt-2 text-sm opacity-90">{description}</p>
       </div>
     </div>
