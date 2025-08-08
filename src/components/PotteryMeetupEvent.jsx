@@ -7,6 +7,8 @@ export default function PotteryMeetupEvent() {
     instagram: "",
   });
 
+  const [loading, setLoading] = useState(false);
+
   const handleChange = (e) => {
     const { name, value } = e.target;
     setForm((prev) => ({
@@ -15,19 +17,42 @@ export default function PotteryMeetupEvent() {
     }));
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    alert("RSVP submitted! We’ll DM you soon 💌");
-    // TODO: Upload to Firebase / backend here
+    setLoading(true);
+
+    try {
+      const scriptURL = "PASTE_YOUR_GOOGLE_SCRIPT_WEB_APP_URL_HERE"; // From your Apps Script deploy
+
+      const payload = {
+        name: form.name,
+        phone: form.phone,
+        instagram: form.instagram,
+      };
+
+      const res = await fetch(scriptURL, {
+        method: "POST",
+        body: JSON.stringify(payload),
+      });
+
+      if (!res.ok) throw new Error("Network response was not ok");
+
+      alert("✅ RSVP submitted! We’ll DM you soon 💌");
+      setForm({ name: "", phone: "", instagram: "" });
+    } catch (err) {
+      console.error(err);
+      alert("❌ Error submitting RSVP. Please try again.");
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
     <div className="max-w-4xl mx-auto p-6 text-zinc-800 font-sans">
       <div className="bg-[#fdf6f0] rounded-2xl shadow-xl p-6">
-        
         {/* Top Image */}
         <img
-          src="/images/pottery-workshop.jpg" // Replace with your image path
+          src="/images/pottery-workshop.jpg"
           alt="Pottery Workshop"
           className="w-full rounded-2xl mb-6 shadow-lg"
         />
@@ -53,12 +78,18 @@ export default function PotteryMeetupEvent() {
                 View Location
               </a>
             </p>
-            <p><strong>🗓️ Date:</strong> 10th August 2025 (Sunday)</p>
-            <p><strong>⏰ Time:</strong> 3:00 PM – 4:15 PM</p>
+            <p>
+              <strong>🗓️ Date:</strong> 10th August 2025 (Sunday)
+            </p>
+            <p>
+              <strong>⏰ Time:</strong> 3:00 PM – 4:15 PM
+            </p>
             <p>
               <strong>💸 Fees:</strong> ₹799 (includes all material & pottery to take home)
             </p>
-            <p><strong>🚨 Limited Spots:</strong> Only 15 seats!</p>
+            <p>
+              <strong>🚨 Limited Spots:</strong> Only 15 seats!
+            </p>
           </div>
           <div>
             <img
@@ -104,9 +135,12 @@ export default function PotteryMeetupEvent() {
           />
           <button
             type="submit"
-            className="w-full bg-rose-500 text-white py-3 rounded-xl font-semibold hover:bg-rose-600 transition"
+            disabled={loading}
+            className={`w-full bg-rose-500 text-white py-3 rounded-xl font-semibold transition ${
+              loading ? "opacity-70 cursor-not-allowed" : "hover:bg-rose-600"
+            }`}
           >
-            Submit RSVP
+            {loading ? "Submitting..." : "Submit RSVP"}
           </button>
         </form>
       </div>
