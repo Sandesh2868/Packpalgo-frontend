@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useRef } from "react";
 import { useNavigate } from "react-router-dom";
 import { motion } from "framer-motion";
 import { useTheme } from './ThemeContext';
@@ -7,7 +7,7 @@ import HeroBackground from "./components/HeroBackground";
 import InteractiveGlobe from "./components/InteractiveGlobe";
 import TravelTriviaGame from "./components/TravelTriviaGame";
 import GuessThePlaceGame from "./components/GuessThePlaceGame";
-import ComingSoonBanner from "./components/ComingSoonBanner";
+// import ComingSoonBanner from "./components/ComingSoonBanner";
 import AboutSection from "./components/AboutSection";
 import Footer from "./components/Footer";
 import AuthButton from "./components/AuthButton";
@@ -38,7 +38,15 @@ export default function App() {
   const themeOptions = ["dark", "beach", "sunset", "jungle"];
   const [musicOn, setMusicOn] = useState(false);
   const navigate = useNavigate();
-  const [showComingSoon, setShowComingSoon] = useState(false);
+  // const [showComingSoon, setShowComingSoon] = useState(false);
+  const [toastMessage, setToastMessage] = useState("");
+  const toastTimeoutRef = useRef(null);
+
+  const showToast = (message) => {
+    setToastMessage(message);
+    if (toastTimeoutRef.current) clearTimeout(toastTimeoutRef.current);
+    toastTimeoutRef.current = setTimeout(() => setToastMessage(""), 3000);
+  };
 
   const toggleMusic = () => {
     if (musicOn) {
@@ -129,7 +137,7 @@ export default function App() {
   location="📍 Chennai"
   link="/event/potluck-day"
   comingSoon={true}
-  onComingSoon={() => setShowComingSoon(true)}
+  onComingSoon={() => showToast("comming soon, stay tuned and follow @packpalgo for more updates")}
 />
    <EventCard
   image="/images/munnar.jpg"
@@ -139,14 +147,14 @@ export default function App() {
   description="Escape to the tea gardens & misty hills of Munnar. Waterfalls, spice plantations, and serene vibes await!"
   link="/event/munnar-trip"
   comingSoon={true}
-  onComingSoon={() => setShowComingSoon(true)}
+  onComingSoon={() => showToast("comming soon, stay tuned and follow @packpalgo for more updates")}
 />
 
   </div>
 </section>
 
 
-      <ComingSoonBanner visible={showComingSoon} onClose={() => setShowComingSoon(false)} />
+      {/* <ComingSoonBanner visible={showComingSoon} onClose={() => setShowComingSoon(false)} /> */}
 
     <section
   className="relative z-10 py-10 text-center bg-cover bg-center"
@@ -218,6 +226,13 @@ export default function App() {
       <section className="relative z-10 py-0 text-center" style={{ color: "var(--text)" }}>
         <Footer />
       </section>
+
+      {/* Toast message */}
+      {toastMessage && (
+        <div className="fixed bottom-4 left-1/2 -translate-x-1/2 bg-black text-white text-sm md:text-base px-4 py-2 rounded-lg shadow-lg z-[1000]">
+          {toastMessage}
+        </div>
+      )}
     </main>
   );
 }
