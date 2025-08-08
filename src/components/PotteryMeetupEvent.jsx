@@ -65,7 +65,7 @@ export default function PotteryMeetupEvent() {
         {/* RSVP Button */}
         <div className="mt-8 text-center">
           <a
-            href="https://forms.gle/your-google-form-id"
+            href="https://docs.google.com/forms/d/1URmEQPAEddoru9zLScXZRD2eRVdG0kPcpIP0gmn2OOg/edit"
             target="_blank"
             rel="noopener noreferrer"
             className="inline-block bg-rose-500 text-white py-3 px-6 rounded-xl font-semibold shadow-lg hover:bg-rose-600 transition-transform transform hover:scale-105"
