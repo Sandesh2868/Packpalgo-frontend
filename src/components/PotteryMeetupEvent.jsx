@@ -1,51 +1,48 @@
 import React from "react";
 
-export default function PotteryMeetupEvent() {
+export default function DayOutKoramangalaEventCard() {
+  const event = {
+    image: "/images/day-out-kora.jpg",
+    title: "🌟 Day Out in Koramangala",
+    date: "17th August 2025 (Sunday)",
+    time: "11:00 AM – 6:00 PM",
+    location: "Koramangala, Bangalore",
+    price: "₹999 (includes all activities)",
+    spots: "Limited slots — book early!",
+    description:
+      "Gear up for a full day of fun in the heart of Bangalore! From escape-room thrills and creative bonding to a sunset walk and surprise activities — it's all about making memories, meeting new friends, and soaking in good vibes. Bring your energy, your smile, and let's make this Sunday unforgettable!",
+    itinerary: [
+      "11:00 AM – 1:00 PM: Escape Room Challenge",
+      "1:00 PM – 3:00 PM: Chill Session + Creative Bonding",
+      "4:30 PM – 5:30 PM: Sunset Walk + Surprise Activity",
+      "5:30 PM – 6:00 PM: Group Photo + Wrap-Up"
+    ],
+    link: "https://forms.gle/packpalgo-dayout"
+  };
+
   return (
     <div className="max-w-4xl mx-auto p-6 text-zinc-800 font-sans">
-      <div className="bg-[#fdf6f0] rounded-2xl shadow-xl p-6">
-        {/* Top Image */}
+      <div className="bg-[#f0f9ff] rounded-2xl shadow-xl p-6">
         <img
-          src="/images/pottery-workshop.jpg"
-          alt="Pottery Workshop"
+          src={event.image}
+          alt={event.title}
           className="w-full rounded-2xl mb-6 shadow-lg"
         />
 
-        <h1 className="text-4xl font-bold mb-2 text-center text-rose-500">
-          🎨 Clay & Chill
+        <h1 className="text-4xl font-bold mb-2 text-center text-blue-500">
+          {event.title}
         </h1>
-        <p className="text-center text-xl font-medium text-zinc-600 mb-4">
-          A Hand-Pressed Pottery Workshop by{" "}
-          <span className="font-bold text-rose-400">PackPalGo</span>
+        <p className="text-center text-lg font-medium text-zinc-600 mb-4">
+          Hosted by <span className="font-bold text-blue-400">PackPalGo</span>
         </p>
 
-        {/* Event Details */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mt-4">
           <div className="space-y-2">
-            <p>
-              <strong>📍 Place:</strong>{" "}
-              <a
-                href="https://share.google/GVRV3gRlbxm98u7SE"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="text-rose-500 underline"
-              >
-                View Location
-              </a>
-            </p>
-            <p>
-              <strong>🗓️ Date:</strong> 10th August 2025 (Sunday)
-            </p>
-            <p>
-              <strong>⏰ Time:</strong> 3:00 PM – 4:15 PM
-            </p>
-            <p>
-              <strong>💸 Fees:</strong> ₹799 (includes all material & pottery to
-              take home)
-            </p>
-            <p>
-              <strong>🚨 Limited Spots:</strong> Only 15 seats!
-            </p>
+            <p><strong>📍 Place:</strong> {event.location}</p>
+            <p><strong>🗓️ Date:</strong> {event.date}</p>
+            <p><strong>⏰ Time:</strong> {event.time}</p>
+            <p><strong>💸 Fees:</strong> {event.price}</p>
+            <p><strong>🚨 Note:</strong> {event.spots}</p>
           </div>
           <div>
             <img
@@ -56,19 +53,19 @@ export default function PotteryMeetupEvent() {
           </div>
         </div>
 
-        {/* Itinerary */}
-        <h2 className="mt-8 text-2xl font-bold text-rose-500">🗺️ Itinerary</h2>
+        <h2 className="mt-8 text-2xl font-bold text-blue-500">🗺️ Itinerary</h2>
         <ul className="list-disc ml-6 mt-2 space-y-1 text-zinc-700">
-          <li>3:00 PM – 4:15 PM – Hand-Pressed Pottery Workshop</li>
+          {event.itinerary.map((item, idx) => (
+            <li key={idx}>{item}</li>
+          ))}
         </ul>
 
-        {/* RSVP Button */}
         <div className="mt-8 text-center">
           <a
-            href="https://docs.google.com/forms/d/1URmEQPAEddoru9zLScXZRD2eRVdG0kPcpIP0gmn2OOg/edit"
+            href={event.link}
             target="_blank"
             rel="noopener noreferrer"
-            className="inline-block bg-rose-500 text-white py-3 px-6 rounded-xl font-semibold shadow-lg hover:bg-rose-600 transition-transform transform hover:scale-105"
+            className="inline-block bg-blue-500 text-white py-3 px-6 rounded-xl font-semibold shadow-lg hover:bg-blue-600 transition-transform transform hover:scale-105"
           >
             📲 RSVP Now
           </a>
