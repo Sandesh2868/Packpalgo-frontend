@@ -8,16 +8,17 @@ export default function DayOutKoramangalaEventCard() {
     time: "11:00 AM – 6:00 PM",
     location: "Koramangala, Bangalore",
     price: "₹999 (includes all activities)",
-    spots: "Limited slots — book early!",
+    spots: "Limited slots — reserve yours with just ₹100 now, pay the rest on the day!",
     description:
-      "Gear up for a full day of fun in the heart of Bangalore! From escape-room thrills and creative bonding to a sunset walk and surprise activities — it's all about making memories, meeting new friends, and soaking in good vibes. Bring your energy, your smile, and let's make this Sunday unforgettable!",
+      "Gear up for a full day of fun in the heart of Bangalore! From icebreakers and group bonding to a sunset walk and a surprise activity — it's all about making memories, meeting new friends, and soaking in good vibes. Bring your energy, your smile, and let's make this Sunday unforgettable!",
     itinerary: [
-      "11:00 AM – 1:00 PM: Escape Room Challenge",
-      "1:00 PM – 3:00 PM: Chill Session + Creative Bonding",
-      "4:30 PM – 5:30 PM: Sunset Walk + Surprise Activity",
-      "5:30 PM – 6:00 PM: Group Photo + Wrap-Up"
+      "👋 Icebreaks & Squad Vibes — meet, laugh, vibe!",
+      "🍔 Lunch Break — fuel up, foodie style!",
+      "🕵️ Escape Room Chaos — crack codes, beat the clock!",
+      "🌅 Sunset Stroll + Mystery Fun — aesthetic + thrill combo",
+      "📸 Group Pic & Chill Wrap-Up — memories locked in!"
     ],
-    link: "https://forms.gle/packpalgo-dayout"
+    link: "https://docs.google.com/forms/d/e/1FAIpQLSd85XjbsDtbP6_P65aKD0RFdzrX-Yp77ArpkmN8SEVP2aO4cQ/viewform?usp=dialog"
   };
 
   return (
