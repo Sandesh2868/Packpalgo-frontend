@@ -120,12 +120,12 @@ export default function App() {
   <div className="max-w-5xl mx-auto grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 px-4">
 
     <EventCard
-      image="/images/pottery-meetup.jpg"
-      title="🎨 Pottery Meetup"
-      date="10th August 2025 (Sunday)"
-      time="3:00 PM – 4:15 PM"
-      description="Hand-pressed pottery at The Mudhouse Studio. Limited seats — book now!"
-      location="📍 Chennai"
+      image="/images/Dayout.jpg"
+      title="Day out in kora!"
+      date="17th August 2025 (Sunday)"
+      time="11:00 AM — 6:00 PM"
+      description="roll up for a lit Day Out in Koramangala on 17th Aug!. Limited seats — book now!"
+      location="📍Koramangala, Bangalore"
       link="/pottery-meetup"
     />
     <EventCard
