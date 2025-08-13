@@ -13,7 +13,7 @@ export default function DayOutKoramangalaEventCard() {
       "Gear up for a full day of fun in the heart of Bangalore! From icebreakers and group bonding to a sunset walk and a surprise activity — it's all about making memories, meeting new friends, and soaking in good vibes. Bring your energy, your smile, and let's make this Sunday unforgettable!",
     itinerary: [
       "👋 Icebreaks & Squad Vibes — meet, laugh, vibe!",
-      "🍔 Lunch Break — fuel up, foodie style!",
+      "🍔 Brunch — fuel up, foodie style!",
       "🕵️ Escape Room Chaos — crack codes, beat the clock!",
       "🌅 Sunset Stroll + Mystery Fun — aesthetic + thrill combo",
       "📸 Group Pic & Chill Wrap-Up — memories locked in!"
