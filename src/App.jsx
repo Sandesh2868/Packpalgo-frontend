@@ -121,7 +121,7 @@ export default function App() {
 
     <EventCard
       image="/images/Dayout.jpg"
-      title="Day out in kora!"
+      title="Day Out in Kora!"
       date="17th August 2025 (Sunday)"
       time="11:00 AM — 6:00 PM"
       description="roll up for a lit Day Out in Koramangala on 17th Aug!. Limited seats — book now!"
